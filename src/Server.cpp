@@ -1,0 +1,104 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   Server.cpp                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/11/22 21:27:55 by shamsate          #+#    #+#             */
+/*   Updated: 2024/12/11 15:19:17 by shamsate         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <poll.h>
+#include <fcntl.h>
+#include "../include/Server.hpp"
+
+void index_Of_Begin(Server src) {
+	std::cout<<"#-- ---------------------------- --#"<< std::endl;
+	std::cout<<"#  Port    : "<<src.getPort()<< std::endl;
+	std::cout<<"#  Password: "<<src.getPassWd()<< std::endl;
+	std::cout<<"#-- ---------------------------- --#" << std::endl;
+};
+
+std::string &Server::getPassWd() {
+	return (_password);
+};
+
+unsigned int  Server::getPort() {
+	return ((_portNum));
+};
+
+int	Server::getSkFd()
+{
+	return (_socketFd);
+};
+
+int checkPort(std::string port, std::string pass){
+	std::stringstream ss(port);
+	int portNum;
+	ss >> portNum;
+	if ((portNum < 1024 || portNum > 65535 || port.empty()))
+		return 1;
+	if (pass.empty())
+		return 2;
+	if (port[0] == '+' || port[0] == '-')
+		return 1;
+	for (size_t i = 0; i < port.size(); i++) {
+		if (port[i] < '0' || port[i] > '9')
+			return 1;
+	}
+	return (0);
+	};
+
+void serverCheckRequirements(int argc, char *port, char *pass) {
+	if (argc != 3) {
+		std::cerr << "Usage: ./ircserv [port] [password]" << std::endl;
+		exit(EXIT_FAILURE);
+	}
+	if (checkPort(port, pass) != 0) {
+		if (checkPort(port, pass) == 2)
+			std::cerr << "ERROR: '" << pass << "' : check Password then try again...\n";
+		else
+			std::cerr << "ERROR: '" << port << "' : check Port then try again...\n";
+		exit(EXIT_FAILURE);
+	}
+};
+
+pollFdVec&	Server::getPollfdVec()
+{
+	return (_pollFd);
+};
+
+void Server::setClient(Client cli) {
+	_clients.push_back(cli);
+};
+
+void Server::rmvClient(int idx) {
+		_clients.erase(_clients.begin() + idx);
+};
+
+Client &Server::getClientByFd(int idx) {
+	for(size_t i = 0; i < _clients.size(); i++) {
+		if (_clients[i].getClientFd() == idx)
+			return (_clients[i]);
+	}
+	return (_clients[0]);
+};
+
+void	sendMsgToClient(int cli_sock_fd, std::string msg) {
+	ssize_t x = send(cli_sock_fd, msg.c_str(), msg.size(), 0);
+	if (x == -1)
+		perror("send");
+};
+
+void Server::broadcastMsg(Channel _chan, std::string msg, int cli_sock_fd) {
+	mapUsers &users = _chan.getUsersMap();
+	for (auto it = users.begin(); it != users.end(); it++) {
+		if (it->second.getClientFd() != cli_sock_fd) {
+			sendMsgToClient(it->second.getClientFd(), msg);
+		}
+	}
+};
+
+
