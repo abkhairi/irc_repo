@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Channel.cpp                                        :+:      :+:    :+:   */
+/*   rep.hpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/11 15:00:23 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/12 14:19:30 by shamsate         ###   ########.fr       */
+/*   Created: 2024/12/12 13:47:04 by shamsate          #+#    #+#             */
+/*   Updated: 2024/12/15 13:52:50 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/Channel.hpp"
+#ifndef HEADER_HPP
+# define HEADER_HPP
 
-mapUsers& Channel::getUsersMap() {
-    return (_users);
-};
+#define RPL_QUIT(nick, host, message)                                       ":" + nick + "!" + "~" + nick + "@" + _host + " QUIT : " + message + "\r\n"
 
-void Channel::setUsersSize(int size) {
-    _usersSize += size;
-};
-
-
-size_t Channel::getUsersize() {
-    return (_usersSize);
-};
+#endif

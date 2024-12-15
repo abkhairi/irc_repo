@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 21:27:55 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/11 15:19:17 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/15 14:02:26 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,36 @@
 #include <fcntl.h>
 #include "../include/Server.hpp"
 
+//********************************************************************************************************************
+Server::Server(int port, std::string pass)
+{
+    _portNum = port;
+    _password = pass;
+    _socketFd = 0;
+    idx = 0;
+};
+
+//********************************************************************************************************************
 void index_Of_Begin(Server src) {
 	std::cout<<"#-- ---------------------------- --#"<< std::endl;
 	std::cout<<"#  Port    : "<<src.getPort()<< std::endl;
 	std::cout<<"#  Password: "<<src.getPassWd()<< std::endl;
 	std::cout<<"#-- ---------------------------- --#" << std::endl;
 };
-
+//********************************************************************************************************************
 std::string &Server::getPassWd() {
 	return (_password);
 };
-
+//********************************************************************************************************************
 unsigned int  Server::getPort() {
 	return ((_portNum));
 };
-
+//********************************************************************************************************************
 int	Server::getSkFd()
 {
 	return (_socketFd);
 };
-
+//********************************************************************************************************************
 int checkPort(std::string port, std::string pass){
 	std::stringstream ss(port);
 	int portNum;
@@ -50,7 +60,7 @@ int checkPort(std::string port, std::string pass){
 	}
 	return (0);
 	};
-
+//********************************************************************************************************************
 void serverCheckRequirements(int argc, char *port, char *pass) {
 	if (argc != 3) {
 		std::cerr << "Usage: ./ircserv [port] [password]" << std::endl;
@@ -64,20 +74,20 @@ void serverCheckRequirements(int argc, char *port, char *pass) {
 		exit(EXIT_FAILURE);
 	}
 };
-
+//********************************************************************************************************************
 pollFdVec&	Server::getPollfdVec()
 {
 	return (_pollFd);
 };
-
+//********************************************************************************************************************
 void Server::setClient(Client cli) {
 	_clients.push_back(cli);
 };
-
+//********************************************************************************************************************
 void Server::rmvClient(int idx) {
 		_clients.erase(_clients.begin() + idx);
 };
-
+//********************************************************************************************************************
 Client &Server::getClientByFd(int idx) {
 	for(size_t i = 0; i < _clients.size(); i++) {
 		if (_clients[i].getClientFd() == idx)
@@ -85,13 +95,13 @@ Client &Server::getClientByFd(int idx) {
 	}
 	return (_clients[0]);
 };
-
+//********************************************************************************************************************
 void	sendMsgToClient(int cli_sock_fd, std::string msg) {
 	ssize_t x = send(cli_sock_fd, msg.c_str(), msg.size(), 0);
 	if (x == -1)
-		perror("send");
+		perror("send : ");
 };
-
+//********************************************************************************************************************
 void Server::broadcastMsg(Channel _chan, std::string msg, int cli_sock_fd) {
 	mapUsers &users = _chan.getUsersMap();
 	for (auto it = users.begin(); it != users.end(); it++) {
@@ -100,5 +110,7 @@ void Server::broadcastMsg(Channel _chan, std::string msg, int cli_sock_fd) {
 		}
 	}
 };
+//********************************************************************************************************************
+
 
 

@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 21:25:15 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/11 15:19:41 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/15 14:06:39 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 #include  <poll.h>
 #include "Client.hpp"
 #include "Channel.hpp"
+#include "rep.hpp"
 
 typedef std::vector<std::string> joinVec;
 typedef std::vector<struct pollfd> pollFdVec;
@@ -41,6 +42,7 @@ class Server {
             joinVec _args;
             clientVec _clients;
             sockaddr_in _servAddr;
+            channelMap  _channels;
             pollFdVec _pollFd;
             std::vector<std::pair<std::string, std::string> >_mod;
             Server();

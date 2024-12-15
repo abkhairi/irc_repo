@@ -6,12 +6,11 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 15:11:34 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/11 13:15:06 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/12 14:22:14 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-
 #include <unistd.h>
 #include <sys/socket.h>
 #include <iostream>
@@ -37,7 +36,9 @@ class Client{
         Client(int sockFd);
         ~Client();
 
-
         int Client::getClientFd();
         void Client::setIpAdss(std::string ipAdss);
+        std::string Client::getNickNm();
+        void Client::setRecLn(std::string recvln);
+        std::string & Client::getRecLn();
 };
