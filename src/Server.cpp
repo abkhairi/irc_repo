@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 21:27:55 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/15 14:02:26 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/15 15:31:04 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,11 @@ Client &Server::getClientByFd(int idx) {
 	return (_clients[0]);
 };
 //********************************************************************************************************************
+Client&	Server::getCliByIdx(int id)
+{
+    return _clients[id];
+}
+//********************************************************************************************************************
 void	sendMsgToClient(int cli_sock_fd, std::string msg) {
 	ssize_t x = send(cli_sock_fd, msg.c_str(), msg.size(), 0);
 	if (x == -1)
@@ -112,5 +117,24 @@ void Server::broadcastMsg(Channel _chan, std::string msg, int cli_sock_fd) {
 };
 //********************************************************************************************************************
 
-
-
+void sockAddssInfo(struct sockaddr_in& addss, int port_n)
+{
+    memset(&addss, 0, sizeof(addss));
+    addss.sin_family = PF_INET;
+    addss.sin_addr.s_addr = htonl(INADDR_ANY);
+    addss.sin_port = htons(port_n);
+};
+//********************************************************************************************************************
+void    Server::setSockAddss()
+{
+    memset(&_addss, 0, sizeof(_addss));
+    _addss.sin_family = PF_INET;
+    _addss.sin_addr.s_addr = htonl(INADDR_ANY);
+    _addss.sin_port = htons(_portNum);
+};
+//********************************************************************************************************************
+void    Server::setSocketFd(int sock_fd)
+{
+    _socketFd = sock_fd;
+};
+//********************************************************************************************************************

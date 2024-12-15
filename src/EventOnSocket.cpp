@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:17:28 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/15 14:57:32 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/15 15:35:14 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,9 @@ void Server::eventOnCliSock(){
                 return ;
             std::string cmd = cli.getRecLn().substr(0, pos + 1);
             std::cout<< cmd <<std::endl;
+//abdo add your command here ******
             command(cmd, idx);
+//************************************
             cli.getRecLn() = cli.getRecLn().erase(0, pos + 1);
         }
     }

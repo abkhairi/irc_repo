@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 21:25:15 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/15 14:06:39 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/15 15:34:37 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ class Server {
             sockaddr_in _servAddr;
             channelMap  _channels;
             pollFdVec _pollFd;
+        sockaddr_in					_addss;
             std::vector<std::pair<std::string, std::string> >_mod;
             Server();
 
@@ -54,8 +55,9 @@ class Server {
             std::string &getPassWd();
             unsigned int getPort();
             int	getSkFd();
-            void setSocketaddr();
-            void setSocketFd(int socketFd);
+            Client&	Server::getCliByIdx(int id);
+            void setSockAddss();
+            void setSocketFd(int sock_fd);
             void runServ();
             void rmvClient(int idx);
             void rmvFromCh(int idx);
@@ -71,3 +73,6 @@ void    serverCheckRequirements(int argc, char *port, char *pass);
 int     checkPort(std::string port, std::string pass);
 void    handle_sig(int sig);
 void	sendMsgToClient(int cli_sock_fd, std::string msg);
+void   sockAddssInfo(struct sockaddr_in& addss, int port_n);
+void index_Of_Begin(Server src);
+
