@@ -6,12 +6,13 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:17:28 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/16 17:09:37 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/16 18:56:40 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Server.hpp"
 
+/* ********************************************************************************************************************/
 void Server::rmvFromCh(int idx) {
     // Iterate through all channels
     for (auto it = _channels.begin(); it != _channels.end(); it++) {
@@ -58,7 +59,7 @@ void Server::eventOnServSock() {
     }
 };
 
-
+/* ********************************************************************************************************************/
 void Server::eventOnCliSock(){
     std::vector<struct pollfd> &pollFd = getPollfdVec();
     int cli_sock_fd = pollFd[idx].fd;
@@ -100,6 +101,46 @@ void Server::eventOnCliSock(){
             command(cmd, idx);
 //************************************
             cli.getRecLn() = cli.getRecLn().erase(0, pos + 1);
+        }
+    }
+}
+/* ********************************************************************************************************************/
+void    Server::SendToAll(Channel _ch, std::string _msg)
+{
+    mapUsers mapOfClis = _ch.getUsersMap();
+    mapUsers::iterator iter;
+    for(iter = mapOfClis.begin(); iter != mapOfClis.end(); iter++) {
+        sendMsgToClient(iter->second.getClientFd(), _msg);
+    }
+};
+/* ********************************************************************************************************************/
+void Server::sendmsg(Client &cli, std::string rec, std::string msg){
+    std::string s_nick = cli.getNickNm();
+    std::string s_user = cli.getUserNm();
+    if (_channels.size() == 0 & rec[0] == '#'){
+        sendMsgToClient(cli.getClientFd(), ERR_NOSUCHCHANNEL(s_nick, s_user, rec));
+        return;
+    }
+    std::map<std::string, Channel>::iterator it = _channels.find(tolowerstr(rec));
+    if (it != _channels.end()){
+            if (!alreadyMmember(cli.getClientFd(), it->second)){
+                sendMsgToClient(cli.getClientFd(), ERR_CANNOTSENDTOCHAN(s_nick, it->second.getChDisplayNm()));
+                return;
+            }
+            broadcastMsg(it->second, ":" + s_nick + s_user + "@127.0.0.1 PRIVMSG " + rec + " : " + msg + "\r\n", cli.getClientFd());
+    }
+    else if (rec[0] == "#"){
+        sendMsgToClient(cli.getClientFd(),ERR_NOSUCHCHANNEL(s_nick, s_nick, it->second.getChDisplayNm()));
+        return;
+    }
+    else{
+        size_t i = 0;
+        while (i < _clients.size()){
+            if (_clients[i].getNickNm() == rec){
+                sendMsgToClient(_clients[i].getClientFd(), ":" + s_nick + "!~" + s_user + "@127.0.0.1 PRIVMSG " + rec + " :" + msg + "\r\n");
+                return;
+            }
+            i++;
         }
     }
 }

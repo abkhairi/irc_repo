@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 14:43:26 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/12 14:19:38 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/16 18:39:10 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,5 @@ class Channel{
         mapUsers &Channel::getUsersMap();
         void Channel::setUsersSize(int size);
         size_t Channel::getUsersize();
+        std::string getChDisplayNm();
 };

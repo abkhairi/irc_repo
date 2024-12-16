@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Channel.cpp                                        :+:      :+:    :+:   */
+/*   JoinCh.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/11 15:00:23 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/16 18:38:51 by shamsate         ###   ########.fr       */
+/*   Created: 2024/12/16 18:29:45 by shamsate          #+#    #+#             */
+/*   Updated: 2024/12/16 18:53:11 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Channel.hpp"
 
-mapUsers& Channel::getUsersMap() {
-    return (_users);
-};
-
-void Channel::setUsersSize(int size) {
-    _usersSize += size;
-};
-
-
-size_t Channel::getUsersize() {
-    return (_usersSize);
-};
-
-std::string Channel::getChDisplayNm()
+bool Server::alreadyMmember(int clifd, Channel channel)
 {
-    return _nameToDisplay;
+    mapUsers mapOfClis = channel.getUsersMap();
+    mapUsers::iterator it;
+    for(it = mapOfClis.begin(); it != mapOfClis.end(); it++)
+    {
+        if (it->second.getClientFd() == clifd)
+            return true;
+    }
+    return false;
 };
