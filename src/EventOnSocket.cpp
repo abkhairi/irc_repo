@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:17:28 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/15 15:35:14 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/16 14:49:05 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void Server::eventOnServSock() {
         perror("accept");
     else
     {
-        std::cout<<"New Connection From Cli , fd = "<< cliSockFd << " & IP : "<< std::endl;
+        std::cout<<"New Connection From Cli :) , fd = "<< cliSockFd << " & IP :  "<< std::endl;
         Client cli(cliSockFd);
         cli.setIpAdss(cliIp);
         setClient(cli);

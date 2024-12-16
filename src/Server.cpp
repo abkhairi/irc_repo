@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 21:27:55 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/15 15:31:04 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/16 15:03:54 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ Server::Server(int port, std::string pass)
 };
 
 //********************************************************************************************************************
-void index_Of_Begin(Server src) {
+void index_Of_Begin(Server src){
 	std::cout<<"#-- ---------------------------- --#"<< std::endl;
 	std::cout<<"#  Port    : "<<src.getPort()<< std::endl;
 	std::cout<<"#  Password: "<<src.getPassWd()<< std::endl;
@@ -63,14 +63,14 @@ int checkPort(std::string port, std::string pass){
 //********************************************************************************************************************
 void serverCheckRequirements(int argc, char *port, char *pass) {
 	if (argc != 3) {
-		std::cerr << "Usage: ./ircserv [port] [password]" << std::endl;
+		std::cerr << "Usage: ./ircserv [port] [password] :( " << std::endl;
 		exit(EXIT_FAILURE);
 	}
 	if (checkPort(port, pass) != 0) {
 		if (checkPort(port, pass) == 2)
-			std::cerr << "ERROR: '" << pass << "' : check Password then try again...\n";
+			std::cerr << "ERROR: '" << pass << "' : check Password then try again... :( \n";
 		else
-			std::cerr << "ERROR: '" << port << "' : check Port then try again...\n";
+			std::cerr << "ERROR: '" << port << "' : check Port then try again... :( \n";
 		exit(EXIT_FAILURE);
 	}
 };
@@ -136,5 +136,44 @@ void    Server::setSockAddss()
 void    Server::setSocketFd(int sock_fd)
 {
     _socketFd = sock_fd;
+};
+//********************************************************************************************************************
+void Server::runServ(){
+	_socketFd =socket(PF_INET, SOCK_STREAM, 0);
+	if (_socketFd == -1){
+		std::cerr <<"Error: Socket Creation failed :( \n";
+		exit(1);
+	}
+	if (fcntl(_socketFd, F_SETFL, O_NONBLOCK) , 0){
+		perror("fcntl");
+		close(_socketFd);
+		exit(EXIT_FAILURE);
+	}
+	int valOpt = 1;
+	if (setsockopt(_socketFd, SOL_SOCKET, SO_REUSEADDR, &valOpt, sizeof(valOpt)) == -1){
+		std::cerr << " Error setsockopt() failed :( \n";
+		close (_socketFd);
+		exit(1);
+	}
+	if (bind(_socketFd, (struct sockaddr *) &_addss, sizeof(_addss)) == -1){
+		std::cerr <<"Error : bind() failed :( \n ";
+		close(_socketFd);
+		exit(1);
+	}
+	if (listen(_socketFd, 10) ==  -1){
+		std::cerr <<"Error listen() failed :( \n";
+		close(_socketFd);
+		exit(1);
+	}
+	index_Of_Begin(*this);
+};
+//********************************************************************************************************************
+Client &Server::getCli(std::string nick){
+	clientVec::iterator it = _clients.begin();
+	for(; it != _clients.end(); it++){
+		if (it->getNickNm() == nick)
+			return *it;
+	}
+	throw "no user found";
 };
 //********************************************************************************************************************
