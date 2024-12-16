@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 14:17:28 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/16 14:49:05 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:31:21 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void Server::rmvFromCh(int idx) {
 
 /* ************************************************************************** */
 void Server::eventOnServSock() {
-    socklen_t cli_add_len = sizeof(_servAddr);
-    int cliSockFd = accept(getSkFd(), (struct sockaddr *)&_servAddr, &cli_add_len);
-    std::string cliIp = inet_ntoa(_servAddr.sin_addr);
+    socklen_t cli_add_len = sizeof(_addss);
+    int cliSockFd = accept(getSkFd(), (struct sockaddr *)&_addss, &cli_add_len);
+    std::string cliIp = inet_ntoa(_addss.sin_addr);
     if (cliSockFd == -1)
         perror("accept");
     else

@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/01 17:49:30 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/10 14:14:18 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:28:53 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int main(int argc, char **argv){
     signal(SIGPIPE, handle_sig);
     serverCheckRequirements(argc, argv[1], argv[2]);
     Server serv(atoi(argv[1]), argv[2]);
-    serv.setSocketaddr();
+    serv.setSockAddss();
     serv.runServ();
 
     struct pollfd Pfd;

@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 21:25:15 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/16 14:55:27 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:30:53 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,9 @@ class Server {
             joinVec _rslt;
             joinVec _args;
             clientVec _clients;
-            sockaddr_in _servAddr;
             channelMap  _channels;
             pollFdVec _pollFd;
-        sockaddr_in					_addss;
+            sockaddr_in					_addss;
             std::vector<std::pair<std::string, std::string> >_mod;
             Server();
 
