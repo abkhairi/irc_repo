@@ -123,13 +123,13 @@ void Server::sendmsg(Client &cli, std::string rec, std::string msg){
     }
     std::map<std::string, Channel>::iterator it = _channels.find(tolowerstr(rec));
     if (it != _channels.end()){
-            if (!alreadyMmember(cli.getClientFd(), it->second)){
+            if (!alreadyMember(cli.getClientFd(), it->second)){
                 sendMsgToClient(cli.getClientFd(), ERR_CANNOTSENDTOCHAN(s_nick, it->second.getChDisplayNm()));
                 return;
             }
             broadcastMsg(it->second, ":" + s_nick + s_user + "@127.0.0.1 PRIVMSG " + rec + " : " + msg + "\r\n", cli.getClientFd());
     }
-    else if (rec[0] == "#"){
+    else if (rec[0] == '#'){
         sendMsgToClient(cli.getClientFd(),ERR_NOSUCHCHANNEL(s_nick, s_nick, it->second.getChDisplayNm()));
         return;
     }

@@ -26,6 +26,7 @@
 #include "Client.hpp"
 #include "Channel.hpp"
 #include "rep.hpp"
+#include <signal.h>
 
 typedef std::vector<std::string> joinVec;
 typedef std::vector<struct pollfd> pollFdVec;
@@ -71,7 +72,8 @@ class Server {
             void         eraseCh(std::string _name);
             std::string  tolowerstr(std::string _str1);
             void         sendmsg(Client &cli, std::string rec, std::string msg);
-            bool         alreadyMmember(int clifd, Channel channel);
+            bool         alreadyMember(int clifd, Channel channel);
+            void         authentif(std::string str, Client &cli);
 };
 void    serverCheckRequirements(int argc, char *port, char *pass);
 int     checkPort(std::string port, std::string pass);

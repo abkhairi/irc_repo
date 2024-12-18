@@ -11,8 +11,9 @@
 /* ************************************************************************** */
 
 #include "../include/Channel.hpp"
+#include "../include/Server.hpp"
 
-bool Server::alreadyMmember(int clifd, Channel channel)
+bool Server::alreadyMember(int clifd, Channel channel)
 {
     mapUsers mapOfClis = channel.getUsersMap();
     mapUsers::iterator it;

@@ -179,3 +179,30 @@ Client &Server::getCli(std::string nick){
 //********************************************************************************************************************
 Server::~Server(){};
 //********************************************************************************************************************
+void Server::authentif(std::string str, Client &cli){
+	(void)str;
+	std::string nick = cli.getNickNm();
+	if (_args.size() < 2){
+		sendMsgToClient(cli.getClientFd(),RPL_NONICKNAMEGIVEN(nick, _host));
+	else 
+		sendMsgToClient(client.getClinetFd(), ERR_NEEDMOREPARAMS(nick, "pass"));
+	_args.clear();
+	return;
+	}
+	if (_args[0] == "pass" && _args[1] == _password && cli.getpflag() == false){
+		cli.setpflg(true);
+		_args.clear();
+		return;
+	}
+	else if (_args[0] == "pass" && cli.getpflag() == false){
+		sendMsgToClient(cli.getClientFd(), ERR_PASSWDMISMATCH(_host, nick));
+		_args.clear();
+		return;
+	}
+	if(args[0] == "nick" && cli.getpflg() && !cli.getnflg()) {
+            cli.setnflg(true);
+            int d =
+    }
+
+
+	}
