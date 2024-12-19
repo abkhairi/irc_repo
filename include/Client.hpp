@@ -55,7 +55,7 @@ class Client{
         void setnflg(bool flg);
         void setuflg(bool flg);
 /* *************************************************** */
-    bool		isAuthed();
+        bool		isAuthed();
 	bool		getpflag();
 	bool		getnflag();
 	bool		getuflag();
