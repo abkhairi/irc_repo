@@ -25,57 +25,6 @@ std::string Client::getNickNm(){
     return (_NickName);
 };
 
-std::string Client::getRealNm(){
-    return _RealName;
-};
-
-std::string Client::getUserNm(){
-    return _UserName;
-};
-
-void Client::setRealNm(std::string rnm){
-    _RealName = rnm;
-};
-
-void Client::setUserNm(std::string usm){
-    _UserName = usm;
-};
-
-bool  Client::getpflag(){
-    return _passFlag;
-};
-
-bool Client::getnflag(){
-    return _nickFlag;
-};
-
-bool Client::getuflag(){
-    return _userFlag;
-};
-bool Client::getOperator(){
-    return _operat;
-};
-
-std::string & Client::getIpAdss(){
-    return _ipAddss;
-};
-
-void Client::setNickNm(std::string kname){
-    _NickName = kname;
-};
-
-void Client::setpflg(bool flg){
-    _passFlag = flg;
-};
-
-void Client::setnflg(bool flg){
-    _nickFlag = flg;
-};
-void Client::setuflg(bool flg){
-    _userFlag = flg;
-    _authentif = true;
-};
-
 
 void Client::setRecLn(std::string recvln) {
     _recvln = recvln;

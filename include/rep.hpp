@@ -17,8 +17,4 @@
 #define ERR_NOSUCHCHANNEL(buffer, nick, channel)                            ":" + buffer + " 403 " + nick + " " + channel + " :No such channel\r\n"
 #define ERR_CANNOTSENDTOCHAN(buffer, channel)                               "404 " + buffer + " " + channel + " :Cannot send to channel\r\n"
 #define ERR_NOSUCHCHANNEL(buffer, nick, channel)                            ":" + buffer + " 403 " + nick + " " + channel + " :No such channel\r\n"
-#define RPL_NONICKNAMEGIVEN(nick, host)                                     ":" + _host + " 431 " + nick + " :No nickname given !\r\n"
-
-#define ERR_PASSWDMISMATCH(buffer, cmd)					                    (":" + cmd + " 464 " + buffer + " :Password is incorrect\r\n")
-#define ERR_NEEDMOREPARAMS(client, cmd)             	                    ":" + client + " 461 " + cmd + " :Not enough parameters\r\n"
 #endif

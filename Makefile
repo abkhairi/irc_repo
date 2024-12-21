@@ -6,7 +6,7 @@
 #    By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/16 17:13:02 by shamsate          #+#    #+#              #
-#    Updated: 2024/12/16 17:16:32 by shamsate         ###   ########.fr        #
+#    Updated: 2024/12/21 13:57:28 by shamsate         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ RM     = rm -rf
 
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-FILES = main src/Channel src/Client src/EventOnSocket src/Server dependencies/Server_Utils
+FILES = main  src/Client src/EventOnSocket src/Server dependencies/Server_Utils src/JoinCh
 
 SRC		= $(FILES:=.cpp)
 
@@ -49,4 +49,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: clean%
+.PHONY: clean

@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 21:27:55 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/16 17:07:58 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/21 14:00:46 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,14 +107,14 @@ void	sendMsgToClient(int cli_sock_fd, std::string msg) {
 		perror("send : ");
 };
 //********************************************************************************************************************
-void Server::broadcastMsg(Channel _chan, std::string msg, int cli_sock_fd) {
-	mapUsers &users = _chan.getUsersMap();
-	for (auto it = users.begin(); it != users.end(); it++) {
-		if (it->second.getClientFd() != cli_sock_fd) {
-			sendMsgToClient(it->second.getClientFd(), msg);
-		}
-	}
-};
+// void Server::broadcastMsg(Channel _chan, std::string msg, int cli_sock_fd) {
+// 	mapUsers users = _chan.getUsersMap();
+// 	mapUsers::iterator iter;
+//     for(iter = users.begin(); iter != users.end(); iter++)
+//     {
+//         if (iter->second.getClientFd() != cli_sock_fd)
+//             sendMsgToClient(iter->second.getClientFd(), msg);
+// }};
 //********************************************************************************************************************
 
 void sockAddssInfo(struct sockaddr_in& addss, int port_n)
@@ -179,30 +179,3 @@ Client &Server::getCli(std::string nick){
 //********************************************************************************************************************
 Server::~Server(){};
 //********************************************************************************************************************
-void Server::authentif(std::string str, Client &cli){
-	(void)str;
-	std::string nick = cli.getNickNm();
-	if (_args.size() < 2){
-		sendMsgToClient(cli.getClientFd(),RPL_NONICKNAMEGIVEN(nick, _host));
-	else 
-		sendMsgToClient(client.getClinetFd(), ERR_NEEDMOREPARAMS(nick, "pass"));
-	_args.clear();
-	return;
-	}
-	if (_args[0] == "pass" && _args[1] == _password && cli.getpflag() == false){
-		cli.setpflg(true);
-		_args.clear();
-		return;
-	}
-	else if (_args[0] == "pass" && cli.getpflag() == false){
-		sendMsgToClient(cli.getClientFd(), ERR_PASSWDMISMATCH(_host, nick));
-		_args.clear();
-		return;
-	}
-	if(args[0] == "nick" && cli.getpflg() && !cli.getnflg()) {
-            cli.setnflg(true);
-            int d =
-    }
-
-
-	}
