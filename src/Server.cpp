@@ -20,7 +20,7 @@ std::string Server::getHostIp(){
 };
 
 void    Server::display(){
-    for (std::vector<struct pollfd>::iterator it = vec_pollfd.begin(); it != vec_pollfd.end(); it++)
+    for (std::vector<struct pollfd>::iterator it = pollFdVec.begin(); it != pollFdVec.end(); it++)
     {
         std::cout << "Struct  Fd  = " << it->fd << std::endl;
         std::cout << "Struct Event  = " << it->events << std::endl;
