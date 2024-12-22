@@ -10,9 +10,13 @@ Server::~Server(){};
 
 
 
+Client& Server::getCliByIdx(size_t idx)
+{
+    return (cliVec[idx]);
+};
 
 std::string Server::getHostIp(){
-    return (host_ip);
+    return (_hostIp);
 };
 
 void    Server::display(){
@@ -25,7 +29,7 @@ void    Server::display(){
 };
 
 void  Server::rmvCli(int id){
-    vec_client.erase(vec_client.begin() +id);
+    cliVec.erase(cliVec.begin() +id);
 };
 
 std::string Server::timee() {
