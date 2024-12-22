@@ -10,9 +10,17 @@ Server::~Server(){};
 
 
 
-Client& Server::getCliByIdx(size_t idx)
-{
+Client& Server::getCliByIdx(size_t idx){
     return (cliVec[idx]);
+};
+
+Client& Server::getCliOrg(int sockCli){
+    for (size_t i = 0; cliVec.size() > i; i++)
+    {
+        if (cliVec[i].get_client_fd() == sockCli)
+            return (cliVec[i]);
+    }
+    return cliVec[0];
 };
 
 std::string Server::getHostIp(){
