@@ -1,82 +1,88 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   Server.hpp                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/22 21:25:15 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/21 13:59:41 by shamsate         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#ifndef SERVER_HPP
+#define SERVER_HPP
 
 #include <iostream>
+#include <unistd.h>
 #include <string>
 #include <vector>
 #include <map>
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <unistd.h>
-#include <fcntl.h>
-#include <errno.h>
+#include <fcntl>
 #include <cstring>
+#include <iomanip>
+#include <cctype>
 #include <sstream>
-#include  <poll.h>
+#include <poll.h>
+#include <sys/socket.h>
+#include <ctime>
+#include <arpa/inet.h>
+#include <netinet/in.h>
+
 #include "Client.hpp"
-#include "Channel.hpp"
-#include "rep.hpp"
 
-typedef std::vector<std::string> joinVec;
-typedef std::vector<struct pollfd> pollFdVec;
-typedef std::vector<Client> clientVec;
-// typedef std::map<std::string, Channel> channelMap;
+class Client;
 
-class Server {
+class Server{
     private :
-            int         _portNum;
-            std::string _host;
-            std::string _password;
-            int         _socketFd;
-            joinVec     _rslt;
-            joinVec     _args;
-            clientVec   _clients;
-            // channelMap  _channels;
-            pollFdVec    _pollFd;
-            sockaddr_in	 _addss;
-            std::vector<std::pair<std::string, std::string> >_mod;
-            Server();
+        int                 _fdSockServ;
+        int                 _port;
+        std::string         _pass;
+        std::string         _hostIp;
+        std::vector<Client>cliVec;
+        Server();
+    public :
+        Server(int port, string pass);
+        ~Server();
+        size_t              cliIdx;
+        std::vector<struct pollfd> pollFdVec;
+        std::vector<std::string>   cmdVec;
+        std::map<std::string, channels>channels;
+        void init_serv(int port, std::string pass, size_t &i);
+        void setFdSockServ(int fd);
+        void display();
+        
+        void isRegistred(Client &cli, std::string time);
+        void rmvCli(int id);
+        void sendMsg(Client &cli, std::string rec, std::string msg);
 
-        public :
-            ~Server();
-            Server(int portNum, std::string password);
-            size_t idx;
-            std::string  &getPassWd();
-            unsigned int getPort();
-            int	         getSkFd();
-            Client       &getCliByIdx(int id);
-            void         setSockAddss();
-            void         setSocketFd(int sock_fd);
-            void         runServ();
-            void         rmvClient(int idx);
-            void         rmvFromCh(int idx);
-            pollFdVec    &getPollfdVec();
-            // void         broadcastMsg(Channel _chan, std::string msg, int cli_sock_fd);
-            // void         SendToAll(Channel _ch, std::string _msg);
-            Client       &getClientByFd(int idx);
-            void         setClient(Client cli);
-            void         eventOnServSock();
-            void         eventOnCliSock();
-            Client       &getCli(std::string nick);
-            void         eraseCh(std::string _name);
-            std::string  tolowerstr(std::string _str1);
-            void         sendmsg(Client &cli, std::string rec, std::string msg);
-            // bool         alreadyMmember(int clifd, Channel channel);
+
+
+        Client &getCliOrg(int sockCli);
+        Client &getCliByIdx(size_t idx);
+
+
+        std::string getHostIp();
+        std::string timee();
+
+
+        //:::::::::Channel:::::::::::::::
+
+        void ft_commande_j_m(std::vector<std::string> cmd_final, size_t &_index_client, cliente &client_);
+        bool is_membre(int fd_client, channels channel_);
+        void broadcastMessage(channels _channel, std::string _message, int _clientfd);
+        channels & getChannel(std::string channel);
+        void    SendToAll(channels channel_, std::string _message);
+
+
+
+
+        int  getFdSockServ();
+        //:::::::::CMD:::::::::::::::
+         void authCli(std::string cmd, int socket_cli, Client &cli, size_t &idxCli);
+         void handler_auth_and_cmd(std::string cmdfinal, size_t &idxcli);
+         std::string recvCmd(int fdcli, size_t &idxcli);
+
+        void ft_join(std::vector<std::string> &vec_cmd,cliente &client_,size_t &_index_client);
+        void kick(std::vector<std::string > vec_cmd,size_t _index_client, cliente client_);
+        void topic(std::vector<std::string > vec_cmd,size_t _index_client,cliente client_);
+        void privmsg(std::vector<std::string > vec_cmd, size_t _indexclient, cliente client_);
+        void quit(std::vector<std::string > vec_cmd, size_t _indexclient, cliente client_);
+
+
+
+
 };
-void    serverCheckRequirements(int argc, char *port, char *pass);
-int     checkPort(std::string port, std::string pass);
-void    handle_sig(int sig);
-void	sendMsgToClient(int cli_sock_fd, std::string msg);
-void    sockAddssInfo(struct sockaddr_in& addss, int port_n);
-void    index_Of_Begin(Server src);
 
+
+
+
+#endif
