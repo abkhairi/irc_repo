@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:01:05 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/23 21:01:10 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/23 22:09:43 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int main(int ac, char** av){
     int port_int = parsingPortPass(port, pass);
     if (port_int == 1)
     {
-        std::cout << "Error in port :(" << std::endl;
+        std::cout << "Error in Port :(" << std::endl;
         return 1;
     }
     if (port_int == 2){

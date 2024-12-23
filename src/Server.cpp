@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:58:54 by r4v3n             #+#    #+#             */
-/*   Updated: 2024/12/23 22:03:42 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/23 22:19:06 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,11 @@ void    Server::init_serv(int  port, std::string pass, size_t &i)
     serverAddr.sin_addr.s_addr = INADDR_ANY;
     bind(sockfd, (struct sockaddr*)&serverAddr, sizeof(serverAddr)); // bound [ip and port] to server socket
     listen(sockfd, 10);
-    std::cout << "\033[32m::::::::::::FT_IRC::::::::::::::::\033[0m" << std::endl <<"\033[32m+\033[0m";
-    std::cout << "\033[31m The Server listen in :      " <<"\033[32m+" << std::endl;
-    std::cout << "\033[32m+ Port :\033[0m     = " << port << "\033[32m                +\033[0m"<< std::endl;
-    std::cout << "\033[32m+ Pass :\033[0m = " << pass << "\033[32m                 +\033[0m"<<std::endl;
-    std::cout << "\033[32m++++++++++++++++++++++++++++++++++\033[0m" << std::endl;
+    std::cout << "\033[32m+:::::::::[FT_IRC]:::::::::+\033[0m" << std::endl <<"\033[32m+\033[0m";
+    std::cout << "\033[31m The Server listen in ==> " <<"\033[32m+" << std::endl;
+    std::cout << "\033[32m+ Port :\033[0m              " << port << "\033[32m +\033[0m"<< std::endl;
+    std::cout << "\033[32m+ Pass :\033[0m              " << pass << "\033[32m +\033[0m"<<std::endl;
+    std::cout << "\033[32m++++++++++++++++++++++++++++\033[0m" << std::endl;
     setFdSockServ(sockfd);
     struct pollfd poolfd;
     poolfd.fd = getFdSockServ();
