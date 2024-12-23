@@ -8,7 +8,7 @@ std::string Client::getIpAddrCli(){
     return (_ipAddrCli);
 };
 
-void    Client::setRealNm(std::string rname){
+void Client::setRealNm(std::string rname){
     _rname = rname;
 };
 
@@ -51,12 +51,46 @@ std::string Client::getNickNm(){
 
 std::string Client::getPass(){
     return (_CPass);
-}
+};
 
 std::string Client::getUser(){
     return (_user);
-}
+};
 
 bool Client::getAuth(){
     return (_auth);
+};
+
+bool Client::getFlgPass(){
+    return (_pFlg);
 }
+bool Client::getFlgNick(){
+    return (_nFlg);
+}
+bool Client::getFlgUser(){
+    return (_uFlg);
+}
+
+void Client::setFlgPass(bool flgpass){
+    _pFlg = flgpass;
+}
+
+void Client::setFlgNick(bool flgnick){
+    _nFlg = flgnick;
+}
+
+void Client::setFlgUser(bool flguser){
+    _uFlg = flguser;
+}
+
+void Client::setNickNm(std::string nicknm){
+    _nick = nicknm;
+}
+
+void Client::setPass(std::string pass){
+    _CPass = pass;
+}
+void Client::setUser(std::string user){
+    // _user = user.substr(5, user.size() - 5);
+    _user = user;
+};
