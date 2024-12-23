@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:58:54 by r4v3n             #+#    #+#             */
-/*   Updated: 2024/12/23 21:01:21 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/23 22:03:42 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ Client & Server::getCliOrg(int sockcli){
 int  Server::getFdSockServ(){
     return (_fdSockServ);
 };
+
+
 
 void    Server::init_serv(int  port, std::string pass, size_t &i)
 {
@@ -115,3 +117,7 @@ void    Server::init_serv(int  port, std::string pass, size_t &i)
         }
     }
 };
+
+ void Server::setFdSockServ(int fd){
+    _fdSockServ = fd;
+ };
