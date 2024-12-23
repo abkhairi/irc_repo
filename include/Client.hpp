@@ -39,6 +39,10 @@ class Client{
         void    setUser(std::string user);
         void    setRealNm(std::string rname);
         void    setAuth();
+        bool        getAuth();
+        bool        getFlgPass();
+        bool        getFlgNick();
+        bool        getFlgUser();
         //:::::::::Channel:::::::::::::::
         void    pushCh(std::string ch);
 };

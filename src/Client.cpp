@@ -29,3 +29,34 @@ void Client::displayCli(){
         std::cout <<"The Client Ip " << this->_ipAddrCli<< std::endl;
 };
 
+Client::Client(int clisockfd, std::string ipaddrcli){
+    _cliSockFd  = clisockfd;
+    _ipAddrCli  = ipaddrcli;
+    _auth        = false;
+    _nick       = "";
+    _CPass   = "";
+    _user           = "";
+    _pFlg      = false;
+    _nFlg      = false;
+    _uFlg      = false;
+};
+
+int Client::getCliFd(){
+    return (_cliSockFd);
+};
+
+std::string Client::getNickNm(){
+    return (_nick);
+}
+
+std::string Client::getPass(){
+    return (_CPass);
+}
+
+std::string Client::getUser(){
+    return (_user);
+}
+
+bool Client::getAuth(){
+    return (_auth);
+}
