@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 #include <map>
-#include <fcntl>
+#include <fcntl.h>
 #include <cstring>
 #include <iomanip>
 #include <cctype>
@@ -18,6 +18,8 @@
 #include <netinet/in.h>
 
 #include "Client.hpp"
+#include "Channels.hpp"
+
 
 class Client;
 
@@ -30,7 +32,7 @@ class Server{
         std::vector<Client>cliVec;
         Server();
     public :
-        Server(int port, string pass);
+        Server(int port, std::string pass);
         ~Server();
         size_t              cliIdx;
         std::vector<struct pollfd> pollFdVec;
@@ -39,11 +41,11 @@ class Server{
         void init_serv(int port, std::string pass, size_t &i);
         void setFdSockServ(int fd);
         void display();
-        
+
         void isRegistred(Client &cli, std::string time);
         void rmvCli(int id);
         void sendMsg(Client &cli, std::string rec, std::string msg);
-
+        
 
 
         Client &getCliOrg(int sockCli);
@@ -71,18 +73,18 @@ class Server{
          void handler_auth_and_cmd(std::string cmdfinal, size_t &idxcli);
          std::string recvCmd(int fdcli, size_t &idxcli);
 
-        void ft_join(std::vector<std::string> &vec_cmd,cliente &client_,size_t &_index_client);
-        void kick(std::vector<std::string > vec_cmd,size_t _index_client, cliente client_);
-        void topic(std::vector<std::string > vec_cmd,size_t _index_client,cliente client_);
-        void privmsg(std::vector<std::string > vec_cmd, size_t _indexclient, cliente client_);
-        void quit(std::vector<std::string > vec_cmd, size_t _indexclient, cliente client_);
+        void ft_join(std::vector<std::string> &vec_cmd,Client &client_,size_t &_index_client);
+        void kick(std::vector<std::string > vec_cmd,size_t _index_client, Client client_);
+        void topic(std::vector<std::string > vec_cmd,size_t _index_client,Client client_);
+        void privmsg(std::vector<std::string > vec_cmd, size_t _indexclient, Client client_);
+        void quit(std::vector<std::string > vec_cmd, size_t _indexclient, Client client_);
 
 
 
 
 };
-
-
-
+void sendMsgToCli(int fdcli, std::string msg);
+int  parsingPortPass(std::string port, std::string pass);
+void setNonBlocking(int fd);
 
 #endif

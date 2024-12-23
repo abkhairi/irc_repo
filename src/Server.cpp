@@ -17,7 +17,7 @@ Client& Server::getCliByIdx(size_t idx){
 Client& Server::getCliOrg(int sockCli){
     for (size_t i = 0; cliVec.size() > i; i++)
     {
-        if (cliVec[i].get_client_fd() == sockCli)
+        if (cliVec[i].getCliFd() == sockCli)
             return (cliVec[i]);
     }
     return cliVec[0];

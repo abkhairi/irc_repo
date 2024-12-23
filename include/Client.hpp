@@ -22,7 +22,7 @@ class Client{
         void            displayCli();
         //:::::::::Getters:::::::::::::::
         int             getCliFd();
-        std::string     getRecln();
+        std::string     getRecLn();
         std::string     getNickNm();
         std::string     getPass();
         std::string     getUser();
