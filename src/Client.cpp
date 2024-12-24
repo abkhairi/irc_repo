@@ -107,3 +107,11 @@ void Client::setUser(std::string user){
     // _user = user.substr(5, user.size() - 5);
     _user = user;
 };
+
+void    Client::pushCh(std::string channel) {
+    _channels.push_back(channel);
+};
+std::vector<std::string > Client::getChNm()
+{
+    return (_channels);
+};

@@ -33,7 +33,7 @@ class Channels{
         std::map<std::pair<bool, int>, Client>_users;
         std::vector<int>_invited;
     public :
-        Channels(std::string    nmCh);
+        Channels(std::string    nmch);
         void pushToMap(bool priv, Client &cli);
         //:::::::::::::::::setter::::::::::::::::::
         void setPass(std::string pass);
@@ -61,12 +61,8 @@ class Channels{
         bool            nickExist(std::string user);
         //
         bool	        isInvited(int sockfd);
-        void            deletCli(std::string nick);
-
-
-}
-
-
+        void            deleteCli(std::string nick);
+};
 
 
 #endif
