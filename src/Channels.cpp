@@ -3,13 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   Channels.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shamsate <shamsate@student.42.fr>          #+#  +:+       +#+        */
+/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024-12-25 14:20:58 by shamsate          #+#    #+#             */
-/*   Updated: 2024-12-25 14:20:58 by shamsate         ###   ########.fr       */
+/*   Created: 2024/12/25 14:20:58 by shamsate          #+#    #+#             */
+/*   Updated: 2024/12/25 21:57:19 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "../include/Channels.hpp"
+
 
 Channels::Channels(std::string nmch){
     _name = nmch;
@@ -116,7 +116,7 @@ bool Channels::nickExist(std::string user){
 
 void Channels::deleteCli(std::string nick){
     std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
-    for (it = _users.begin(); it != _users.end(); it++) 
+    for (it = _users.begin(); it != _users.end(); it++)
     {
         if (it->second.getNickNm() == nick)
             _users.erase(it++);

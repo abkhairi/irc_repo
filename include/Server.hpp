@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:17 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/25 20:51:02 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/25 21:39:07 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ class Server{
         int  getFdSockServ();
         //:::::::::CMD:::::::::::::::
         void authCli(std::string cmd, int socket_cli, Client &cli, size_t &idxCli);
-        void Server::handleAuthCmd(std::string cmdf, size_t &idxci);
+        void handleAuthCmd(std::string cmdf, size_t &idxci);
         std::string recvCmd(int fdcli, size_t &idxcli);
 
         // void ft_join(std::vector<std::string> &vec_cmd,Client &client_,size_t &_index_client);

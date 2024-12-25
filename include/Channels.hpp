@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   Channels.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shamsate <shamsate@student.42.fr>          #+#  +:+       +#+        */
+/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024-12-25 16:18:55 by shamsate          #+#    #+#             */
-/*   Updated: 2024-12-25 16:18:55 by shamsate         ###   ########.fr       */
+/*   Created: 2024/12/25 16:18:55 by shamsate          #+#    #+#             */
+/*   Updated: 2024/12/25 21:53:23 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CHANNELS_HPP
 #define CHANNELS_HPP
+
 #include "Server.hpp"
 #include "Client.hpp"
+
 class Channels{
     private :
         bool            _inv;
@@ -50,7 +52,7 @@ class Channels{
         std::string     getNmCh();
         size_t          getLimit();
         std::string     getNmChDispaly();
-        std::map<std::pair<bool,int>, Client >& getMapUser();
+        std::map<std::pair<bool,int>, Client>& getMapUser();
         std::string     getTopic();
         bool            getTopicBool();
         std::string     getTopicSeter();
