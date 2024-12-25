@@ -72,7 +72,7 @@ class Server{
         //:::::::::Channel:::::::::::::::
 
         // void ft_commande_j_m(std::vector<std::string> cmd_final, size_t &_index_client, Client &client_);
-        bool Server::isMember(int fdcli, Channels ch);
+        bool isMember(int fdcli, Channels ch);
         // void broadcastMessage(channels _channel, std::string _message, int _clientfd);
         // channels & getChannel(std::string channel);
         // void    SendToAll(channels channel_, std::string _message);
@@ -83,7 +83,7 @@ class Server{
         int  getFdSockServ();
         //:::::::::CMD:::::::::::::::
         //  void authCli(std::string cmd, int socket_cli, Client &cli, size_t &idxCli);
-        void Server::handleAuthCmd(std::string cmdf, size_t &idxci)
+        void Server::handleAuthCmd(std::string cmdf, size_t &idxci);
         //  std::string recvCmd(int fdcli, size_t &idxcli);
 
         // void ft_join(std::vector<std::string> &vec_cmd,Client &client_,size_t &_index_client);
