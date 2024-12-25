@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:17 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/23 21:02:19 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/25 20:51:02 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ class Server{
 
         // void ft_commande_j_m(std::vector<std::string> cmd_final, size_t &_index_client, Client &client_);
         bool isMember(int fdcli, Channels ch);
-        // void broadcastMessage(channels _channel, std::string _message, int _clientfd);
+        void broadCastMsg(Channels ch, std::string msg, int clifd);
         // channels & getChannel(std::string channel);
         // void    SendToAll(channels channel_, std::string _message);
 

@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:58:54 by r4v3n             #+#    #+#             */
-/*   Updated: 2024/12/23 22:19:06 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/25 21:04:39 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,29 @@ void    Server::init_serv(int  port, std::string pass, size_t &i)
     for(std::map<std::pair<bool,int>, Client >::iterator it = user_map.begin(); it != user_map.end(); it++)
     {
         if (fdcli == it->second.getCliFd())
-            return  true; 
+            return  true;
     }
     return false;
 };
+
+void    Server::broadCastMsg(Channels ch, std::string msg, int clifd){
+    std::map<std::pair<bool, int>, Client> mapOfClients = ch.getMapUser();
+    std::map<std::pair<bool, int>, Client>::iterator iter;
+    for(iter = mapOfClients.begin(); iter != mapOfClients.end(); iter++)
+    {
+        if (iter->second.getCliFd() != clifd)
+            sendMsgToCli(iter->second.getCliFd(), msg);
+    }
+};
+
+void Server::isRegistred(Client &cli, std::string time){
+    sendMsgToCli(cli.getCliFd(),RPL_WELCOME(cli.getNickNm(), cli.getIpAddrCli()));
+    sendMsgToCli(cli.getCliFd(),RPL_YOURHOST(cli.getNickNm(), cli.getIpAddrCli()));
+    sendMsgToCli(cli.getCliFd(),RPL_CREATED(cli.getNickNm(), cli.getIpAddrCli(), time));
+    sendMsgToCli(cli.getCliFd(),RPL_MYINFO(cli.getNickNm(), cli.getIpAddrCli()));
+};
+
+
+
+
+
