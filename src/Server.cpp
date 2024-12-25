@@ -104,14 +104,14 @@ void    Server::init_serv(int  port, std::string pass, size_t &i)
                 }
                 else
                 {
-                    // is a client here : is a handle new msg
-                    // int sockCli = pollFdVec[i].fd;
-                    // std::string cmd = receive_cmd(sockCli, i);
-                    // std::cout << "cmd = " << cmd << std::endl;
-                    // std::cout << "Message from client " << socket_client << ": " << cmd << std::endl;
-                    // Client &cli_ref = getCliOrg(sockCli);
-                    // cli_ref.setDataRec(cmd);
-                    // authenticate_client(cmd, socket_client, client_ref, i);  
+                    is a client here : is a handle new msg
+                    int sockCli = pollFdVec[i].fd;
+                    std::string cmd = receive_cmd(sockCli, i);
+                    std::cout << "cmd = " << cmd << std::endl;
+                    std::cout << "Message from client " << socket_client << ": " << cmd << std::endl;
+                    Client &cli_ref = getCliOrg(sockCli);
+                    cli_ref.setDataRec(cmd);
+                    authenticate_client(cmd, socket_client, client_ref, i);  
                 }
             }
         }

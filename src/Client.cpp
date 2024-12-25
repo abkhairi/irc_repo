@@ -108,10 +108,10 @@ void Client::setUser(std::string user){
     _user = user;
 };
 
-void    Client::pushCh(std::string channel) {
-    _channels.push_back(channel);
-};
-std::vector<std::string > Client::getChNm()
-{
-    return (_channels);
-};
+// void    Client::pushCh(std::string channel) {
+//     _channels.push_back(channel);
+// };
+// std::vector<std::string > Client::getChNm()
+// {
+//     return (_channels);
+// };
