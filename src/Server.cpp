@@ -104,14 +104,14 @@ void    Server::init_serv(int  port, std::string pass, size_t &i)
                 }
                 else
                 {
-                    is a client here : is a handle new msg
-                    int sockCli = pollFdVec[i].fd;
-                    std::string cmd = receive_cmd(sockCli, i);
-                    std::cout << "cmd = " << cmd << std::endl;
-                    std::cout << "Message from client " << socket_client << ": " << cmd << std::endl;
-                    Client &cli_ref = getCliOrg(sockCli);
-                    cli_ref.setDataRec(cmd);
-                    authenticate_client(cmd, socket_client, client_ref, i);  
+                    // is a client here : is a handle new msg
+                    int sockcli = pollFdVec[i].fd;
+                    std::string cmd = recvCmd(sockcli, i);
+                    // std::cout << "cmd = " << cmd << std::endl;
+                    // std::cout << "Message from client " << socket_client << ": " << cmd << std::endl;
+                    Client &cliref = getCliOrg(sockcli);
+                    cliref.setDataRec(cmd);
+                    authCli(cmd, sockcli, cliref, i);  
                 }
             }
         }
@@ -121,3 +121,13 @@ void    Server::init_serv(int  port, std::string pass, size_t &i)
  void Server::setFdSockServ(int fd){
     _fdSockServ = fd;
  };
+
+ bool Server::isMember(int fdcli, Channels ch){
+    std::map<std::pair<bool,int>, Client > user_map = ch.getMapUser();
+    for(std::map<std::pair<bool,int>, Client >::iterator it = user_map.begin(); it != user_map.end(); it++)
+    {
+        if (fdcli == it->second.getCliFd())
+            return  true; 
+    }
+    return false;
+};
