@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:58:54 by r4v3n             #+#    #+#             */
-/*   Updated: 2024/12/25 21:04:39 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/25 22:19:15 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,31 @@ void Server::isRegistred(Client &cli, std::string time){
     sendMsgToCli(cli.getCliFd(),RPL_MYINFO(cli.getNickNm(), cli.getIpAddrCli()));
 };
 
-
+void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, size_t &_index_client)
+{
+    for (size_t i = 0; i < cmd.size(); i++)
+        cmd[i] = std::tolower(cmd[i]);
+    // pass abc
+    std::stringstream ss(cmd);
+    int i = 0;
+    while (ss >> cmd)
+    {
+        cmdVec.push_back(cmd);
+        i++;
+    }
+    if (strstr(clienteref.getRecLn().c_str(), "\n"))
+    {
+        size_t position = clienteref.getRecLn().find_first_of("\n");
+        if (position > clienteref.getRecLn().size())
+            return;
+        // std::cout << "position = " << position << std::endl;
+        std::string cmd_final = clienteref.getRecLn().substr(0 , position + 1);
+        std::cout << "cmd_final = " << cmd_final << std::endl;
+        handleAuthCmd(cmd_final, _index_client);
+    }
+    else
+        return ;
+}
 
 
 

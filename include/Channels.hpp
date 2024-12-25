@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 16:18:55 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/25 21:53:23 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/25 22:10:20 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 #include "Server.hpp"
 #include "Client.hpp"
+
+class Client;
+class Server;
 
 class Channels{
     private :
