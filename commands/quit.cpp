@@ -1,6 +1,6 @@
 #include "../include/Server.hpp"
 
-void    serverr::quit(std::vector<std::string > vec_cmd, size_t _indexclient, cliente client_)
+void    Server::quit(std::vector<std::string > vec_cmd, size_t _indexclient, cliente client_)
 {
     int client_sock_fd =  client_.get_client_fd();
     std::cout << "Client "<< client_sock_fd << " disconnected" << std::endl;

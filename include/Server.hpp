@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:17 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 18:48:09 by abkhairi         ###   ########.fr       */
+/*   Updated: 2024/12/26 19:39:15 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,7 @@ class Server
 
         void isRegistred(Client &cli, std::string time);
         void rmvCli(int id);
-        // void sendMsg(Client &cli, std::string rec, std::string msg);
-        void    broadcastMessage(Channels _channel, std::string _message, int _clientfd);
-
+        void   sendMsg(Client &cli, std::string vec1, std::string msg);
 
 
         Client &getCliOrg(int sockCli);
@@ -95,7 +93,7 @@ class Server
         void ft_join(std::vector<std::string> &vec_cmd, Client &client_,size_t &_index_client);
         void kick(std::vector<std::string > vec_cmd, size_t _index_client, Client client_);
         void topic(std::vector<std::string > vec_cmd,size_t _index_client,Client client_);
-        void privmsg(std::vector<std::string > vec_cmd, size_t _indexclient, Client client_);
+        void prvMsg(std::vector<std::string > vec_cmd, size_t _indexclient, Client client_);
 
 
 };
