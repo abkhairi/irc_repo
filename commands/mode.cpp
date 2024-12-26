@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 21:10:41 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 21:10:43 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:15:20 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,31 +103,31 @@ void Server::mode(std::vector<std::string > veccmd, size_t idxcli, Client cli)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                 else    
                 {
-                    SendToAll(obj_chan, RPL_MODE(obj_chan.get_name_chanel_display(), client_.get_nickname(), "+t"));
+                    SendToAll(obj_chan, RPL_MODE(obj_chan.getChNmDisplay(), cli.getNickNm(), "+t"));
                     obj_chan.set_topic_bool(true);
                 }
             }
             else if ( mod[i].first == "-t")
             {
                 if (obj_chan.check_if_operator(channel) == false)
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), ERR_CHANOPRIVSNEEDED(host_ip,channel_name));
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                 else    
                 {
-                    SendToAll(obj_chan, RPL_MODE(obj_chan.get_name_chanel_display(), client_.get_nickname(), "-t"));
+                    SendToAll(obj_chan, RPL_MODE(obj_chan.getChNmDisplay(), cli.getNickNm(), "-t"));
                     obj_chan.set_topic_bool(false);
                 } 
             }
             if (mod[i].first == "+k")
             {
-                if(vec_cmd.size() < 4)
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), RPL_NOKEY(client_.get_nickname(), channel_name, "k"));
+                if(veccmd.size() < 4)
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_NOKEY(cli.getNickNm(), channel_name, "k"));
                 else if(obj_chan.get_password() == mod[i].second)
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), RPL_ALREADYSET(client_.get_nickname()));
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_ALREADYSET(cli.getNickNm()));
                 else if (obj_chan.check_if_operator(channel) == false) 
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), ERR_CHANOPRIVSNEEDED(host_ip,channel_name));
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                 else 
                 {
-                    SendToAll(obj_chan, RPL_MODE(obj_chan.get_name_chanel_display(), client_.get_nickname(), "+k " + mod[i].second));
+                    SendToAll(obj_chan, RPL_MODE(obj_chan.getChNmDisplay(), cli.getNickNm(), "+k " + mod[i].second));
                     obj_chan.set_password(mod[i].second);
                     obj_chan.setPass(true);
                 }
@@ -135,13 +135,13 @@ void Server::mode(std::vector<std::string > veccmd, size_t idxcli, Client cli)
             else if (mod[i].first == "-k")
             {
                 if(obj_chan.getPass() == false)
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), RPL_NOPASSSET(client_.get_nickname()));
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_NOPASSSET(cli.getNickNm()));
                 else if(obj_chan.get_password() != mod[i].second)
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), RPL_PASSNOTC(mod[i].second));
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_PASSNOTC(mod[i].second));
                 else if (obj_chan.check_if_operator(channel) == false) 
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), ERR_CHANOPRIVSNEEDED(host_ip,channel_name));
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                 else {
-                    SendToAll(obj_chan, RPL_MODE(obj_chan.get_name_chanel_display(), client_.get_nickname(), "-k " + mod[i].second));
+                    SendToAll(obj_chan, RPL_MODE(obj_chan.getChNmDisplay(), cli.getNickNm(), "-k " + mod[i].second));
                     obj_chan.get_password().erase();
                     obj_chan.setPass(false);
             }
@@ -149,71 +149,71 @@ void Server::mode(std::vector<std::string > veccmd, size_t idxcli, Client cli)
             {
                 try 
                 {
-                    if (vec_cmd.size() < 4)
-                        send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), RPL_NOKEY(client_.get_nickname(), channel_name, "o"));
+                    if (veccmd.size() < 4)
+                        sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_NOKEY(cli.getNickNm(), channel_name, "o"));
                     else if(obj_chan.check_if_operator(channel) == false)
-                        send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), ERR_CHANOPRIVSNEEDED(host_ip,channel_name));
+                        sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                     else if(obj_chan.check_if_operator(mod[i].second) == true)    
-                        send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), RPL_ALLOP(mod[i].second));
+                        sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_ALLOP(mod[i].second));
                     else 
                     {
                         obj_chan.getUserBynickname(mod[i].second);
                         obj_chan.setPrvByNickname(mod[i].second, true);
-                        SendToAll(obj_chan, RPL_MODE(obj_chan.get_name_chanel_display(), client_.get_nickname(), "+o " + mod[i].second));
+                        SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDisplay(), cli.getNickNm(), "+o " + mod[i].second));
                     }
                 }    
                 catch(const char *) 
                 {
-                        send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), ERR_WASNOSUCHNICK(host_ip,channel));
+                        sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_WASNOSUCHNICK(_hostIp,channel));
                 }
             }
             else if (mod[i].first == "-o")
             {
-                if(vec_cmd.size() < 4)
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), ERR_NEEDMOREPARAM(host_ip,"-o"));
+                if(veccmd.size() < 4)
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_NEEDMOREPARAM(_hostIp,"-o"));
                 else if(obj_chan.check_if_operator(channel) == false)
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), ERR_CHANOPRIVSNEEDED(host_ip,channel_name));
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                 else if(obj_chan.check_if_operator(mod[i].second) == false)
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), RPL_NOTOP(mod[i].second));
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_NOTOP(mod[i].second));
                 else 
                 {
                     try 
                     {
                         obj_chan.getUserBynickname(mod[i].second);
                         obj_chan.setPrvByNickname(mod[i].second, false);
-                        SendToAll(obj_chan, RPL_MODE(obj_chan.get_name_chanel_display(), client_.get_nickname(), "-o " + mod[i].second));
+                        SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDisplay(), cli.getNickNm(), "-o " + mod[i].second));
                     }
-                    catch(const char *) 
+                    catch(const char *)
                     {
-                        send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), ERR_WASNOSUCHNICK(host_ip,channel));
+                        sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_WASNOSUCHNICK(_hostIp,channel));
                     }
                 }
             }
             if (mod[i].first == "+l")
             {
-                if(vec_cmd.size() < 4) 
+                if(veccmd.size() < 4) 
                 {
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), RPL_NOKEY(client_.get_nickname(), channel_name, "l"));
-                    vec_cmd.clear();
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_NOKEY(cli.getNickNm(), channel_name, "l"));
+                    veccmd.clear();
                     return ;
                 }
                 std::stringstream ss(mod[i].second);
                 size_t limit;
                 ss >> limit;
                 if (obj_chan.get_limit() == limit)
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), RPL_LIMITSET(mod[i].second));
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_LIMITSET(mod[i].second));
                 else 
                 {
                     obj_chan.setUserLimit(false);
                     obj_chan.setLimit(limit);
                     obj_chan.setUserLimit(true);
-                    SendToAll(obj_chan, RPL_MODE(obj_chan.get_name_chanel_display(), client_.get_nickname(), "+l " + mod[i].second));
+                    SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDisplay(), cli.getNickNm(), "+l " + mod[i].second));
                 }
             }
             else if (mod[i].first == "-l")
             {
                 if(obj_chan.getUserLimit() == false)
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), RPL_NOLIMITSET(client_.get_nickname()));
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_NOLIMITSET(cli.getNickNm()));
                 else 
                 {
                     obj_chan.setUserLimit(false);
