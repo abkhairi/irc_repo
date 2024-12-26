@@ -6,7 +6,7 @@
 #    By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/23 21:00:51 by shamsate          #+#    #+#              #
-#    Updated: 2024/12/23 22:22:11 by shamsate         ###   ########.fr        #
+#    Updated: 2024/12/26 01:30:23 by shamsate         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ HEADER =  include/Client.hpp  include/rep.hpp  include/Server.hpp
 
 RM     = rm -rf
 
-CFLAGS = -Wall -Wextra -Werror -std=c++98
+CFLAGS = -Wall -Wextra -Werror -std=c++17
 
 FILES = main  src/Client  src/Server dependencies/UseFcnt
 

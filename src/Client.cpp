@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:01:29 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/23 21:01:36 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 00:58:24 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,10 @@ void Client::setUser(std::string user){
     _user = user;
 };
 
-// void    Client::pushCh(std::string channel) {
-//     _channels.push_back(channel);
-// };
-// std::vector<std::string > Client::getChNm()
-// {
-//     return (_channels);
-// };
+void    Client::pushCh(std::string channel) {
+    _channels.push_back(channel);
+};
+std::vector<std::string > Client::getChNm()
+{
+    return (_channels);
+};

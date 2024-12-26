@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:37 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/23 21:57:47 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 00:59:41 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,7 @@ void sendMsgToCli(int fdcli, std::string msg){
         perror("send: ");
 };
 
-std::string to_lower(std::string str){
-    for (size_t i =0; str.size() > i; i++)
-        str[i] = tolower(str[i]);
-    return (str);
-};
+
 
 void setNonBlocking(int fd){
     int flg = fcntl(fd, F_GETFL, 0);

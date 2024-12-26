@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:17 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/25 21:39:07 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 01:26:48 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ class Server{
         size_t              cliIdx;
         std::vector<struct pollfd> pollFdVec;
         std::vector<std::string>   cmdVec;
-        // std::map<std::string, channels>channels;
+        std::map<std::string, Channels>channels;
         void init_serv(int port, std::string pass, size_t &i);
         void setFdSockServ(int fd);
         void display();
@@ -74,8 +74,8 @@ class Server{
         // void ft_commande_j_m(std::vector<std::string> cmd_final, size_t &_index_client, Client &client_);
         bool isMember(int fdcli, Channels ch);
         void broadCastMsg(Channels ch, std::string msg, int clifd);
-        // channels & getChannel(std::string channel);
-        // void    SendToAll(channels channel_, std::string _message);
+        Channels& getChannel(std::string channel);
+        void    SendToAll(Channels ch, std::string _message);
 
 
 

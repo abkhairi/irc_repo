@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:10 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/25 21:21:51 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 01:17:55 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,41 +39,41 @@ std::vector<std::string> &cmdvec = cmdVec;
     {
         if (cmdvec.size() <= 1)
         {
-            if (cmdVec[0] == "nick")
+            if (cmdvec[0] == "nick")
                 sendMsgToCli(cli.getCliFd(), ERR_NONICKNAMEGIVEN(nick, _hostIp));
-            else if (cmdVec[0] != "nick" || cmdvec.size() == 0)
+            else if (cmdvec[0] != "nick" || cmdvec.size() == 0)
                 sendMsgToCli(cli.getCliFd(), ":IRC ==> 461 :Not enough parameters\r\n");
             cmdvec.clear();
             return ;
         }
-        if (cmdvec[0] == "pass" && cmdVec[1] == _pass && cli.getFlgPass() == false)
+        if (cmdvec[0] == "pass" && cmdvec[1] == _pass && cli.getFlgPass() == false)
         {
             if (cmdvec.size() == 2)
             {
                 // std::cout << "is a pass cmd" << std::endl;
                 cli.setFlgPass(true);
-                cli.setPass(cmdVec[1]);
+                cli.setPass(cmdvec[1]);
             }
             else
                 sendMsgToCli(cli.getCliFd(), ":IRC ==> 464 :Password incorrect\r\n");
             cmdvec.clear();
             return ;
         }
-        else if (cmdVec[0] == "pass" && cmdVec[1] != _pass && cli.getFlgPass() == false)
+        else if (cmdvec[0] == "pass" && cmdvec[1] != _pass && cli.getFlgPass() == false)
         {
             sendMsgToCli(cli.getCliFd(), ":IRC ==> 464 :Password incorrect\r\n");
             cmdvec.clear();
             return ;
         }
-        if (cmdVec[0] == "nick" && cmdvec.size() == 2 && cli.getFlgNick() == false)
+        if (cmdvec[0] == "nick" && cmdvec.size() == 2 && cli.getFlgNick() == false)
         {
             // check if any client in vector has the same nickname ft_check_nickname()
             cli.setFlgNick(true);
-            cli.setNickNm(cmdVec[1]);
+            cli.setNickNm(cmdvec[1]);
             cmdvec.clear();
             return ;
         }
-        else if (cmdVec[0] == "nick" && cmdvec.size() > 2 && cli.getFlgNick() == false)
+        else if (cmdvec[0] == "nick" && cmdvec.size() > 2 && cli.getFlgNick() == false)
         {
             sendMsgToCli(cli.getCliFd(), ":IRC ==> 432 :Erroneous nickname\r\n");
             cmdvec.clear();
@@ -82,7 +82,7 @@ std::vector<std::string> &cmdvec = cmdVec;
         if (cmdVec[0] == "user" && cli.getFlgNick() && cli.getFlgPass())
         {
             // std::cout << "herre fi user\n";
-            if (cmdvec.size() > 5 || cmdVec[1].empty())
+            if (cmdvec.size() > 5 || cmdvec[1].empty())
             {
                 sendMsgToCli(cli.getCliFd(), ":irc.abkhairi.chat 461 :Need more parameters\r\n");
                 cmdvec.clear();
@@ -91,8 +91,8 @@ std::vector<std::string> &cmdvec = cmdVec;
             else
             {
                 cli.setFlgUser(true);
-                cli.setUser(cmdVec[1]);
-                cli.setRealNm(cmdVec[5]);
+                cli.setUser(cmdvec[1]);
+                cli.setRealNm(cmdvec[5]);
                 std::cout << "user is " << cli.getUser() << std::endl;
                 cmdvec.clear();
                 cli.setAuth();
@@ -107,13 +107,13 @@ std::vector<std::string> &cmdvec = cmdVec;
     }
     else
     {
-        if (cmdVec[0] == "pass" || cmdVec[0] == "user")
+        if (cmdvec[0] == "pass" || cmdvec[0] == "user")
         {
             sendMsgToCli(cli.getCliFd(), ERR_ALREADYREGISTERED(nick, _hostIp));
             cmdvec.clear();
             return ;
         }
-        else if(cmdVec[0] == "nick")
+        else if(cmdvec[0] == "nick")
         {
             // change nick the user
         }

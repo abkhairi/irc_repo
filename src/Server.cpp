@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:58:54 by r4v3n             #+#    #+#             */
-/*   Updated: 2024/12/25 22:19:15 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 01:42:16 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,11 @@ void    Server::init_serv(int  port, std::string pass, size_t &i)
     }
 };
 
- void Server::setFdSockServ(int fd){
+void Server::setFdSockServ(int fd){
     _fdSockServ = fd;
- };
+};
 
- bool Server::isMember(int fdcli, Channels ch){
+bool Server::isMember(int fdcli, Channels ch){
     std::map<std::pair<bool,int>, Client > user_map = ch.getMapUser();
     for(std::map<std::pair<bool,int>, Client >::iterator it = user_map.begin(); it != user_map.end(); it++)
     {
@@ -151,6 +151,7 @@ void Server::isRegistred(Client &cli, std::string time){
 
 void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, size_t &_index_client)
 {
+    (void)socket_client;
     for (size_t i = 0; i < cmd.size(); i++)
         cmd[i] = std::tolower(cmd[i]);
     // pass abc
@@ -174,6 +175,51 @@ void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, 
     else
         return ;
 }
+std::string Server::recvCmd(int fdcli, size_t &idxcli)
+{
+    char buffer[1024];
+    memset(buffer, 0, 1024);
+    ssize_t bytes_received = recv(fdcli, buffer, sizeof(buffer) - 1, 0);
+    if (bytes_received <= 0)
+    {
+        if (bytes_received == 0)
+        {
+            std::cout << "Client disconnected: " << fdcli << std::endl;
+            pollFdVec.erase(pollFdVec.begin() + idxcli);
+            idxcli--;
+        }
+        else
+            perror("recv");
+        close(fdcli); // close the socket if not present program infinite loop infoi click sur c
+        // removeClient(fd_client);
+        return "";
+    }
+    buffer[bytes_received] = '\0'; // add null terminator if not present => display garbej value
+    std::string message(buffer);
+    if (message == "\n")
+        return "";
+    return message;
+};
 
+std::string to_lower(std::string str){
+    for (size_t i =0; str.size() > i; i++)
+        str[i] = tolower(str[i]);
+    return (str);
+};
 
+Channels & Server::getChannel(std::string channel){
+    std::map<std::string, Channels>::iterator it = channels.find(to_lower(channel));
+    if (it == channels.end())
+        throw "No channel found";
+    return it->second;
+};
+
+void    Server::SendToAll(Channels ch, std::string msg)
+{
+    std::map<std::pair<bool, int>, Client> mapOfClients = ch.getMapUser();
+    std::map<std::pair<bool, int>, Client>::iterator iter;
+    for(iter = mapOfClients.begin(); iter != mapOfClients.end(); iter++)
+        sendMsgToCli(iter->second.getCliFd(), msg);
+        // send_msg_to_clinet(iter->first.second, _message);
+};
 

@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:29 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/23 21:02:31 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 00:58:48 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ class Client{
         bool        getFlgUser();
         //:::::::::Channel:::::::::::::::
         void    pushCh(std::string ch);
+        // void    printNmCh(Client cli);
 };
 
 #endif

@@ -6,10 +6,12 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:20:58 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/25 21:57:19 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 01:43:58 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
+#include "../include/Channels.hpp"
 
 Channels::Channels(std::string nmch){
     _name = nmch;
