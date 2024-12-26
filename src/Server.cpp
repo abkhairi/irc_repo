@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:58:54 by r4v3n             #+#    #+#             */
-/*   Updated: 2024/12/26 20:29:44 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 20:31:14 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,24 +21,13 @@ bool   Server::find_channel(std::string chan)
             if (to_lower(it->first) == to_lower(chan))
             {
                 std::cout << "true and name channel is = " << (it->first) << std::endl;
-			    return true;
+                return true;
             }
 	}
 	return false;
 }
 
-void    Server::broadcastMessage(Channels _channel, std::string _message, int _clientfd)
-{
-    std::map<std::pair<bool, int>, Client> mapOfClients = _channel.getMapUser();
-    std::map<std::pair<bool, int>, Client>::iterator iter;
-    for(iter = mapOfClients.begin(); iter != mapOfClients.end(); iter++)
-    {
-        if (iter->second.getCliFd() != _clientfd)
-            sendMsgToCli(iter->second.getCliFd(), _message);
-    }
-}
-
-int Server::checkNick(Client& client) 
+int Server::checkNick(Client& client)
 {
     // vec_of_cmd = nick abdo
     std::string str = "@&#:1234567890"; //str contient les caractères interdits pour le premier caractère du nickname : @&#:1234567890.
@@ -125,8 +114,7 @@ void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, 
         return ;
 };
 
-void    Server::init_serv(int  port, std::string pass, size_t &i)
-{
+void    Server::init_serv(int  port, std::string pass, size_t &i){
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
     int opt = 1;// setsockopt : function in network programming is used to configure options on a socket.
@@ -195,8 +183,7 @@ void Server::isRegistred(Client &cli, std::string time){
     sendMsgToCli(cli.getCliFd(),RPL_MYINFO(cli.getNickNm(), cli.getIpAddrCli()));
 };
 
-std::string Server::recvCmd(int fdcli, size_t &idxcli)
-{
+std::string Server::recvCmd(int fdcli, size_t &idxcli){
     char buffer[1024];
     memset(buffer, 0, 1024);
     ssize_t bytes_received = recv(fdcli, buffer, sizeof(buffer) - 1, 0);
@@ -220,8 +207,6 @@ std::string Server::recvCmd(int fdcli, size_t &idxcli)
         return "";
     return message;
 };
-
-
 
 std::string to_lower(std::string str){
     for (size_t i =0; str.size() > i; i++)
