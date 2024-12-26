@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+         #
+#    By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/23 21:00:51 by shamsate          #+#    #+#              #
-#    Updated: 2024/12/26 15:40:38 by shamsate         ###   ########.fr        #
+#    Updated: 2024/12/26 18:28:39 by abkhairi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ RM     = rm -rf
 
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-FILES = main  src/Client  src/Server dependencies/UseFcnt src/HandleCmd  src/Authentification src/Channels
+FILES = main  src/Client  src/Server dependencies/UseFcnt src/HandleCmd  src/Authentification src/Channels \
+		commande/join commande/kick commande/topic \
 
 SRC		= $(FILES:=.cpp)
 

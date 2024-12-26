@@ -3,15 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   Channels.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:20:58 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 15:43:37 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 17:31:24 by abkhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../include/Channels.hpp"
+
+bool    Channels::checkIfOperator(std::string nickname)
+{
+    std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
+
+    for(; it != _users.end(); it++) 
+    {
+        if(it->second.getNickNm() == nickname)
+            return it->first.first;
+    }
+    throw "bool not found";
+}
+
+void Channels::updateNickname(std::string oldnick, bool prv, Client &obj) 
+{    
+    std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
+    for (; it != _users.end(); ++it) 
+    {
+        if (it->second.getNickNm() == oldnick) 
+        {
+            int x = it->second.getCliFd();
+            std::pair<bool, int> newKey(prv, x);
+            _users[it->first] = obj;
+            break; 
+        }
+    }
+}
 
 Channels::Channels(std::string nmch){
     _name = nmch;
@@ -136,4 +163,3 @@ void printCh(std::map<std::string, Channels> ch){
         printInfoUser(it->second);
     }
 };
-

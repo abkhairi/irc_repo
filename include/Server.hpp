@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:17 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 15:41:43 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 18:28:12 by abkhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ class Client;
 class Channels;
 
 
-class Server{
+class Server
+{
     private :
         int                 _fdSockServ;
         int                 _port;
@@ -52,14 +53,16 @@ class Server{
         size_t              cliIdx;
         std::vector<struct pollfd> pollFdVec;
         std::vector<std::string>   cmdVec;
-        std::map<std::string, Channels>channels;
+        std::map<std::string, Channels> channels;
         void init_serv(int port, std::string pass, size_t &i);
         void setFdSockServ(int fd);
         void display();
+        int  checkNick(Client& client);
 
         void isRegistred(Client &cli, std::string time);
         void rmvCli(int id);
         // void sendMsg(Client &cli, std::string rec, std::string msg);
+        void    broadcastMessage(Channels _channel, std::string _message, int _clientfd);
 
 
 
@@ -74,6 +77,7 @@ class Server{
         //:::::::::Channel:::::::::::::::
 
         // void ft_commande_j_m(std::vector<std::string> cmd_final, size_t &_index_client, Client &client_);
+        bool find_channel(std::string chan);
         bool isMember(int fdcli, Channels ch);
         void broadCastMsg(Channels ch, std::string msg, int clifd);
         Channels& getChannel(std::string channel);
@@ -87,15 +91,15 @@ class Server{
         void authCli(std::string cmd, int socket_cli, Client &cli, size_t &idxCli);
         void handleAuthCmd(std::string cmdf, size_t &idxci);
         std::string recvCmd(int fdcli, size_t &idxcli);
-
+        // COMMANDE
+        void ft_join(std::vector<std::string> &vec_cmd, Client &client_,size_t &_index_client);
+        void kick(std::vector<std::string > vec_cmd, size_t _index_client, Client client_);
+        void topic(std::vector<std::string > vec_cmd,size_t _index_client,Client client_)
         // void ft_join(std::vector<std::string> &vec_cmd,Client &client_,size_t &_index_client);
         // void kick(std::vector<std::string > vec_cmd,size_t _index_client, Client client_);
         // void topic(std::vector<std::string > vec_cmd,size_t _index_client,Client client_);
         // void privmsg(std::vector<std::string > vec_cmd, size_t _indexclient, Client client_);
         // void quit(std::vector<std::string > vec_cmd, size_t _indexclient, Client client_);
-
-
-
 
 };
 void sendMsgToCli(int fdcli, std::string msg);
@@ -103,6 +107,9 @@ int  parsingPortPass(std::string port, std::string pass);
 void setNonBlocking(int fd);
 void    printCh(std::map<std::string, Channels>ch);
 void printInfoUser(Channels  &ch);
+std::string getListOfNames(std::map<std::pair<bool, int>, Client> _users);
+std::string to_lower(std::string str);
+
 
 
 #endif

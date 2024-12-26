@@ -3,15 +3,59 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:58:54 by r4v3n             #+#    #+#             */
-/*   Updated: 2024/12/26 15:44:27 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 18:13:42 by abkhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../include/Server.hpp"
+
+bool   Server::find_channel(std::string chan)
+{
+    std::map<std::string, Channels>::iterator it = channels.begin();
+    for (it = channels.begin(); it !=  channels.end(); it++)
+	{
+            if (to_lower(it->first) == to_lower(chan))
+            {
+                std::cout << "true and name channel is = " << (it->first) << std::endl;
+			    return true;
+            }
+	}
+	return false;
+}
+
+void    Server::broadcastMessage(Channels _channel, std::string _message, int _clientfd)
+{
+    std::map<std::pair<bool, int>, Client> mapOfClients = _channel.getMapUser();
+    std::map<std::pair<bool, int>, Client>::iterator iter;
+    for(iter = mapOfClients.begin(); iter != mapOfClients.end(); iter++)
+    {
+        if (iter->second.getCliFd() != _clientfd)
+            sendMsgToCli(iter->second.getCliFd(), _message);
+    }
+}
+
+int Server::checkNick(Client& client) 
+{
+    // vec_of_cmd = nick abdo
+    std::string str = "@&#:1234567890"; //str contient les caractères interdits pour le premier caractère du nickname : @&#:1234567890.
+    std::string s = "_";
+    for(size_t i = 0; i < cliVec.size(); i++) // in loop check if any client has the same nickname
+    {
+        if (cmdVec[1] == cliVec[i].getNickNm()) {
+            sendMsgToCli(client.getCliFd(), ERR_NICKNAMEINUSE(cmdVec[1]));
+            return 1; // nickname already in use
+        }
+    }
+    if (str.find(cmdVec[1][0]) != std::string::npos)
+        return 0; // nickname is invalid :Le premier caractère du surnom est invalide.
+    if (s.find(cmdVec[1][strlen(cmdVec[1].c_str()) - 1]) != std::string::npos)
+        return 3; // nickname is invalid : Le dernier caractère du surnom est invalide
+    return 4; // nickname is valid
+}
 
 Server::Server(int port, std::string pass){
     _port = port;
@@ -54,10 +98,6 @@ int  Server::getFdSockServ(){
     return (_fdSockServ);
 };
 
-
-
-
-
 void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, size_t &_index_client)
 {
     (void)socket_client;
@@ -78,7 +118,7 @@ void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, 
             return;
         // std::cout << "position = " << position << std::endl;
         std::string cmd_final = clienteref.getRecLn().substr(0 , position + 1);
-        std::cout << "cmd_final = " << cmd_final << std::endl;
+        // std::cout << "cmd_final = " << cmd_final << std::endl;
         handleAuthCmd(cmd_final, _index_client);
     }
     else
@@ -133,11 +173,8 @@ void    Server::init_serv(int  port, std::string pass, size_t &i)
                 }
                 else
                 {
-                    // is a client here : is a handle new msg
                     int sockcli = pollFdVec[i].fd;
                     std::string cmd = recvCmd(sockcli, i);
-                    // std::cout << "cmd = " << cmd << std::endl;
-                    // std::cout << "Message from client " << socket_client << ": " << cmd << std::endl;
                     Client &cliref = getCliOrg(sockcli);
                     cliref.setDataRec(cmd);
                     authCli(cmd, sockcli, cliref, i);

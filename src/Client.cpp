@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:01:29 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 00:58:24 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 17:03:17 by abkhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,25 @@
 std::string Client::getRecLn(){
     return _dataRec;
 };
+
+ Client::Client()
+ {
+    _pFlg = false;
+	_nFlg = false;
+	_uFlg = false;
+    _auth = false;
+    _operator = false;
+ }
+
+Client::Client(int sockefd)
+{
+    _cliSockFd = sockefd;
+    _pFlg = false;
+	_nFlg = false;
+	_uFlg = false;
+    _auth = false;
+    _operator = false;
+}
 
 std::string Client::getIpAddrCli(){
     return (_ipAddrCli);

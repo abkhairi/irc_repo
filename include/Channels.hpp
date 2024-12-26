@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channels.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 16:18:55 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 01:37:00 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 17:55:25 by abkhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ class Channels{
     public :
         Channels(std::string    nmch);
         void pushToMap(bool priv, Client &cli);
+        void updateNickname(std::string oldnick, bool prv, Client &obj);
         //:::::::::::::::::setter::::::::::::::::::
         void setPass(std::string pass);
         void setFlgpass(bool flgpass);
@@ -45,7 +46,8 @@ class Channels{
         void setNmDisplay(std::string name);
         void setInv(bool inv);
         void setTopic(std::string topic) ;
-        void  setTopicAttr(std::string topic, bool topc, std::string seter, std::string time);
+        void setTopicAttr(std::string topic, bool topc, std::string seter, std::string time);
+        bool checkIfOperator(std::string nickname);
        //:::::::::::::::::Getter::::::::::::::::::
         bool            getInv();
         bool            getSiUserLimit();
@@ -66,4 +68,7 @@ class Channels{
         bool	        isInvited(int sockfd);
         void            deleteCli(std::string nick);
 };
+
+
+
 #endif

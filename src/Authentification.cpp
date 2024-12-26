@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Authentification.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:10 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 15:46:49 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 18:25:55 by abkhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ std::string getHostNm(){
 
 
 
-void Server::handleAuthCmd(std::string cmdf, size_t &idxcli){
-
-std::vector<std::string> &cmdvec = cmdVec;
+void Server::handleAuthCmd(std::string cmdf, size_t &idxcli)
+{
+    std::vector<std::string> &cmdvec = cmdVec;
     // ft_gethostname();
     char hostnm[256]; // Buffer to store the hostname
     (void)cmdf;
@@ -41,6 +41,7 @@ std::vector<std::string> &cmdvec = cmdVec;
 
     // std::cout << "size of vector = " << vec_of_commande.size() << std::endl;
     // ici segfault if nc localhost 4545 after click sur entre hhhhhh
+    std::string cmd = to_lower(cmdvec[0]);
     if (cli.getAuth() == false)
     {
         if (cmdvec.size() <= 1)
@@ -119,17 +120,85 @@ std::vector<std::string> &cmdvec = cmdVec;
             cmdvec.clear();
             return ;
         }
-        else if(cmdvec[0] == "nick")
+        else if (cmdvec[0] == "nick")
         {
             // change nick the user
+            // flag = 1;
+            Client &x = getCliByIdx(cliIdx - 1);
+            int res = checkNick(getCliByIdx(cliIdx -1));// check if deja un client avec le meme nickname
+            if (res == 0 || res == 1 || res == 3) 
+            {
+                if (res == 0) 
+                {
+                    sendMsgToCli(cli.getCliFd(), RPL_ERRONEUSNICKNAME(_hostIp, cli.getNickNm()));
+                }
+            }
+            else
+            {
+                if (cmdVec.size() < 2 || cmdVec[1] == ":")
+                    sendMsgToCli(cli.getCliFd(), RPL_NONICKNAMEGIVEN(cli.getNickNm(), _hostIp));
+                else 
+                {
+                    std::string oldNick = cli.getNickNm();
+                    std::vector<std::string> vec_of_name_chan = x.getChNm();
+                    getCliByIdx(cliIdx - 1).setNickNm(cmdVec[1]);
+                    std::vector<std::string>::iterator it;
+                    for(it = vec_of_name_chan.begin(); it != vec_of_name_chan.end(); it++) 
+                    {
+                        Channels &chan = getChannel(*it);
+                        chan.updateNickname(oldNick,  chan.checkIfOperator(oldNick), getCliByIdx(cliIdx - 1));
+                        SendToAll(chan, NICKNAME_RPLY(oldNick, cli.getUser(), _hostIp, cmdVec[1]));
+                    }
+                    sendMsgToCli(cli.getCliFd(), RPL_NICKCHANGE(oldNick ,cmdVec[1] ,_hostIp));
+                }
+            }
         }
-        else
+        if (cmd == "join")
         {
-           // ft_commande_j_m(vec_of_commande, _index_client, client_);
+            if (cmdvec.size() < 2)
+                sendMsgToCli(cli.getCliFd(), ERR_NEEDMOREPARAMS(cli.getNickNm(), _hostIp));
+            else
+                ft_join(cmdvec, cli, idxcli);
         }
-        cmdvec.clear();
+        else if (cmd == "kick")
+        {
+            kick(cmdvec, idxcli, cli);
+        }
+        else if (cmd == "topic")
+        {
+            topic(cmdvec, idxcli, cli);
+        }
+        // else if (cmd == "privmsg")
+        // {
+        //     privmsg(vec_cmd, _index_client, client_);
+        // }
+        // else if (cmd == "privmsg")
+        // {
+        //     privmsg(vec_cmd, _index_client, client_);
+        // }
+        // else if (cmd == "quit")
+        // {
+        //     quit(vec_cmd, _index_client, client_);
+        // }
+        // else if (cmd == "invite")
+        // {
+        //     invite(vec_cmd, _index_client, client_);
+        // }
+        // else if (cmd == "mode")
+        // {
+        //     mode(vec_cmd, _index_client, client_);
+        // }
+        // else if (cmd == "part")
+        // {
+        //     part(vec_cmd, _index_client, client_);
+        // }
+        // else
+        // {
+        //     send_msg_to_clinet(client_.get_client_fd(), ERR_UNKNOWNCOMMAND(host_ip, vec_cmd[0]));
+        // }
+        // cmdvec.clear();
+        // mod.clear();
     }
-
 }
 
 

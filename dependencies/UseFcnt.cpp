@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   UseFcnt.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:37 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 00:59:41 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 17:45:58 by abkhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,3 +56,17 @@ void setNonBlocking(int fd){
         exit(EXIT_FAILURE);
     }
 };
+
+std::string getListOfNames(std::map<std::pair<bool, int>, Client> _users)
+{
+    std::string listOfNames;
+    std::map<std::pair<bool, int>, Client>::iterator iter;
+    for (iter = _users.begin(); iter != _users.end(); iter++)
+    {
+        if (iter->first.first == true)
+            listOfNames += "@" + iter->second.getNickNm() + " ";
+        else
+            listOfNames += iter->second.getNickNm() + " ";
+    }
+    return listOfNames;
+}
