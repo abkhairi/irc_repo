@@ -6,7 +6,7 @@
 /*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:20:58 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 17:31:24 by abkhairi         ###   ########.fr       */
+/*   Updated: 2024/12/26 18:47:36 by abkhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,11 @@ bool	Channels::isInvited(int sockfd){
     }
     return false;
 };
+
+std::string channels::get_name_chan()
+{
+    return (_name);
+}
 
 bool Channels::getInv(){
     return (_inv);

@@ -6,7 +6,7 @@
 /*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:17 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 18:28:12 by abkhairi         ###   ########.fr       */
+/*   Updated: 2024/12/26 18:48:09 by abkhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,9 @@ class Server
         // COMMANDE
         void ft_join(std::vector<std::string> &vec_cmd, Client &client_,size_t &_index_client);
         void kick(std::vector<std::string > vec_cmd, size_t _index_client, Client client_);
-        void topic(std::vector<std::string > vec_cmd,size_t _index_client,Client client_)
-        // void ft_join(std::vector<std::string> &vec_cmd,Client &client_,size_t &_index_client);
-        // void kick(std::vector<std::string > vec_cmd,size_t _index_client, Client client_);
-        // void topic(std::vector<std::string > vec_cmd,size_t _index_client,Client client_);
-        // void privmsg(std::vector<std::string > vec_cmd, size_t _indexclient, Client client_);
-        // void quit(std::vector<std::string > vec_cmd, size_t _indexclient, Client client_);
+        void topic(std::vector<std::string > vec_cmd,size_t _index_client,Client client_);
+        void privmsg(std::vector<std::string > vec_cmd, size_t _indexclient, Client client_);
+
 
 };
 void sendMsgToCli(int fdcli, std::string msg);

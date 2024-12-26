@@ -28,7 +28,7 @@ void Server::topic(std::vector<std::string > vec_cmd,size_t _index_client,Client
             else 
             {
                 sendMsgToCli(client_.getCliFd(),RPL_TOPICDISPLAY(_hostIp, client_.getNickNm(),channel_.getNmChDispaly(),channel_.getTopic()));
-                sendMsgToCli(client_.getCliFd(),RPL_TOPICWHOTIME(_hostIp ,channel_.getNmChDispaly(), client_.getNickNm(),channel_.getTopicSeter(),client_.get_user(),channel_.v()));
+                sendMsgToCli(client_.getCliFd(),RPL_TOPICWHOTIME(_hostIp ,channel_.getNmChDispaly(), client_.getNickNm(),channel_.getTopicSeter(),client_.getUser(),channel_.getTopicTime()));
             }
         }
         if (vec_cmd.size() >= 3) 
