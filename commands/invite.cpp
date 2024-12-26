@@ -6,16 +6,15 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 21:07:06 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 21:07:12 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 21:11:39 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Server.hpp"
 
-void    Server::invite(std::vector<std::string > veccmd, size_t idxcli, Client cli)
-{
+void    Server::invite(std::vector<std::string > veccmd, size_t idxcli, Client cli){
     size_t index = 0;
-    try 
+    try
     {
         channels &obj = getChannel(veccmd[2]);
         if(obj.existe_nick(veccmd[1]) == true)
@@ -51,4 +50,4 @@ void    Server::invite(std::vector<std::string > veccmd, size_t idxcli, Client c
         veccmd.clear();
         return ;
     }
-}
+};

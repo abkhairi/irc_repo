@@ -6,14 +6,13 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 21:07:19 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 21:07:21 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 21:12:23 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Server.hpp"
 
-void Server::part(std::vector<std::string> veccmd,size_t idxcli,Client cli)
-{
+void Server::part(std::vector<std::string> veccmd,size_t idxcli,Client cli){
     try
     {
         rmvFromCh(cli.getCliFd());
@@ -29,4 +28,4 @@ void Server::part(std::vector<std::string> veccmd,size_t idxcli,Client cli)
         veccmd.clear();
         return ;
     }
-}
+};

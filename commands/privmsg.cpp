@@ -6,15 +6,14 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 21:07:24 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 21:07:28 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 21:12:45 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Server.hpp"
 
 
-void    Server::sendMsg(Client &cli, std::string vec1, std::string msg)
-{
+void    Server::sendMsg(Client &cli, std::string vec1, std::string msg){
     std::string senderNick = cli.getNickNm(); // abkhairi
     std::string senderUsername = cli.getUser(); // a
     if (channels.size() == 0 && vec1[0] == '#') // if not have channel
@@ -51,10 +50,9 @@ void    Server::sendMsg(Client &cli, std::string vec1, std::string msg)
             i++;
         }
     }
-}
+};
 
-void Server::prvMsg(std::vector<std::string > vec_cmd, size_t _indexclient, Client client_)
-{
+void Server::prvMsg(std::vector<std::string > vec_cmd, size_t _indexclient, Client client_){
     std::string msg;
 
     for(size_t i = 0; i < vec_cmd.size(); i++)
@@ -73,6 +71,6 @@ void Server::prvMsg(std::vector<std::string > vec_cmd, size_t _indexclient, Clie
     if (msg[0] == ':')
         msg = msg.substr(1);
     sendMsg(client_, vec_cmd[1], msg);
-}
+};
 
 

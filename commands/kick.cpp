@@ -6,14 +6,13 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 21:08:46 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 21:08:48 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 21:12:13 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Server.hpp"
 
-void Server::kick(std::vector<std::string > vec_cmd, size_t _index_client, Client client_)
-{
+void Server::kick(std::vector<std::string > vec_cmd, size_t _index_client, Client client_){
     (void)_index_client;
     // (void)client_;
     std::stringstream users(vec_cmd[2]);
@@ -72,7 +71,7 @@ void Server::kick(std::vector<std::string > vec_cmd, size_t _index_client, Clien
             // 	sendTo(ERR_USERNOTINCHANNEL(Server::_hostname, vec[1]));
             // 	return ;
             // }
-            else 
+            else
             {
                 SendToAll(obj_chan, RPL_KICK(client_.getNickNm(), client_.getUser(), _hostIp, user, vec_cmd[1], commntaire));
                 obj_chan.deleteCli(user);
@@ -83,5 +82,5 @@ void Server::kick(std::vector<std::string > vec_cmd, size_t _index_client, Clien
         {
         sendMsgToCli(client_.getCliFd(), ERR_NOSUCHCHANNEL(_hostIp, vec_cmd[1], client_.getNickNm()));
     }
-    }
+    };
 }

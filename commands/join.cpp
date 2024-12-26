@@ -6,14 +6,13 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 21:08:51 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 21:09:57 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 21:11:56 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Server.hpp"
 
-void Server::ft_join(std::vector<std::string> &vec_cmd, Client &client_, size_t &_index_client)
-{
+void Server::ft_join(std::vector<std::string> &vec_cmd, Client &client_, size_t &_index_client){
     (void)_index_client;
     
     std::string nickname = client_.getNickNm();
@@ -104,4 +103,4 @@ void Server::ft_join(std::vector<std::string> &vec_cmd, Client &client_, size_t 
     printCh(channels);
     // print_name_channel(client_); for display all channel the obj client that join
     vec_cmd.clear();
-}
+};
