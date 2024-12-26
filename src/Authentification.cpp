@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Authentification.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:10 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 18:42:22 by abkhairi         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:32:15 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ void Server::handleAuthCmd(std::string cmdf, size_t &idxcli)
         }
         else if (cmd == "privmsg")
         {
-            privmsg(cmdvec, idxcli, cli);
+            prvMsg(cmdvec, idxcli, cli);
         }
         // else if (cmd == "privmsg")
         // {
