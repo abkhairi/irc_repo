@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Channels.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 16:18:55 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 18:48:06 by abkhairi         ###   ########.fr       */
+/*   Updated: 2024/12/26 19:21:48 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ class Channels{
         void setTopicAttr(std::string topic, bool topc, std::string seter, std::string time);
         bool checkIfOperator(std::string nickname);
        //:::::::::::::::::Getter::::::::::::::::::
-        std::string get_name_chan();
         bool            getInv();
         bool            getSiUserLimit();
         std::string     getPass();
