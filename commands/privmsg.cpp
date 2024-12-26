@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   privmsg.cpp                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/26 21:07:24 by shamsate          #+#    #+#             */
+/*   Updated: 2024/12/26 21:07:28 by shamsate         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/Server.hpp"
 
 
@@ -33,7 +45,7 @@ void    Server::sendMsg(Client &cli, std::string vec1, std::string msg)
         {
             if (cliVec[i].getNickNm() == vec1)
             {
-                sendMsgToCli(cliVec[i].getCliFd(), ":" + senderNick + "!~" + senderUsername + "@127.0.0.1 PRIVMSG " + vec1 + " :" + _message + "\r\n");
+                sendMsgToCli(cliVec[i].getCliFd(), ":" + senderNick + "!~" + senderUsername + "@127.0.0.1 PRIVMSG " + vec1 + " :" + msg + "\r\n");
                 return ;
             }
             i++;

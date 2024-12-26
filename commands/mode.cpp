@@ -1,7 +1,6 @@
 #include "../include/Server.hpp"
 
-int serverr::modeSplit(std::string vec_cmd, cliente client_) 
-{
+int Server::modeSplit(std::string vec_cmd, Client client_){
     // vec_of_cmd = "MODE #chan1 +o nickname +k key";
     //vec_cmd = "+o nickname +k key"
     std::cout << "vec_cmd ===>  " << vec_cmd << std::endl;
@@ -13,7 +12,7 @@ int serverr::modeSplit(std::string vec_cmd, cliente client_)
         if (vec_cmd[i] != '-' && vec_cmd[i] != '+' && vec_cmd[i] != 'i' 
         && vec_cmd[i] != 't' && vec_cmd[i] != 'o' && vec_cmd[i] != 'k' && vec_cmd[i] != 'l' && vec_cmd[i] != 's' && vec_cmd[i] != 'n') 
         {
-            send_msg_to_clinet(client_.get_client_fd(), ERR_UNKNOWNMODE(host_ip,client_.get_nickname(), vec_cmd[i]));
+            sendMsgToCli(client_.getCliFd(), ERR_UNKNOWNMODE(_hostIp,client_.getNickNm(), vec_cmd[i]));
             return 1;
         }
         if (vec_cmd[i] == '-' || vec_cmd[i] == '+')
@@ -28,35 +27,35 @@ int serverr::modeSplit(std::string vec_cmd, cliente client_)
             res += vec_cmd[i];
         }
         if (vec_cmd[i] == 'o' || vec_cmd[i] == 'k' || vec_cmd[i] == 'l')
-            mod.push_back(std::make_pair(res,vec_of_cmd[idex++]));
+            mod.push_back(std::make_pair(res,cmdVec[idex++]));
         else
             mod.push_back(std::make_pair(res,""));
     }
     return 0;
 }
 
-void serverr::mode(std::vector<std::string > vec_cmd, size_t _index_client, cliente client_)
+void Server::mode(std::vector<std::string > veccmd, size_t idxcli, Client cli)
 {
     // MODE <channel> <mode> [<parameters>]
     std::string channel;
     std::string channel_name;
-    if (vec_cmd.size() < 2)
+    if (veccmd.size() < 2)
     {
-        send_msg_to_clinet(client_.get_client_fd(), ERR_NEEDMOREPARAMS(client_.get_nickname(), host_ip));
-        vec_cmd.clear();
+        sendMsgToCli(cli.getCliFd(), ERR_NEEDMOREPARAMS(cli.getNickNm(), _hostIp));
+        veccmd.clear();
         return ;
     }
     try
     {
-        channels &obj_chan = getChannel(vec_cmd[1]);
-        channel = client_.get_nickname();
+        channels &obj_chan = getChannel(veccmd[1]);
+        channel = cli.getNickNm();
         channel_name = obj_chan.get_name_chanel_display();
-        if (vec_cmd.size() > 2)
+        if (veccmd.size() > 2)veccmd
         {
-            if (modeSplit(vec_cmd[2], client_) == 1)
+            if (modeSplit(veccmd[2], cli) == 1)
             {
                 mod.clear();
-                vec_cmd.clear();
+                veccmd.clear();
                 return ;
             }
         }
@@ -66,30 +65,30 @@ void serverr::mode(std::vector<std::string > vec_cmd, size_t _index_client, clie
             if (mod[i].first == "+i")
             {
                 if (obj_chan.get_inv() == true)
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), RPL_ALLINV(vec_cmd[1]));
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_ALLINV(veccmd[1]));
                 else if (obj_chan.check_if_operator(channel) == false)
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), ERR_CHANOPRIVSNEEDED(host_ip,channel_name));
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                 else
                 {
-                    SendToAll(obj_chan, RPL_MODE(obj_chan.get_name_chanel_display(), client_.get_nickname(), "+i"));
+                    SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDispaly(), cli.getNickNm(), "+i"));
                     obj_chan.set_inv(true);
                 }
             }
             else if (mod[i].first == "-i")
             {
                 if (obj_chan.get_inv() == false)
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), RPL_NOTINV(vec_cmd[1]));
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_NOTINV(veccmd[1]));
                 else if (obj_chan.check_if_operator(channel) == false)
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), ERR_CHANOPRIVSNEEDED(host_ip,channel_name));
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                 else {
-                    SendToAll(obj_chan, RPL_MODE(obj_chan.get_name_chanel_display(), client_.get_nickname(), "-i"));
+                    SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDispaly(), cli.getNickNm(), "-i"));
                     obj_chan.set_inv(false);
                 }
             }
             if (mod[i].first == "+t")
             {
                 if (obj_chan.check_if_operator(channel) == false)
-                    send_msg_to_clinet(get_client_by_index(_index_client - 1).get_client_fd(), ERR_CHANOPRIVSNEEDED(host_ip,channel_name));
+                    sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                 else    
                 {
                     SendToAll(obj_chan, RPL_MODE(obj_chan.get_name_chanel_display(), client_.get_nickname(), "+t"));

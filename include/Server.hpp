@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:17 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 20:26:41 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 21:08:29 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,10 @@ class Server
         void prvMsg(std::vector<std::string > vec_cmd, size_t _indexclient, Client client_);
         void Server::part(std::vector<std::string> veccmd,size_t idxcli,Client cli);
         void eraseCh(std::string _name);
-
-
-
+        int  modeSplit(std::string vec_cmd, Client client_);
+        void mode(std::vector<std::string > veccmd, size_t idxcli, Client cli);
+        void quit(std::vector<std::string > vec_cmd, size_t idxcli, Client cli);
+        void invite(std::vector<std::string > vec_cmd, size_t _indexclient, Client client_);
 };
 void sendMsgToCli(int fdcli, std::string msg);
 int  parsingPortPass(std::string port, std::string pass);
