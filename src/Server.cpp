@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:58:54 by r4v3n             #+#    #+#             */
-/*   Updated: 2024/12/26 20:12:15 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 20:29:44 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,8 +236,7 @@ Channels & Server::getChannel(std::string channel){
     return it->second;
 };
 
-void    Server::SendToAll(Channels ch, std::string msg)
-{
+void    Server::SendToAll(Channels ch, std::string msg){
     std::map<std::pair<bool, int>, Client> mapOfClients = ch.getMapUser();
     std::map<std::pair<bool, int>, Client>::iterator iter;
     for(iter = mapOfClients.begin(); iter != mapOfClients.end(); iter++)
@@ -246,23 +245,25 @@ void    Server::SendToAll(Channels ch, std::string msg)
 };
 
 void Server::rmvFromCh(int client_fd){
-    std::map<std::string, Channels>::iterator it = _channels.begin();
+    std::map<std::string, Channels>::iterator it = channels.begin();
 
-    for (; it != channels_.end(); it++)
+    for (; it != channels.end(); it++)
     {
-        std::map<std::pair<bool, int>, Client> &users_map = it->second.get_map_user();
+        std::map<std::pair<bool, int>, Client> &users_map = it->second.getMapUser();
         std::map<std::pair<bool, int>, Client>::iterator iter = users_map.begin();
         for (;iter != users_map.end(); ++iter)
         {
             if(client_fd == iter->second.getCliFd())
             {
-                
-                broadCastMsg(it->second, RPL_QUIT(iter->second.get_nickname(), host_ip, "good bye"), client_fd);
+                broadCastMsg(it->second, RPL_QUIT(iter->second.getNickNm(), _hostIp, "good bye"), client_fd);
                 users_map.erase(iter);
-                it->second.set_size_users(-1);
+                it->second.setSizeUser(-1);
                 break ;
             }
         }
     }
 }
 
+void Server::eraseCh(std::string _name){
+    channels.erase(_name);
+};

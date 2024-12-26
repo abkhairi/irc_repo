@@ -23,7 +23,7 @@ void    Server::sendMsg(Client &cli, std::string vec1, std::string msg)
     }
     else if (vec1[0] == '#')
     {
-        sendMsgToCli(cli.getCliFd(), ERR_NOSUCHCHANNEL(senderNick, senderNick, it->second.get_name_chan()));
+        sendMsgToCli(cli.getCliFd(), ERR_NOSUCHCHANNEL(senderNick, senderNick, it->second.getNmCh()));
         return ;
     }
     else
