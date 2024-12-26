@@ -6,15 +6,14 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 21:07:19 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 21:12:23 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:27:25 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Server.hpp"
 
 void Server::part(std::vector<std::string> veccmd,size_t idxcli,Client cli){
-    try
-    {
+    try{
         rmvFromCh(cli.getCliFd());
         channels &obj = getChannel(cmdVec[1]);
         if (obj.get_size_user() == 0)
@@ -22,8 +21,7 @@ void Server::part(std::vector<std::string> veccmd,size_t idxcli,Client cli){
         sendMsgToCli(cli.getCliFd(), RPL_QUIT(cli.getNickNm(),_hostIp, "good bye"));
         sendMsgToCli(cli.getCliFd(), RPL_PART(cli.getNickNm(),cli.getUser(), _hostIp, cmdVec[1]));
     }
-    catch(const char *)
-    {
+    catch(const char *){
         sendMsgToCli(cli.getCliFd(), ERR_NOSUCHCHANNEL(_hostIp, cli.getNickNm(), cmdVec[1]));
         veccmd.clear();
         return ;

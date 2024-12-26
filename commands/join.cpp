@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 21:08:51 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 21:11:56 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:24:03 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,15 @@ void Server::ft_join(std::vector<std::string> &vec_cmd, Client &client_, size_t 
     std::string password;
     std::string list_operator;
 
-    while (std::getline(split_channel, name_channel, ','))
-    {
+    while (std::getline(split_channel, name_channel, ',')){
         std::string name_chan_lower = to_lower(name_channel);
         std::cout << "name channel = " << name_chan_lower << std::endl;
         std::map<std::string, Channels>::iterator it = channels.find(name_chan_lower);
-        if (it == channels.end()) // dos not channel so name name_chan_lower 
-        {
+        if (it == channels.end()){// dos not channel so name name_chan_lower
             list_operator = "@"+nickname;
             Channels new_channel(name_chan_lower);
             new_channel.pushToMap(true, client_);// push to map_user
-            if (std::getline(split_key, password, ','))
-            {
+            if (std::getline(split_key, password, ',')){
                 new_channel.setPass(password);
                 new_channel.setFlgpass(true);
             }
@@ -50,21 +47,18 @@ void Server::ft_join(std::vector<std::string> &vec_cmd, Client &client_, size_t 
         else if (it != channels.end()) // deja kyna channel
         {
             // check if client into channel
-            if (isMember(client_.getCliFd(), it->second) == true)
-            {
+            if (isMember(client_.getCliFd(), it->second) == true){
                 std::cout << "Client " << nickname << " is already a member in this channel" << std::endl;
                 return ;
             }
             if (it->second.getSiUserLimit() == true)
             {
-                if (it->second.getSizeuser() >= it->second.getLimit())
-                {
+                if (it->second.getSizeuser() >= it->second.getLimit()){
                     sendMsgToCli(client_.getCliFd(), "471 " + nickname + " " +  it->second.getNmChDispaly() + " :Cannot join channel, it's full (+l)\r\n");
                     return ;
                 }
             }
-            if (it->second.getFlgpass() == true)
-            {
+            if (it->second.getFlgpass() == true){
                 std::getline(split_key,password, ',');
                 if(it->second.getPass() != password)
                 {
@@ -72,8 +66,7 @@ void Server::ft_join(std::vector<std::string> &vec_cmd, Client &client_, size_t 
                     return ;
                 }
             }
-            if (it->second.getInv() == true && it->second.isInvited(client_.getCliFd()) == false)
-            {
+            if (it->second.getInv() == true && it->second.isInvited(client_.getCliFd()) == false){
                 //<client> <channel> :Cannot join channel (+i)
                 sendMsgToCli(client_.getCliFd(), "473 " + nickname + " " +  it->second.getNmChDispaly() + " :Cannot join channel (+i)\r\n");
                 return ;

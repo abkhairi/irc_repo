@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 21:08:46 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 21:12:13 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:22:57 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,8 @@ void Server::kick(std::vector<std::string > vec_cmd, size_t _index_client, Clien
     std::string commntaire;
 
     // std::string nick = client_.get_nickname();
-    while (std::getline(users,user, ',')) 
-    {
-        try
-        {
+    while (std::getline(users,user, ',')) {
+        try{
             if (client_.getAuth() == false)
             {
                 sendMsgToCli(client_.getCliFd(),ERR_NOTREGISTERED(client_.getNickNm(), _hostIp));
@@ -40,8 +38,7 @@ void Server::kick(std::vector<std::string > vec_cmd, size_t _index_client, Clien
                 commntaire = ":no respect rule";
             else 
             {
-                for (size_t i = 3; i < vec_cmd.size(); i++) 
-                {
+                for (size_t i = 3; i < vec_cmd.size(); i++){
                     commntaire = commntaire + vec_cmd[i];
                     if (i < vec_cmd.size()) 
                         commntaire = commntaire + " ";
@@ -58,12 +55,11 @@ void Server::kick(std::vector<std::string > vec_cmd, size_t _index_client, Clien
                 sendMsgToCli(client_.getCliFd(),ERR_NOSUCHCHANNEL(_hostIp, str, client_.getNickNm()));
                 return ;
             }
-            if (obj_chan.checkIfOperat(client_.getNickNm()) == false) 
-            {
+            if (obj_chan.checkIfOperat(client_.getNickNm()) == false) {
                 sendMsgToCli(client_.getCliFd(),ERR_NOTOP(_hostIp, str));
                 return ;
             }
-            if (obj_chan.nickExist(user) == false) {
+            if (obj_chan.nickExist(user) == false){
                 sendMsgToCli(client_.getCliFd(), ERR_NOSUCHNICK(_hostIp, str, vec_cmd[2]));
                 return;
             }
