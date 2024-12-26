@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 21:08:51 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 21:08:53 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 21:09:57 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,12 @@ void Server::ft_join(std::vector<std::string> &vec_cmd, Client &client_, size_t 
             // send msg to client for entrer to channel
             sendMsgToCli(client_.getCliFd(), RPL_JOIN(nickname, nickname, it->second.getNmChDispaly(), _hostIp));
             // send msg all client for any client entrer channel 
-            broadcastMessage(it->second, RPL_JOIN(nickname, nickname,it->second.getNmChDispaly(), _hostIp), client_.getCliFd());
+            broadCastMsg(it->second, RPL_JOIN(nickname, nickname,it->second.getNmChDispaly(), _hostIp), client_.getCliFd());
             // diaplay list the client in channels par exmple : 353 hicham = #chan1 :idryab hicham @abkhairi
             sendMsgToCli(client_.getCliFd(), RPL_NAMREPLY(_hostIp, list_operator, it->second.getNmChDispaly(), nickname));
             //Sent as a reply to the NAMES command, this numeric specifies the end of a list of channel member names.
             sendMsgToCli(client_.getCliFd(), RPL_ENDOFNAMES(_hostIp, nickname, it->second.getNmChDispaly()));
-            broadcastMessage(it->second, RPL_ENDOFNAMES(_hostIp, nickname, it->second.getNmChDispaly()), client_.getCliFd());
+            broadCastMsg(it->second, RPL_ENDOFNAMES(_hostIp, nickname, it->second.getNmChDispaly()), client_.getCliFd());
             // send msg to client topic the channel = sujet de channel
             sendMsgToCli(client_.getCliFd(), RPL_TOPIC(_hostIp, nickname, it->second.getNmChDispaly(),it->second.getTopic()));
             // send msg to client specifically who set topic (sujet) the channel
