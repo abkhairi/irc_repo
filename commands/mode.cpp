@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 21:10:41 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 23:15:20 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:20:36 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ void Server::mode(std::vector<std::string > veccmd, size_t idxcli, Client cli)
                 {
                     obj_chan.setUserLimit(false);
                     obj_chan.setLimit(-1);
-                    SendToAll(obj_chan, RPL_MODE(obj_chan.get_name_chanel_display(), client_.get_nickname(), "-l"));
+                    SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDisplay(), cli.getNickNm(), "-l"));
                 }
             }
         }
@@ -226,9 +226,9 @@ void Server::mode(std::vector<std::string > veccmd, size_t idxcli, Client cli)
     }
     catch(const char *) 
     {
-        send_msg_to_clinet(client_.get_client_fd(), ERR_NOSUCHCHANNEL(host_ip, client_.get_nickname(), vec_cmd[1]));
+        sendMsgToCli(cli.getCliFd(), ERR_NOSUCHCHANNEL(_hostIp, cli.getNickNm(), veccmd[1]));
         mod.clear();
-        vec_cmd.clear();
+        veccmd.clear();
         return ;
     }
 }
