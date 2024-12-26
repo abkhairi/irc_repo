@@ -1,19 +1,19 @@
 #include "../include/Server.hpp"
 
-void    Server::quit(std::vector<std::string > vec_cmd, size_t _indexclient, cliente client_)
+void    Server::quit(std::vector<std::string > vec_cmd, size_t idxcli, Client cli)
 {
-    int client_sock_fd =  client_.get_client_fd();
-    std::cout << "Client "<< client_sock_fd << " disconnected" << std::endl;
-    close(client_sock_fd);
-    vec_pollfd.erase(vec_pollfd.begin() + _index_client);
-    remove_Client(_index_client - 1);
-    remove_From_Channel(client_sock_fd);
-    _index_client--;
-     std::map<std::string, channels>::iterator it = channels_.begin();
-    while (it != channels_.end())
+    int clisockfd =  cli.getCliFd();
+    std::cout << "Client "<< clisockfd << " disconnected" << std::endl;
+    close(clisockfd);
+    pollFdVec.erase(pollFdVec.begin() + idxcli);
+    rmvCli(idxcli - 1);
+    rmvFromCh(clisockfd);
+    idxcli--;
+    std::map<std::string, Channels>::iterator it = channels.begin();
+    while (it != channels.end())
     {
-        if (it->second.get_size_user() == 0)
-            it = channels_.erase(it);
+        if (it->second.getSizeuser() == 0)
+            it = channels.erase(it);
         else
             ++it;
     }

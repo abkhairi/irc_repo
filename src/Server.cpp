@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:58:54 by r4v3n             #+#    #+#             */
-/*   Updated: 2024/12/26 18:13:42 by abkhairi         ###   ########.fr       */
+/*   Updated: 2024/12/26 20:12:15 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,4 +244,25 @@ void    Server::SendToAll(Channels ch, std::string msg)
         sendMsgToCli(iter->second.getCliFd(), msg);
         // send_msg_to_clinet(iter->first.second, _message);
 };
+
+void Server::rmvFromCh(int client_fd){
+    std::map<std::string, Channels>::iterator it = _channels.begin();
+
+    for (; it != channels_.end(); it++)
+    {
+        std::map<std::pair<bool, int>, Client> &users_map = it->second.get_map_user();
+        std::map<std::pair<bool, int>, Client>::iterator iter = users_map.begin();
+        for (;iter != users_map.end(); ++iter)
+        {
+            if(client_fd == iter->second.getCliFd())
+            {
+                
+                broadCastMsg(it->second, RPL_QUIT(iter->second.get_nickname(), host_ip, "good bye"), client_fd);
+                users_map.erase(iter);
+                it->second.set_size_users(-1);
+                break ;
+            }
+        }
+    }
+}
 
