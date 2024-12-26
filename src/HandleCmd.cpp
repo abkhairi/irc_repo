@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:11:41 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/25 20:47:49 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 02:01:04 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,26 @@ std::string getListOfNames(std::map<std::pair<bool, int>, Client> _users)
             listOfNames += iter->second.getNickNm() + " ";
     }
     return (listOfNames);
+};
+
+void    Server::broadCastMsg(Channels ch, std::string msg, int clifd){
+    std::map<std::pair<bool, int>, Client> mapOfClients = ch.getMapUser();
+    std::map<std::pair<bool, int>, Client>::iterator iter;
+    for(iter = mapOfClients.begin(); iter != mapOfClients.end(); iter++)
+    {
+        if (iter->second.getCliFd() != clifd)
+            sendMsgToCli(iter->second.getCliFd(), msg);
+    }
+};
+
+bool Server::isMember(int fdcli, Channels ch){
+    std::map<std::pair<bool,int>, Client > user_map = ch.getMapUser();
+    for(std::map<std::pair<bool,int>, Client >::iterator it = user_map.begin(); it != user_map.end(); it++)
+    {
+        if (fdcli == it->second.getCliFd())
+            return  true;
+    }
+    return false;
 };
 
 void printInfoUser(Channels  &ch){

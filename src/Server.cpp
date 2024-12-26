@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:58:54 by r4v3n             #+#    #+#             */
-/*   Updated: 2024/12/26 01:42:16 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 02:22:52 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,137 @@ Client & Server::getCliOrg(int sockcli){
 int  Server::getFdSockServ(){
     return (_fdSockServ);
 };
+void Server::handleAuthCmd(std::string cmdf, size_t &idxcli){
 
+std::vector<std::string> &cmdvec = cmdVec;
+    // ft_gethostname();
+    char hostnm[256]; // Buffer to store the hostname
+    (void)cmdf;
+    if (gethostname(hostnm, sizeof(hostnm)) != 0)
+        std::cerr << "Error retrieving hostname: " << strerror(errno) << std::endl;
+    _hostIp = hostnm;
 
+    Client &cli = getCliByIdx(idxcli - 1);
+    std::string nick = cli.getNickNm();
+
+    // std::cout << "size of vector = " << vec_of_commande.size() << std::endl;
+    // ici segfault if nc localhost 4545 after click sur entre hhhhhh
+    if (cli.getAuth() == false)
+    {
+        if (cmdvec.size() <= 1)
+        {
+            if (cmdvec[0] == "nick")
+                sendMsgToCli(cli.getCliFd(), ERR_NONICKNAMEGIVEN(nick, _hostIp));
+            else if (cmdvec[0] != "nick" || cmdvec.size() == 0)
+                sendMsgToCli(cli.getCliFd(), ":IRC ==> 461 :Not enough parameters\r\n");
+            cmdvec.clear();
+            return ;
+        }
+        if (cmdvec[0] == "pass" && cmdvec[1] == _pass && cli.getFlgPass() == false)
+        {
+            if (cmdvec.size() == 2)
+            {
+                // std::cout << "is a pass cmd" << std::endl;
+                cli.setFlgPass(true);
+                cli.setPass(cmdvec[1]);
+            }
+            else
+                sendMsgToCli(cli.getCliFd(), ":IRC ==> 464 :Password incorrect\r\n");
+            cmdvec.clear();
+            return ;
+        }
+        else if (cmdvec[0] == "pass" && cmdvec[1] != _pass && cli.getFlgPass() == false)
+        {
+            sendMsgToCli(cli.getCliFd(), ":IRC ==> 464 :Password incorrect\r\n");
+            cmdvec.clear();
+            return ;
+        }
+        if (cmdvec[0] == "nick" && cmdvec.size() == 2 && cli.getFlgNick() == false)
+        {
+            // check if any client in vector has the same nickname ft_check_nickname()
+            cli.setFlgNick(true);
+            cli.setNickNm(cmdvec[1]);
+            cmdvec.clear();
+            return ;
+        }
+        else if (cmdvec[0] == "nick" && cmdvec.size() > 2 && cli.getFlgNick() == false)
+        {
+            sendMsgToCli(cli.getCliFd(), ":IRC ==> 432 :Erroneous nickname\r\n");
+            cmdvec.clear();
+            return ;
+        }
+        if (cmdVec[0] == "user" && cli.getFlgNick() && cli.getFlgPass())
+        {
+            // std::cout << "herre fi user\n";
+            if (cmdvec.size() > 5 || cmdvec[1].empty())
+            {
+                sendMsgToCli(cli.getCliFd(), ":irc.abkhairi.chat 461 :Need more parameters\r\n");
+                cmdvec.clear();
+                return ;
+            }
+            else
+            {
+                cli.setFlgUser(true);
+                cli.setUser(cmdvec[1]);
+                cli.setRealNm(cmdvec[5]);
+                std::cout << "user is " << cli.getUser() << std::endl;
+                cmdvec.clear();
+                cli.setAuth();
+                time_t currentTime = time(0); // time now non readable for humain
+                std::string time_ = ctime(&currentTime);
+                isRegistred(cli, time_);
+                return ;
+            }
+        }
+        cmdvec.clear();
+        return ;
+    }
+    else
+    {
+        if (cmdvec[0] == "pass" || cmdvec[0] == "user")
+        {
+            sendMsgToCli(cli.getCliFd(), ERR_ALREADYREGISTERED(nick, _hostIp));
+            cmdvec.clear();
+            return ;
+        }
+        else if(cmdvec[0] == "nick")
+        {
+            // change nick the user
+        }
+        else
+        {
+           // ft_commande_j_m(vec_of_commande, _index_client, client_);
+        }
+        cmdvec.clear();
+    }
+
+}
+void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, size_t &_index_client)
+{
+    (void)socket_client;
+    for (size_t i = 0; i < cmd.size(); i++)
+        cmd[i] = std::tolower(cmd[i]);
+    // pass abc
+    std::stringstream ss(cmd);
+    int i = 0;
+    while (ss >> cmd)
+    {
+        cmdVec.push_back(cmd);
+        i++;
+    }
+    if (strstr(clienteref.getRecLn().c_str(), "\n"))
+    {
+        size_t position = clienteref.getRecLn().find_first_of("\n");
+        if (position > clienteref.getRecLn().size())
+            return;
+        // std::cout << "position = " << position << std::endl;
+        std::string cmd_final = clienteref.getRecLn().substr(0 , position + 1);
+        std::cout << "cmd_final = " << cmd_final << std::endl;
+        handleAuthCmd(cmd_final, _index_client);
+    }
+    else
+        return ;
+};
 
 void    Server::init_serv(int  port, std::string pass, size_t &i)
 {
@@ -111,7 +240,7 @@ void    Server::init_serv(int  port, std::string pass, size_t &i)
                     // std::cout << "Message from client " << socket_client << ": " << cmd << std::endl;
                     Client &cliref = getCliOrg(sockcli);
                     cliref.setDataRec(cmd);
-                    authCli(cmd, sockcli, cliref, i);  
+                    authCli(cmd, sockcli, cliref, i);
                 }
             }
         }
@@ -122,26 +251,6 @@ void Server::setFdSockServ(int fd){
     _fdSockServ = fd;
 };
 
-bool Server::isMember(int fdcli, Channels ch){
-    std::map<std::pair<bool,int>, Client > user_map = ch.getMapUser();
-    for(std::map<std::pair<bool,int>, Client >::iterator it = user_map.begin(); it != user_map.end(); it++)
-    {
-        if (fdcli == it->second.getCliFd())
-            return  true;
-    }
-    return false;
-};
-
-void    Server::broadCastMsg(Channels ch, std::string msg, int clifd){
-    std::map<std::pair<bool, int>, Client> mapOfClients = ch.getMapUser();
-    std::map<std::pair<bool, int>, Client>::iterator iter;
-    for(iter = mapOfClients.begin(); iter != mapOfClients.end(); iter++)
-    {
-        if (iter->second.getCliFd() != clifd)
-            sendMsgToCli(iter->second.getCliFd(), msg);
-    }
-};
-
 void Server::isRegistred(Client &cli, std::string time){
     sendMsgToCli(cli.getCliFd(),RPL_WELCOME(cli.getNickNm(), cli.getIpAddrCli()));
     sendMsgToCli(cli.getCliFd(),RPL_YOURHOST(cli.getNickNm(), cli.getIpAddrCli()));
@@ -149,32 +258,6 @@ void Server::isRegistred(Client &cli, std::string time){
     sendMsgToCli(cli.getCliFd(),RPL_MYINFO(cli.getNickNm(), cli.getIpAddrCli()));
 };
 
-void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, size_t &_index_client)
-{
-    (void)socket_client;
-    for (size_t i = 0; i < cmd.size(); i++)
-        cmd[i] = std::tolower(cmd[i]);
-    // pass abc
-    std::stringstream ss(cmd);
-    int i = 0;
-    while (ss >> cmd)
-    {
-        cmdVec.push_back(cmd);
-        i++;
-    }
-    if (strstr(clienteref.getRecLn().c_str(), "\n"))
-    {
-        size_t position = clienteref.getRecLn().find_first_of("\n");
-        if (position > clienteref.getRecLn().size())
-            return;
-        // std::cout << "position = " << position << std::endl;
-        std::string cmd_final = clienteref.getRecLn().substr(0 , position + 1);
-        std::cout << "cmd_final = " << cmd_final << std::endl;
-        handleAuthCmd(cmd_final, _index_client);
-    }
-    else
-        return ;
-}
 std::string Server::recvCmd(int fdcli, size_t &idxcli)
 {
     char buffer[1024];
@@ -201,6 +284,8 @@ std::string Server::recvCmd(int fdcli, size_t &idxcli)
     return message;
 };
 
+
+
 std::string to_lower(std::string str){
     for (size_t i =0; str.size() > i; i++)
         str[i] = tolower(str[i]);
@@ -214,12 +299,5 @@ Channels & Server::getChannel(std::string channel){
     return it->second;
 };
 
-void    Server::SendToAll(Channels ch, std::string msg)
-{
-    std::map<std::pair<bool, int>, Client> mapOfClients = ch.getMapUser();
-    std::map<std::pair<bool, int>, Client>::iterator iter;
-    for(iter = mapOfClients.begin(); iter != mapOfClients.end(); iter++)
-        sendMsgToCli(iter->second.getCliFd(), msg);
-        // send_msg_to_clinet(iter->first.second, _message);
-};
+
 
