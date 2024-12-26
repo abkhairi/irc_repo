@@ -6,7 +6,7 @@
 #    By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/23 21:00:51 by shamsate          #+#    #+#              #
-#    Updated: 2024/12/26 19:23:30 by shamsate         ###   ########.fr        #
+#    Updated: 2024/12/26 21:16:40 by shamsate         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ RM     = rm -rf
 CFLAGS = -Wall -Wextra -Werror -std=c++98
 
 FILES = main  src/Client  src/Server dependencies/UseFcnt src/HandleCmd  src/Authentification src/Channels \
-		commands/join commands/kick commands/topic commande/privmsg\
+		commands/join commands/kick commands/topic commands/privmsg commands/part commands/quit\
+		commands/mode commands/invite\
 
 SRC		= $(FILES:=.cpp)
 
