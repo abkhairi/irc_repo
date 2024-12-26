@@ -6,7 +6,7 @@
 #    By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/12/23 21:00:51 by shamsate          #+#    #+#              #
-#    Updated: 2024/12/26 01:30:23 by shamsate         ###   ########.fr        #
+#    Updated: 2024/12/26 15:40:38 by shamsate         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,13 +15,13 @@ NAME   = ircserv
 
 CC     = c++
 
-HEADER =  include/Client.hpp  include/rep.hpp  include/Server.hpp
+HEADER =  include/Client.hpp  include/rep.hpp  include/Server.hpp include/Channels.hpp
 
 RM     = rm -rf
 
-CFLAGS = -Wall -Wextra -Werror -std=c++17
+CFLAGS = -Wall -Wextra -Werror -std=c++98
 
-FILES = main  src/Client  src/Server dependencies/UseFcnt
+FILES = main  src/Client  src/Server dependencies/UseFcnt src/HandleCmd  src/Authentification src/Channels
 
 SRC		= $(FILES:=.cpp)
 

@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:17 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 01:26:48 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 15:41:43 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@
 
 
 class Client;
+class Channels;
+
 
 class Server{
     private :
@@ -57,7 +59,7 @@ class Server{
 
         void isRegistred(Client &cli, std::string time);
         void rmvCli(int id);
-        void sendMsg(Client &cli, std::string rec, std::string msg);
+        // void sendMsg(Client &cli, std::string rec, std::string msg);
 
 
 
@@ -75,7 +77,7 @@ class Server{
         bool isMember(int fdcli, Channels ch);
         void broadCastMsg(Channels ch, std::string msg, int clifd);
         Channels& getChannel(std::string channel);
-        void    SendToAll(Channels ch, std::string _message);
+        void SendToAll(Channels ch, std::string msg);
 
 
 
@@ -99,5 +101,8 @@ class Server{
 void sendMsgToCli(int fdcli, std::string msg);
 int  parsingPortPass(std::string port, std::string pass);
 void setNonBlocking(int fd);
+void    printCh(std::map<std::string, Channels>ch);
+void printInfoUser(Channels  &ch);
+
 
 #endif

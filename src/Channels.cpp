@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:20:58 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 01:43:58 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 15:43:37 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,11 @@ std::string Channels::getNmCh(){
 std::string Channels::getPass(){
     return (_pass);
 }
-std::map<std::pair<bool,int>, Client >& Channels::getMapUser(){
+std::map<std::pair<bool, int>, Client >&Channels::getMapUser(){
 	return _users;
 }
 void Channels::setSizeUser(size_t size_user){
-    _userSize = size_user + _userSize; 
+    _userSize = size_user + _userSize;
 }
 bool Channels::getFlgpass(){
     return (_flgPass);
@@ -99,7 +99,7 @@ void Channels::setFlgpass(bool flagpass){
 }
 bool    Channels::checkIfOperat(std::string nickname){
     std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
-    for(; it != _users.end(); it++) 
+    for(; it != _users.end(); it++)
     {
         if(it->second.getNickNm() == nickname)
             return it->first.first;
@@ -124,3 +124,16 @@ void Channels::deleteCli(std::string nick){
             _users.erase(it++);
     }
 };
+void printCh(std::map<std::string, Channels> ch){
+    //print channel name and code
+    std::map<std::string, Channels>::iterator it = ch.begin();
+    for (it = ch.begin(); it != ch.end(); it++){
+        std::cout << WHITE << std::setfill('+') << std::setw(15) << "+" << RESET;
+        std::cout << YELLOW << " Channel " << RESET << WHITE<< std::setfill('+') << std::setw(15) << "+"<<RESET << std::endl;
+        std::cout << WHITE << "+" << RESET << BLUE << " NAME of channel : "<< RESET << WHITE<< it->first<< RESET<< "            +"<<  std::endl;
+        std::cout << WHITE << "+" << RESET << BLUE << " PASS of channel : "<< RESET << WHITE<< it->second.getPass()<< RESET<< "              +"<< std::endl;
+        std::cout << WHITE << "+++++++++++++++++++++++++++++++++++++++" << RESET << std::endl;
+        printInfoUser(it->second);
+    }
+};
+
