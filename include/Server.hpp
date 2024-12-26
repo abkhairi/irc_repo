@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:17 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 21:08:29 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:30:32 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ class Server
 
         void isRegistred(Client &cli, std::string time);
         void rmvCli(int id);
-        void   sendMsg(Client &cli, std::string vec1, std::string msg);
-        void Server::rmvFromCh(int client_fd);
+        void sendMsg(Client &cli, std::string vec1, std::string msg);
+        void rmvFromCh(int client_fd);
 
         Client &getCliOrg(int sockCli);
         Client &getCliByIdx(size_t idx);
@@ -94,7 +94,7 @@ class Server
         void kick(std::vector<std::string > vec_cmd, size_t _index_client, Client client_);
         void topic(std::vector<std::string > vec_cmd,size_t _index_client,Client client_);
         void prvMsg(std::vector<std::string > vec_cmd, size_t _indexclient, Client client_);
-        void Server::part(std::vector<std::string> veccmd,size_t idxcli,Client cli);
+        void part(std::vector<std::string> veccmd,size_t idxcli,Client cli);
         void eraseCh(std::string _name);
         int  modeSplit(std::string vec_cmd, Client client_);
         void mode(std::vector<std::string > veccmd, size_t idxcli, Client cli);

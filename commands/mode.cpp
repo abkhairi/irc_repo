@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 21:10:41 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 23:29:08 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:29:48 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void Server::mode(std::vector<std::string > veccmd, size_t idxcli, Client cli){
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_NOKEY(cli.getNickNm(), channel_name, "k"));
                 else if(obj_chan.get_password() == mod[i].second)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_ALREADYSET(cli.getNickNm()));
-                else if (obj_chan.check_if_operator(channel) == false) 
+                else if (obj_chan.check_if_operator(channel) == false)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                 else
                 {
@@ -124,7 +124,7 @@ void Server::mode(std::vector<std::string > veccmd, size_t idxcli, Client cli){
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_NOPASSSET(cli.getNickNm()));
                 else if(obj_chan.get_password() != mod[i].second)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_PASSNOTC(mod[i].second));
-                else if (obj_chan.check_if_operator(channel) == false) 
+                else if (obj_chan.check_if_operator(channel) == false)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                 else {
                     SendToAll(obj_chan, RPL_MODE(obj_chan.getChNmDisplay(), cli.getNickNm(), "-k " + mod[i].second));
