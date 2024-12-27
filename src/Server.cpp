@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:58:54 by r4v3n             #+#    #+#             */
-/*   Updated: 2024/12/26 20:31:14 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/27 15:10:26 by abkhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,11 +85,12 @@ void    Server::display(){
 void  Server::rmvCli(int id){
     cliVec.erase(cliVec.begin() +id);
 };
-std::string Server::timee() {
+std::string Server::timee() 
+{
     time_t now = time(0);
     char buffer[30];
     std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
-    return std::string(buffer) + " (" + std::to_string(now) + ")";
+    return std::string(buffer);
 };
 Client & Server::getCliOrg(int sockcli){
     for (size_t i = 0 ; cliVec.size() > i; i++){

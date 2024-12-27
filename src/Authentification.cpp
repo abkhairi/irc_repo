@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Authentification.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:10 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 23:32:15 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/27 15:13:41 by abkhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ void Server::handleAuthCmd(std::string cmdf, size_t &idxcli)
             // check if any client in vector has the same nickname ft_check_nickname()
             cli.setFlgNick(true);
             int x = parsNick(cli);
-            if(cli.getFlgNick())
+            if (cli.getFlgNick())
                 cli.setNickNm(cmdVec[1]);
-            else if(x)
+            else if (x)
                 sendMsgToCli(cli.getCliFd(), RPL_ERRONEUSNICKNAME(_hostIp, nick));
             cli.setFlgNick(true);
             cli.setNickNm(cmdvec[1]);
