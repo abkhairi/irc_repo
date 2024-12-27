@@ -118,8 +118,6 @@ bool	Channels::isInvited(int sockfd){
     return false;
 };
 
-
-
 bool Channels::getInv(){
     return (_inv);
 }
@@ -168,13 +166,12 @@ void Channels::setFlgpass(bool flagpass){
 };
 bool    Channels::checkIfOperat(std::string nickname){
     std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
-    for(; it != _users.end(); it++)
-    {
+    for(; it != _users.end(); it++){
         if(it->second.getNickNm() == nickname)
             return it->first.first;
     }
     return false;
-}
+};
 bool Channels::nickExist(std::string user){
     std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
     for (it = _users.begin(); it != _users.end(); it++){
@@ -186,8 +183,7 @@ bool Channels::nickExist(std::string user){
 
 void Channels::deleteCli(std::string nick){
     std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
-    for (it = _users.begin(); it != _users.end(); it++)
-    {
+    for (it = _users.begin(); it != _users.end(); it++){
         if (it->second.getNickNm() == nick)
             _users.erase(it++);
     }
