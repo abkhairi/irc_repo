@@ -40,8 +40,6 @@ void sendMsgToCli(int fdcli, std::string msg){
         perror("send: ");
 };
 
-
-
 void setNonBlocking(int fd){
     int flg = fcntl(fd, F_GETFL, 0);
     if (flg == -1) {
@@ -57,12 +55,11 @@ std::string getListOfNames(std::map<std::pair<bool, int>, Client> _users)
 {
     std::string listOfNames;
     std::map<std::pair<bool, int>, Client>::iterator iter;
-    for (iter = _users.begin(); iter != _users.end(); iter++)
-    {
+    for (iter = _users.begin(); iter != _users.end(); iter++){
         if (iter->first.first == true)
             listOfNames += "@" + iter->second.getNickNm() + " ";
         else
             listOfNames += iter->second.getNickNm() + " ";
     }
     return listOfNames;
-}
+};
