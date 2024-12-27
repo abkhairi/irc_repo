@@ -19,7 +19,7 @@ void Server::part(std::vector<std::string> veccmd,size_t idxcli,Client cli){
         Channels &obj = getChannel(cmdVec[1]);
         if (obj.getSizeuser() == 0)
             eraseCh(to_lower(cmdVec[1]));
-        sendMsgToCli(cli.getCliFd(), RPL_QUIT(cli.getNickNm(),_hostIp, "good bye"));
+        sendMsgToCli(cli.getCliFd(), RPL_QUIT(cli.getNickNm(),_hostIp, "good bye :)"));
         sendMsgToCli(cli.getCliFd(), RPL_PART(cli.getNickNm(),cli.getUser(), _hostIp, cmdVec[1]));
     }
     catch(const char *){

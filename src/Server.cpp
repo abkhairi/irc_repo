@@ -13,8 +13,7 @@
 
 #include "../include/Server.hpp"
 
-bool   Server::find_channel(std::string chan)
-{
+bool   Server::find_channel(std::string chan){
     std::map<std::string, Channels>::iterator it = channels.begin();
     for (it = channels.begin(); it !=  channels.end(); it++)
 	{
@@ -25,10 +24,9 @@ bool   Server::find_channel(std::string chan)
             }
 	}
 	return false;
-}
+};
 
-int Server::parsNick(Client& client)
-{
+int Server::parsNick(Client& client){
     std::string str = "@&#:1234567890";
     for(size_t i = 0; i < cliVec.size(); i++) {
         if(cmdVec[1] == cliVec[i].getNickNm()) {
@@ -40,15 +38,13 @@ int Server::parsNick(Client& client)
     if(str.find(cmdVec[1][0]) != std::string::npos)
         client.setFlgNick(false);
     return 1;
-}
+};
 
-int Server::checkNick(Client& client)
-{
+int Server::checkNick(Client& client){
     // vec_of_cmd = nick abdo
     std::string str = "@&#:1234567890"; //str contient les caractères interdits pour le premier caractère du nickname : @&#:1234567890.
     std::string s = "_";
-    for(size_t i = 0; i < cliVec.size(); i++) // in loop check if any client has the same nickname
-    {
+    for(size_t i = 0; i < cliVec.size(); i++){// in loop check if any client has the same nickname{
         if (cmdVec[1] == cliVec[i].getNickNm()) {
             sendMsgToCli(client.getCliFd(), ERR_NICKNAMEINUSE(cmdVec[1]));
             return 1; // nickname already in use
@@ -85,8 +81,7 @@ void    Server::display(){
 void  Server::rmvCli(int id){
     cliVec.erase(cliVec.begin() +id);
 };
-std::string Server::timee() 
-{
+std::string Server::timee() {
     time_t now = time(0);
     char buffer[30];
     std::strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", std::localtime(&now));
@@ -103,21 +98,18 @@ int  Server::getFdSockServ(){
     return (_fdSockServ);
 };
 
-void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, size_t &_index_client)
-{
+void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, size_t &_index_client){
     (void)socket_client;
     for (size_t i = 0; i < cmd.size(); i++)
         cmd[i] = std::tolower(cmd[i]);
     // pass abc
     std::stringstream ss(cmd);
     // int i = 0;
-    while (ss >> cmd)
-    {
+    while (ss >> cmd){
         cmdVec.push_back(cmd);
         // i++;
     }
-    if (strstr(clienteref.getRecLn().c_str(), "\n"))
-    {
+    if (strstr(clienteref.getRecLn().c_str(), "\n")){
         size_t position = clienteref.getRecLn().find_first_of("\n");
         if (position > clienteref.getRecLn().size())
             return;
@@ -132,7 +124,6 @@ void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, 
 
 void    Server::init_serv(int  port, std::string pass, size_t &i){
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-
     int opt = 1;// setsockopt : function in network programming is used to configure options on a socket.
     setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
     fcntl(sockfd, F_SETFL, O_NONBLOCK);

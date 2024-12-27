@@ -15,7 +15,6 @@
 
 #include "Server.hpp"
 
-
 class Client{
     private :
         int             _cliSockFd;
@@ -63,5 +62,5 @@ class Client{
         void    pushCh(std::string ch);
         // void    printNmCh(Client cli);
 };
-
 #endif
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

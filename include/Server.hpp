@@ -35,10 +35,8 @@
 #include "Channels.hpp"
 #include "rep.hpp"
 
-
 class Client;
 class Channels;
-
 
 class Server
 {
@@ -62,38 +60,27 @@ class Server
         void display();
         int  checkNick(Client& client);
         int     parsNick(Client& client);
-
         void isRegistred(Client &cli, std::string time);
         void rmvCli(int id);
         void sendMsg(Client &cli, std::string vec1, std::string msg);
         void rmvFromCh(int client_fd);
-
         Client &getCliOrg(int sockCli);
         Client &getCliByIdx(size_t idx);
-
-
         std::string getHostIp();
         std::string timee();
-
-
         //:::::::::Channel:::::::::::::::
-
         // void ft_commande_j_m(std::vector<std::string> cmd_final, size_t &_index_client, Client &client_);
         bool find_channel(std::string chan);
         bool isMember(int fdcli, Channels ch);
         void broadCastMsg(Channels ch, std::string msg, int clifd);
         Channels& getChannel(std::string channel);
         void SendToAll(Channels ch, std::string msg);
-
-
-
-
         int  getFdSockServ();
         //:::::::::CMD:::::::::::::::
         void authCli(std::string cmd, int socket_cli, Client &cli, size_t &idxCli);
         void handleAuthCmd(std::string cmdf, size_t &idxci);
         std::string recvCmd(int fdcli, size_t &idxcli);
-        // COMMANDE
+        //:::::::::::::COMMANDE:::::::::::::::
         void ft_join(std::vector<std::string> &vec_cmd, Client &client_,size_t &_index_client);
         void kick(std::vector<std::string > vec_cmd, size_t _index_client, Client client_);
         void topic(std::vector<std::string > vec_cmd,size_t _index_client,Client client_);
@@ -112,7 +99,5 @@ void    printCh(std::map<std::string, Channels>ch);
 void printInfoUser(Channels  &ch);
 std::string getListOfNames(std::map<std::pair<bool, int>, Client> _users);
 std::string to_lower(std::string str);
-
-
-
 #endif
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

@@ -17,24 +17,22 @@ std::string Client::getRecLn(){
     return _dataRec;
 };
 
- Client::Client()
- {
+ Client::Client(){
     _pFlg = false;
 	_nFlg = false;
 	_uFlg = false;
     _auth = false;
     _operator = false;
- }
+ };
 
-Client::Client(int sockefd)
-{
+Client::Client(int sockefd){
     _cliSockFd = sockefd;
     _pFlg = false;
 	_nFlg = false;
 	_uFlg = false;
     _auth = false;
     _operator = false;
-}
+};
 
 std::string Client::getIpAddrCli(){
     return (_ipAddrCli);
@@ -130,7 +128,6 @@ void Client::setUser(std::string user){
 void    Client::pushCh(std::string channel) {
     _channels.push_back(channel);
 };
-std::vector<std::string > Client::getChNm()
-{
+std::vector<std::string > Client::getChNm(){
     return (_channels);
 };

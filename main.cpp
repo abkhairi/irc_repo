@@ -21,8 +21,7 @@ int main(int ac, char** av){
     std::string pass = av[2];
 
     int port_int = parsingPortPass(port, pass);
-    if (port_int == 1)
-    {
+    if (port_int == 1){
         std::cout << "Error in Port :(" << std::endl;
         return 1;
     }

@@ -69,12 +69,9 @@ class Channels{
         bool            nickExist(std::string user);
         Client&	        getUserBynickname(std::string nickname);
         void            setPrvByNickname(std::string nickname, bool prv);
-
         //
         bool	        isInvited(int sockfd);
         void            deleteCli(std::string nick);
 };
-
-
-
 #endif
+//:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::

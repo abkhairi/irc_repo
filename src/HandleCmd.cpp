@@ -33,8 +33,7 @@ std::string getStrCh(std::vector<std::string> vec){
 void printInfoUser(Channels  &ch){
     std::map<std::pair<bool, int>, Client> usermap = ch.getMapUser();
     std::map<std::pair<bool, int>, Client>::iterator it2;
-    for (it2 = usermap.begin() ; it2 != usermap.end(); it2++)
-    {
+    for (it2 = usermap.begin() ; it2 != usermap.end(); it2++){
         std::cout << WHITE << "+" << RESET << BLUE << "          Nickname  : "<< RESET << WHITE<< it2->second.getNickNm()<< RESET<< "                  "<<  std::endl;
         std::cout << WHITE << "+" << RESET << BLUE << "          Sock_fd   : "<< RESET << WHITE<< it2->second.getCliFd()<< RESET<< "                         "<<  std::endl;
         std::cout << WHITE << "+" << RESET << BLUE << "          Authentif : "<< RESET << WHITE<< it2->second.getAuth()<< RESET<< "                         "<<  std::endl;
@@ -46,8 +45,7 @@ void printInfoUser(Channels  &ch){
 
 bool Server::isMember(int fdcli, Channels ch){
     std::map<std::pair<bool,int>, Client > user_map = ch.getMapUser();
-    for(std::map<std::pair<bool,int>, Client >::iterator it = user_map.begin(); it != user_map.end(); it++)
-    {
+    for(std::map<std::pair<bool,int>, Client >::iterator it = user_map.begin(); it != user_map.end(); it++){
         if (fdcli == it->second.getCliFd())
             return  true;
     }

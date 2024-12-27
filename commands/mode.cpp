@@ -66,7 +66,7 @@ void Server::mode(std::vector<std::string > veccmd, size_t idxcli, Client cli){
                 return ;
             }
         }
-        std::cout << "channel found secssusfly '*`" << std::endl;
+        std::cout << "Channel Found :) '*`" << std::endl;
         for (size_t i = 0 ; i < mod.size(); i++){
             if (mod[i].first == "+i"){
                 if (obj_chan.getInv() == true)
