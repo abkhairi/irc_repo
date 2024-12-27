@@ -13,17 +13,14 @@
 #include "../include/Server.hpp"
 
 int parsingPortPass(std::string port, std::string pass) {
-    if (port.empty()) {
+    if (port.empty())
         return 1;
-    }
-
     // Use std::string::size_type for the loop index
     for (std::string::size_type i = 0; i < port.size(); i++) {
         if (isdigit(port[i]) == 0) {
             return 1;
         }
     }
-
     int portNum = atoi(port.c_str());
     if (portNum < 0 || portNum > 65535) {
         return 1;
@@ -34,9 +31,8 @@ int parsingPortPass(std::string port, std::string pass) {
     if (pass.empty()) {
         return 2;
     }
-
     return portNum;
-}
+};
 
 void sendMsgToCli(int fdcli, std::string msg){
     ssize_t bytes = send(fdcli, msg.c_str(), msg.size(), 0);
