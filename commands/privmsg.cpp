@@ -21,8 +21,7 @@ void    Server::sendMsg(Client &cli, std::string vec1, std::string msg){
         return ;
     }
     std::map<std::string, Channels>::iterator it = channels.find(to_lower(vec1));
-    if (it != channels.end())
-    {
+    if (it != channels.end()){
         if (isMember(cli.getCliFd(), it->second) == false) {// if client not membre in channel o bera iresl msg hhh{
             sendMsgToCli(cli.getCliFd(), ERR_CANNOTSENDTOCHAN(senderNick, it->second.getNmChDispaly()));
             return ;
@@ -35,12 +34,10 @@ void    Server::sendMsg(Client &cli, std::string vec1, std::string msg){
         sendMsgToCli(cli.getCliFd(), ERR_NOSUCHCHANNEL(senderNick, senderNick, it->second.getNmCh()));
         return ;
     }
-    else
-    {
+    else{
         size_t i = 0;
         while(i < cliVec.size()){
-            if (cliVec[i].getNickNm() == vec1)
-            {
+            if (cliVec[i].getNickNm() == vec1){
                 sendMsgToCli(cliVec[i].getCliFd(), ":" + senderNick + "!~" + senderUsername + "@127.0.0.1 PRIVMSG " + vec1 + " :" + msg + "\r\n");
                 return ;
             }
@@ -53,12 +50,10 @@ void Server::prvMsg(std::vector<std::string > vec_cmd, size_t _indexclient, Clie
     std::string msg;
     (void)_indexclient;
     for(size_t i = 0; i < vec_cmd.size(); i++){
-        if(i > 1)
-        {
+        if(i > 1){
             if (vec_cmd[2][0] == ':')
                 msg += vec_cmd[i] + " ";
-            else
-            {
+            else{
                 msg = vec_cmd[2];
                 break;
             }
