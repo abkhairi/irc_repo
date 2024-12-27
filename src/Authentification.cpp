@@ -6,7 +6,7 @@
 /*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:10 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/27 15:13:41 by abkhairi         ###   ########.fr       */
+/*   Updated: 2024/12/27 15:33:34 by abkhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ void Server::handleAuthCmd(std::string cmdf, size_t &idxcli)
                 cli.setNickNm(cmdVec[1]);
             else if (x)
                 sendMsgToCli(cli.getCliFd(), RPL_ERRONEUSNICKNAME(_hostIp, nick));
-            cli.setFlgNick(true);
-            cli.setNickNm(cmdvec[1]);
             cmdvec.clear();
             return ;
         }
@@ -91,8 +89,7 @@ void Server::handleAuthCmd(std::string cmdf, size_t &idxcli)
         }
         if (cmdVec[0] == "user" && cli.getFlgNick() && cli.getFlgPass())
         {
-            // std::cout << "herre fi user\n";
-            if (cmdvec.size() > 5 || cmdvec[1].empty())
+            if (cmdvec.size() != 5 || cmdvec[1].empty() )
             {
                 sendMsgToCli(cli.getCliFd(), ":irc.abkhairi.chat 461 :Need more parameters\r\n");
                 cmdvec.clear();
