@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:17 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 23:30:32 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/27 15:36:28 by abkhairi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 #include <iostream>
 #include <unistd.h>
+#include <cstring> // For strerror
+#include <cerrno>  // For errno
 #include <string>
 #include <vector>
 #include <map>
