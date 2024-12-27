@@ -51,7 +51,7 @@ void    Server::sendMsg(Client &cli, std::string vec1, std::string msg){
 
 void Server::prvMsg(std::vector<std::string > vec_cmd, size_t _indexclient, Client client_){
     std::string msg;
-
+    (void)_indexclient;
     for(size_t i = 0; i < vec_cmd.size(); i++){
         if(i > 1)
         {

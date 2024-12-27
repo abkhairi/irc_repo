@@ -13,6 +13,7 @@
 #include "../include/Server.hpp"
 
 void    Server::quit(std::vector<std::string > vec_cmd, size_t idxcli, Client cli){
+    (void)vec_cmd;
     int clisockfd =  cli.getCliFd();
     std::cout << "Client "<< clisockfd << " disconnected" << std::endl;
     close(clisockfd);

@@ -43,19 +43,6 @@ void printInfoUser(Channels  &ch){
     }
 };
 
-std::string getListOfNames(std::map<std::pair<bool, int>, Client> _users)
-{
-    std::string listOfNames;
-    std::map<std::pair<bool, int>, Client>::iterator iter;
-    for (iter = _users.begin(); iter != _users.end(); iter++)
-    {
-        if (iter->first.first == true)
-            listOfNames += "@" + iter->second.getNickNm() + " ";
-        else
-            listOfNames += iter->second.getNickNm() + " ";
-    }
-    return (listOfNames);
-};
 
 bool Server::isMember(int fdcli, Channels ch){
     std::map<std::pair<bool,int>, Client > user_map = ch.getMapUser();

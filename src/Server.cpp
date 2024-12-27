@@ -94,11 +94,11 @@ void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, 
         cmd[i] = std::tolower(cmd[i]);
     // pass abc
     std::stringstream ss(cmd);
-    int i = 0;
+    // int i = 0;
     while (ss >> cmd)
     {
         cmdVec.push_back(cmd);
-        i++;
+        // i++;
     }
     if (strstr(clienteref.getRecLn().c_str(), "\n"))
     {

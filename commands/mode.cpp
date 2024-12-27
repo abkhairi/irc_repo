@@ -54,10 +54,11 @@ void Server::mode(std::vector<std::string > veccmd, size_t idxcli, Client cli){
         return ;
     }
     try{
-        channels &obj_chan = getChannel(veccmd[1]);
+        Channels &obj_chan = getChannel(veccmd[1]);
         channel = cli.getNickNm();
-        channel_name = obj_chan.get_name_chanel_display();
-        if (veccmd.size() > 2)veccmd{
+        channel_name = obj_chan.getNmChDispaly();
+        if (veccmd.size() > 2)
+        {
             if (modeSplit(veccmd[2], cli) == 1)
             {
                 mod.clear();
@@ -68,82 +69,82 @@ void Server::mode(std::vector<std::string > veccmd, size_t idxcli, Client cli){
         std::cout << "channel found secssusfly '*`" << std::endl;
         for (size_t i = 0 ; i < mod.size(); i++){
             if (mod[i].first == "+i"){
-                if (obj_chan.get_inv() == true)
+                if (obj_chan.getInv() == true)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_ALLINV(veccmd[1]));
-                else if (obj_chan.check_if_operator(channel) == false)
+                else if (obj_chan.checkIfOperat(channel) == false)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                 else
                 {
                     SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDispaly(), cli.getNickNm(), "+i"));
-                    obj_chan.set_inv(true);
+                    obj_chan.setInv(true);
                 }
             }
             else if (mod[i].first == "-i"){
-                if (obj_chan.get_inv() == false)
+                if (obj_chan.getInv() == false)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_NOTINV(veccmd[1]));
-                else if (obj_chan.check_if_operator(channel) == false)
+                else if (obj_chan.checkIfOperat(channel) == false)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                 else {
                     SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDispaly(), cli.getNickNm(), "-i"));
-                    obj_chan.set_inv(false);
+                    obj_chan.setInv(false);
                 }
             }
             if (mod[i].first == "+t"){
-                if (obj_chan.check_if_operator(channel) == false)
+                if (obj_chan.checkIfOperat(channel) == false)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                 else
                 {
-                    SendToAll(obj_chan, RPL_MODE(obj_chan.getChNmDisplay(), cli.getNickNm(), "+t"));
-                    obj_chan.set_topic_bool(true);
+                    SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDispaly(), cli.getNickNm(), "+t"));
+                    obj_chan.setTopicBool(true);
                 }
             }
             else if ( mod[i].first == "-t"){
-                if (obj_chan.check_if_operator(channel) == false)
+                if (obj_chan.checkIfOperat(channel) == false)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                 else{
-                    SendToAll(obj_chan, RPL_MODE(obj_chan.getChNmDisplay(), cli.getNickNm(), "-t"));
-                    obj_chan.set_topic_bool(false);
+                    SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDispaly(), cli.getNickNm(), "-t"));
+                    obj_chan.setTopicBool(false);
                 }
             }
             if (mod[i].first == "+k"){
                 if(veccmd.size() < 4)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_NOKEY(cli.getNickNm(), channel_name, "k"));
-                else if(obj_chan.get_password() == mod[i].second)
+                else if(obj_chan.getPass() == mod[i].second)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_ALREADYSET(cli.getNickNm()));
-                else if (obj_chan.check_if_operator(channel) == false)
+                else if (obj_chan.checkIfOperat(channel) == false)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                 else
                 {
-                    SendToAll(obj_chan, RPL_MODE(obj_chan.getChNmDisplay(), cli.getNickNm(), "+k " + mod[i].second));
-                    obj_chan.set_password(mod[i].second);
-                    obj_chan.setPass(true);
+                    SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDispaly(), cli.getNickNm(), "+k " + mod[i].second));
+                    obj_chan.setPass(mod[i].second);
+                    obj_chan.setFlgpass(true);
                 }
             }
             else if (mod[i].first == "-k"){
-                if(obj_chan.getPass() == false)
+                if(obj_chan.getFlgpass() == false)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_NOPASSSET(cli.getNickNm()));
-                else if(obj_chan.get_password() != mod[i].second)
+                else if(obj_chan.getPass() != mod[i].second)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_PASSNOTC(mod[i].second));
-                else if (obj_chan.check_if_operator(channel) == false)
+                else if (obj_chan.checkIfOperat(channel) == false)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                 else {
-                    SendToAll(obj_chan, RPL_MODE(obj_chan.getChNmDisplay(), cli.getNickNm(), "-k " + mod[i].second));
-                    obj_chan.get_password().erase();
-                    obj_chan.setPass(false);
+                    SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDispaly(), cli.getNickNm(), "-k " + mod[i].second));
+                    obj_chan.getPass().erase();
+                    obj_chan.setFlgpass(false);
             }
             if (mod[i].first == "+o"){
                 try {
                     if (veccmd.size() < 4)
                         sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_NOKEY(cli.getNickNm(), channel_name, "o"));
-                    else if(obj_chan.check_if_operator(channel) == false)
+                    else if(obj_chan.checkIfOperat(channel) == false)
                         sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
-                    else if(obj_chan.check_if_operator(mod[i].second) == true)    
+                    else if(obj_chan.checkIfOperat(mod[i].second) == true)    
                         sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_ALLOP(mod[i].second));
                     else 
                     {
                         obj_chan.getUserBynickname(mod[i].second);
                         obj_chan.setPrvByNickname(mod[i].second, true);
-                        SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDisplay(), cli.getNickNm(), "+o " + mod[i].second));
+                        SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDispaly(), cli.getNickNm(), "+o " + mod[i].second));
                     }
                 }    
                 catch(const char *){
@@ -153,16 +154,16 @@ void Server::mode(std::vector<std::string > veccmd, size_t idxcli, Client cli){
             else if (mod[i].first == "-o"){
                 if(veccmd.size() < 4)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_NEEDMOREPARAM(_hostIp,"-o"));
-                else if(obj_chan.check_if_operator(channel) == false)
+                else if(obj_chan.checkIfOperat(channel) == false)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
-                else if(obj_chan.check_if_operator(mod[i].second) == false)
+                else if(obj_chan.checkIfOperat(mod[i].second) == false)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_NOTOP(mod[i].second));
                 else
                 {
                     try {
                         obj_chan.getUserBynickname(mod[i].second);
                         obj_chan.setPrvByNickname(mod[i].second, false);
-                        SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDisplay(), cli.getNickNm(), "-o " + mod[i].second));
+                        SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDispaly(), cli.getNickNm(), "-o " + mod[i].second));
                     }
                     catch(const char *){
                         sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_WASNOSUCHNICK(_hostIp,channel));
@@ -178,14 +179,14 @@ void Server::mode(std::vector<std::string > veccmd, size_t idxcli, Client cli){
                 std::stringstream ss(mod[i].second);
                 size_t limit;
                 ss >> limit;
-                if (obj_chan.get_limit() == limit)
+                if (obj_chan.getLimit() == limit)
                     sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_LIMITSET(mod[i].second));
                 else
                 {
                     obj_chan.setUserLimit(false);
                     obj_chan.setLimit(limit);
                     obj_chan.setUserLimit(true);
-                    SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDisplay(), cli.getNickNm(), "+l " + mod[i].second));
+                    SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDispaly(), cli.getNickNm(), "+l " + mod[i].second));
                 }
             }
             else if (mod[i].first == "-l")
@@ -196,7 +197,7 @@ void Server::mode(std::vector<std::string > veccmd, size_t idxcli, Client cli){
                 {
                     obj_chan.setUserLimit(false);
                     obj_chan.setLimit(-1);
-                    SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDisplay(), cli.getNickNm(), "-l"));
+                    SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDispaly(), cli.getNickNm(), "-l"));
                 }
             }
         }

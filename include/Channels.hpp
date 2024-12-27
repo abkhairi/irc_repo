@@ -46,11 +46,14 @@ class Channels{
         void setNmDisplay(std::string name);
         void setInv(bool inv);
         void setTopic(std::string topic) ;
+        void setTopicBool(bool topic);
         void setTopicAttr(std::string topic, bool topc, std::string seter, std::string time);
         bool checkIfOperator(std::string nickname);
+        void	setUserLimit(bool limit);
+        void	setLimit(size_t limit);
        //:::::::::::::::::Getter::::::::::::::::::
         bool            getInv();
-        bool            getSiUserLimit();
+        bool            getUserLimit();
         std::string     getPass();
         bool            getFlgpass();
         size_t          getSizeuser();
@@ -64,6 +67,9 @@ class Channels{
         std::string     getTopicTime();
         bool            checkIfOperat(std::string nickname);
         bool            nickExist(std::string user);
+        Client&	        getUserBynickname(std::string nickname);
+        void            setPrvByNickname(std::string nickname, bool prv);
+
         //
         bool	        isInvited(int sockfd);
         void            deleteCli(std::string nick);

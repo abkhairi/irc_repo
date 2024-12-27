@@ -13,13 +13,14 @@
 #include "../include/Server.hpp"
 
 void    Server::invite(std::vector<std::string > veccmd, size_t idxcli, Client cli){
+    (void)idxcli;
     size_t index = 0;
     try{
-        channels &obj = getChannel(veccmd[2]);
-        if(obj.existe_nick(veccmd[1]) == true)
-            send(cli.getCliFd(), ERR_USERONCHANNEL(_hostIp, cli.getNickNm(), obj.getChNmDisplay()));
-        else if(obj.check_if_operator(cli.getNickNm()) == false)
-            sendMsgToCli(cli.getCliFd(), ERR_CHANOPRIVSNEEDED(cli.getNickNm(), obj.getChNmDisplay()));
+        Channels &obj = getChannel(veccmd[2]);
+        if(obj.nickExist(veccmd[1]) == true)
+            sendMsgToCli(cli.getCliFd(), ERR_USERONCHANNEL(_hostIp, cli.getNickNm(), obj.getNmChDispaly()));
+        else if(obj.checkIfOperat(cli.getNickNm()) == false)
+            sendMsgToCli(cli.getCliFd(), ERR_CHANOPRIVSNEEDED(cli.getNickNm(), obj.getNmChDispaly()));
         else
         {
             if(veccmd.size() < 3) {
@@ -28,14 +29,14 @@ void    Server::invite(std::vector<std::string > veccmd, size_t idxcli, Client c
             }
             if (!isMember(cli.getCliFd(), obj)) {
                 sendMsgToCli(cli.getCliFd(), ERR_NOTONCHANNEL(cli.getNickNm(), veccmd[2]));
-                return ;cliVec
+                return ;
             }
             while(index < cliVec.size())
             {
                 if (cliVec[index].getNickNm() == veccmd[1]){
                         sendMsgToCli(cli.getCliFd(), RPL_INVITING(_hostIp, cli.getNickNm(), veccmd[1], veccmd[2]));//who invite 
                         sendMsgToCli(cliVec[index].getCliFd(), RPL_INVITE(cli.getNickNm(), cliVec[index].getUser(), _hostIp, veccmd[1], veccmd[2]));//c being invited
-                        obj.setinvited(cliVec[index].getCliFd());
+                        obj.setInv(cliVec[index].getCliFd());
                         break ;
                 }
                 index++;

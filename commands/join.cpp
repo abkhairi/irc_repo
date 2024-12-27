@@ -51,7 +51,7 @@ void Server::ft_join(std::vector<std::string> &vec_cmd, Client &client_, size_t 
                 std::cout << "Client " << nickname << " is already a member in this channel" << std::endl;
                 return ;
             }
-            if (it->second.getSiUserLimit() == true)
+            if (it->second.getUserLimit() == true)
             {
                 if (it->second.getSizeuser() >= it->second.getLimit()){
                     sendMsgToCli(client_.getCliFd(), "471 " + nickname + " " +  it->second.getNmChDispaly() + " :Cannot join channel, it's full (+l)\r\n");

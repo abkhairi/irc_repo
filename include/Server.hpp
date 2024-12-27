@@ -46,6 +46,7 @@ class Server
         std::string         _pass;
         std::string         _hostIp;
         std::vector<Client>cliVec;
+        std::vector<std::pair<std::string,std::string> > mod;
         Server();
     public :
         Server(int port, std::string pass);

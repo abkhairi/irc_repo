@@ -13,6 +13,7 @@
 #include "../include/Server.hpp"
 
 void Server::topic(std::vector<std::string > vec_cmd,size_t _index_client,Client client_){
+    (void)_index_client;
     try
     {
         if (!client_.getAuth())

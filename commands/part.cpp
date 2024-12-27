@@ -13,10 +13,11 @@
 #include "../include/Server.hpp"
 
 void Server::part(std::vector<std::string> veccmd,size_t idxcli,Client cli){
+    (void)idxcli;
     try{
         rmvFromCh(cli.getCliFd());
-        channels &obj = getChannel(cmdVec[1]);
-        if (obj.get_size_user() == 0)
+        Channels &obj = getChannel(cmdVec[1]);
+        if (obj.getSizeuser() == 0)
             eraseCh(to_lower(cmdVec[1]));
         sendMsgToCli(cli.getCliFd(), RPL_QUIT(cli.getNickNm(),_hostIp, "good bye"));
         sendMsgToCli(cli.getCliFd(), RPL_PART(cli.getNickNm(),cli.getUser(), _hostIp, cmdVec[1]));

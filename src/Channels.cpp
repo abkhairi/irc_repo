@@ -13,6 +13,49 @@
 
 #include "../include/Channels.hpp"
 
+void Channels::setPrvByNickname(std::string nickname, bool prv) {
+    
+    std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
+    bool found = false;
+    for (; it != _users.end(); ++it) 
+    {
+        if (it->second.getNickNm() == nickname) 
+        {
+            Client tempObj = it->second;
+            int x = it->second.getCliFd();
+            std::pair<bool, int> newKey(prv, x);
+            _users.insert(std::make_pair(newKey, tempObj));
+            _users.erase(it);
+            found = true;
+            break; 
+        }
+    }
+    if (!found) {
+        throw "Nickname not found";
+    }
+    for (std::map<std::pair<bool, int>, Client>::iterator it2 = _users.begin(); it2 != _users.end(); ++it2) {
+        std::cout << "\033[0;31m" << "##################" << "\033[0m" << std::endl;
+        std::cout << it2->second.getNickNm() << std::endl;
+        std::cout << "\033[0;31m" << "##################" << "\033[0m" << std::endl;
+    }
+}
+
+Client&		Channels::getUserBynickname(std::string nickname)
+{
+    std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
+    for(; it != _users.end(); it++) {
+        if(it->second.getNickNm() == nickname) {
+            return it->second;
+        }
+    }
+    throw "User not found";
+}
+
+void Channels::setTopicBool(bool topic)
+{
+    _topc = topic;
+}
+
 bool    Channels::checkIfOperator(std::string nickname)
 {
     std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
@@ -86,7 +129,7 @@ bool Channels::getInv(){
 void Channels::setInv(bool in){
     _inv = in;
 }
-bool Channels::getSiUserLimit(){
+bool Channels::getUserLimit(){
     return (_userLimit);
 }
 size_t Channels::getSizeuser(){
@@ -165,3 +208,16 @@ void printCh(std::map<std::string, Channels> ch){
         printInfoUser(it->second);
     }
 };
+
+
+
+
+void	Channels::setLimit(size_t limit)
+{
+    _limit = limit;
+}
+
+void	Channels::setUserLimit(bool limit)
+{
+    _userLimit = limit;
+}
