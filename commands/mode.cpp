@@ -209,4 +209,4 @@ void Server::mode(std::vector<std::string > veccmd, size_t idxcli, Client cli){
         veccmd.clear();
         return ;
     }
-}
+};

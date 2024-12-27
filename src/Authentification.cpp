@@ -130,8 +130,7 @@ void Server::handleAuthCmd(std::string cmdf, size_t &idxcli){
                     std::vector<std::string> vec_of_name_chan = x.getChNm();
                     getCliByIdx(cliIdx - 1).setNickNm(cmdVec[1]);
                     std::vector<std::string>::iterator it;
-                    for(it = vec_of_name_chan.begin(); it != vec_of_name_chan.end(); it++) 
-                    {
+                    for(it = vec_of_name_chan.begin(); it != vec_of_name_chan.end(); it++) {
                         Channels &chan = getChannel(*it);
                         chan.updateNickname(oldNick,  chan.checkIfOperator(oldNick), getCliByIdx(cliIdx - 1));
                         SendToAll(chan, NICKNAME_RPLY(oldNick, cli.getUser(), _hostIp, cmdVec[1]));
@@ -140,53 +139,34 @@ void Server::handleAuthCmd(std::string cmdf, size_t &idxcli){
                 }
             }
         }
-        if (cmd == "join")
-        {
+        if (cmd == "join"){
             if (cmdvec.size() < 2)
                 sendMsgToCli(cli.getCliFd(), ERR_NEEDMOREPARAMS(cli.getNickNm(), _hostIp));
             else
                 ft_join(cmdvec, cli, idxcli);
         }
         else if (cmd == "kick")
-        {
             kick(cmdvec, idxcli, cli);
-        }
         else if (cmd == "topic")
-        {
             topic(cmdvec, idxcli, cli);
-        }
         else if (cmd == "privmsg")
-        {
             prvMsg(cmdvec, idxcli, cli);
-        }
         else if (cmd == "privmsg")
-        {
             prvMsg(cmdvec, idxcli, cli);
-        }
         else if (cmd == "quit")
-        {
             quit(cmdvec, idxcli, cli);
-        }
         else if (cmd == "invite")
-        {
             invite(cmdvec, idxcli, cli);
-        }
         else if (cmd == "mode")
-        {
             mode(cmdvec, idxcli, cli);
-        }
         else if (cmd == "part")
-        {
             part(cmdvec, idxcli, cli);
-        }
         else
-        {
             sendMsgToCli(cli.getCliFd(), ERR_UNKNOWNCOMMAND(_hostIp, cmdVec[0]));
-        }
         cmdvec.clear();
         mod.clear();
     }
-}
+};
 
 
 

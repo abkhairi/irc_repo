@@ -56,12 +56,10 @@ void Channels::setTopicBool(bool topic)
     _topc = topic;
 }
 
-bool    Channels::checkIfOperator(std::string nickname)
-{
+bool    Channels::checkIfOperator(std::string nickname){
     std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
 
-    for(; it != _users.end(); it++) 
-    {
+    for(; it != _users.end(); it++) {
         if(it->second.getNickNm() == nickname)
             return it->first.first;
     }
@@ -71,8 +69,7 @@ bool    Channels::checkIfOperator(std::string nickname)
 void Channels::updateNickname(std::string oldnick, bool prv, Client &obj) 
 {    
     std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
-    for (; it != _users.end(); ++it) 
-    {
+    for (; it != _users.end(); ++it) {
         if (it->second.getNickNm() == oldnick) 
         {
             int x = it->second.getCliFd();
@@ -156,19 +153,19 @@ std::string Channels::getPass(){
 }
 std::map<std::pair<bool, int>, Client >&Channels::getMapUser(){
 	return _users;
-}
+};
 void Channels::setSizeUser(size_t size_user){
     _userSize = size_user + _userSize;
-}
+};
 bool Channels::getFlgpass(){
     return (_flgPass);
-}
+};
 void Channels::setPass(std::string password){
     _pass = password;
-}
+};
 void Channels::setFlgpass(bool flagpass){
     _flgPass = flagpass;
-}
+};
 bool    Channels::checkIfOperat(std::string nickname){
     std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
     for(; it != _users.end(); it++)
@@ -180,8 +177,7 @@ bool    Channels::checkIfOperat(std::string nickname){
 }
 bool Channels::nickExist(std::string user){
     std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
-    for (it = _users.begin(); it != _users.end(); it++)
-    {
+    for (it = _users.begin(); it != _users.end(); it++){
         if (it->second.getNickNm() == user)
             return (true);
     }
@@ -212,12 +208,10 @@ void printCh(std::map<std::string, Channels> ch){
 
 
 
-void	Channels::setLimit(size_t limit)
-{
+void	Channels::setLimit(size_t limit){
     _limit = limit;
-}
+};
 
-void	Channels::setUserLimit(bool limit)
-{
+void	Channels::setUserLimit(bool limit){
     _userLimit = limit;
-}
+};
