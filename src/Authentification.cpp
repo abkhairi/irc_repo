@@ -23,9 +23,6 @@ std::string getHostNm(){
 };
 
 
-
-
-
 void Server::handleAuthCmd(std::string cmdf, size_t &idxcli)
 {
     std::vector<std::string> &cmdvec = cmdVec;
@@ -72,9 +69,15 @@ void Server::handleAuthCmd(std::string cmdf, size_t &idxcli)
             cmdvec.clear();
             return ;
         }
-        if (cmdvec[0] == "nick" && cmdvec.size() == 2 && cli.getFlgNick() == false)
+        if (cmdvec[0] == "nick" && cmdvec.size() == 2 && cli.getFlgNick() == false && cli.getFlgPass() == true)
         {
             // check if any client in vector has the same nickname ft_check_nickname()
+            cli.setFlgNick(true);
+            int x = parsNick(cli);
+            if(cli.getFlgNick())
+                cli.setNickNm(cmdVec[1]);
+            else if(x)
+                sendMsgToCli(cli.getCliFd(), RPL_ERRONEUSNICKNAME(_hostIp, nick));
             cli.setFlgNick(true);
             cli.setNickNm(cmdvec[1]);
             cmdvec.clear();
@@ -126,6 +129,7 @@ void Server::handleAuthCmd(std::string cmdf, size_t &idxcli)
             // flag = 1;
             Client &x = getCliByIdx(cliIdx - 1);
             int res = checkNick(getCliByIdx(cliIdx -1));// check if deja un client avec le meme nickname
+            std::cout << "res = " << res<<std::endl;
             if (res == 0 || res == 1 || res == 3) 
             {
                 if (res == 0) 
@@ -172,32 +176,32 @@ void Server::handleAuthCmd(std::string cmdf, size_t &idxcli)
         {
             prvMsg(cmdvec, idxcli, cli);
         }
-        // else if (cmd == "privmsg")
-        // {
-        //     privmsg(vec_cmd, _index_client, client_);
-        // }
-        // else if (cmd == "quit")
-        // {
-        //     quit(vec_cmd, _index_client, client_);
-        // }
-        // else if (cmd == "invite")
-        // {
-        //     invite(vec_cmd, _index_client, client_);
-        // }
-        // else if (cmd == "mode")
-        // {
-        //     mode(vec_cmd, _index_client, client_);
-        // }
-        // else if (cmd == "part")
-        // {
-        //     part(vec_cmd, _index_client, client_);
-        // }
-        // else
-        // {
-        //     send_msg_to_clinet(client_.get_client_fd(), ERR_UNKNOWNCOMMAND(host_ip, vec_cmd[0]));
-        // }
-        // cmdvec.clear();
-        // mod.clear();
+        else if (cmd == "privmsg")
+        {
+            prvMsg(cmdvec, idxcli, cli);
+        }
+        else if (cmd == "quit")
+        {
+            quit(cmdvec, idxcli, cli);
+        }
+        else if (cmd == "invite")
+        {
+            invite(cmdvec, idxcli, cli);
+        }
+        else if (cmd == "mode")
+        {
+            mode(cmdvec, idxcli, cli);
+        }
+        else if (cmd == "part")
+        {
+            part(cmdvec, idxcli, cli);
+        }
+        else
+        {
+            sendMsgToCli(cli.getCliFd(), ERR_UNKNOWNCOMMAND(_hostIp, cmdVec[0]));
+        }
+        cmdvec.clear();
+        mod.clear();
     }
 }
 

@@ -27,6 +27,21 @@ bool   Server::find_channel(std::string chan)
 	return false;
 }
 
+int Server::parsNick(Client& client)
+{
+    std::string str = "@&#:1234567890";
+    for(size_t i = 0; i < cliVec.size(); i++) {
+        if(cmdVec[1] == cliVec[i].getNickNm()) {
+            client.setFlgNick(false);
+            sendMsgToCli(client.getCliFd(), ERR_NICKNAMEINUSE(cmdVec[1]));
+            return 0;
+        }
+    }
+    if(str.find(cmdVec[1][0]) != std::string::npos)
+        client.setFlgNick(false);
+    return 1;
+}
+
 int Server::checkNick(Client& client)
 {
     // vec_of_cmd = nick abdo

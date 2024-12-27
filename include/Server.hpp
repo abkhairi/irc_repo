@@ -59,6 +59,7 @@ class Server
         void setFdSockServ(int fd);
         void display();
         int  checkNick(Client& client);
+        int     parsNick(Client& client);
 
         void isRegistred(Client &cli, std::string time);
         void rmvCli(int id);
