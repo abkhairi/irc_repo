@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 21:08:46 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 23:22:57 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:12:47 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void Server::kick(std::vector<std::string > vec_cmd, size_t _index_client, Clien
     std::string commntaire;
 
     // std::string nick = client_.get_nickname();
-    while (std::getline(users,user, ',')) {
+    while (std::getline(users,user, ',')){
         try{
             if (client_.getAuth() == false)
             {
@@ -36,7 +36,7 @@ void Server::kick(std::vector<std::string > vec_cmd, size_t _index_client, Clien
             // commantaire c est a partir de : commaintaire 
             if (vec_cmd.size() == 3 || (vec_cmd.size() == 4 && vec_cmd[3] == ":"))
                 commntaire = ":no respect rule";
-            else 
+            else
             {
                 for (size_t i = 3; i < vec_cmd.size(); i++){
                     commntaire = commntaire + vec_cmd[i];
@@ -46,7 +46,7 @@ void Server::kick(std::vector<std::string > vec_cmd, size_t _index_client, Clien
             }
             if (str[0] == '#' && str.length() > 1)
                 vec_cmd[0] = vec_cmd[0].substr(1);
-            else 
+            else
             {
                 sendMsgToCli(client_.getCliFd(),ERR_NOSUCHCHANNEL(_hostIp, str, client_.getNickNm()));
                 return ;
@@ -79,4 +79,4 @@ void Server::kick(std::vector<std::string > vec_cmd, size_t _index_client, Clien
         sendMsgToCli(client_.getCliFd(), ERR_NOSUCHCHANNEL(_hostIp, vec_cmd[1], client_.getNickNm()));
     }
     };
-}
+};

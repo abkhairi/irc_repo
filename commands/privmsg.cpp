@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 21:07:24 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 23:28:16 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:12:05 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,3 @@ void Server::prvMsg(std::vector<std::string > vec_cmd, size_t _indexclient, Clie
         msg = msg.substr(1);
     sendMsg(client_, vec_cmd[1], msg);
 };
-
-

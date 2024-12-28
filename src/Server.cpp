@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:58:54 by r4v3n             #+#    #+#             */
-/*   Updated: 2024/12/28 13:54:07 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:07:25 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ bool   Server::find_channel(std::string chan){
     std::map<std::string, Channels>::iterator it = channels.begin();
     for (it = channels.begin(); it !=  channels.end(); it++)
 	{
-            if (to_lower(it->first) == to_lower(chan))
-            {
+            if (to_lower(it->first) == to_lower(chan)){
                 std::cout << "true and name channel is = " << (it->first) << std::endl;
                 return true;
             }
@@ -28,8 +27,8 @@ bool   Server::find_channel(std::string chan){
 
 int Server::parsNick(Client& client){
     std::string str = "@&#:1234567890";
-    for(size_t i = 0; i < cliVec.size(); i++) {
-        if(cmdVec[1] == cliVec[i].getNickNm()) {
+    for(size_t i = 0; i < cliVec.size(); i++){
+        if(cmdVec[1] == cliVec[i].getNickNm()){
             client.setFlgNick(false);
             sendMsgToCli(client.getCliFd(), ERR_NICKNAMEINUSE(cmdVec[1]));
             return 0;
@@ -71,8 +70,7 @@ std::string Server::getHostIp(){
     return (_hostIp);
 };
 void    Server::display(){
-    for (std::vector<struct pollfd>::iterator it = pollFdVec.begin(); it != pollFdVec.end(); it++)
-    {
+    for (std::vector<struct pollfd>::iterator it = pollFdVec.begin(); it != pollFdVec.end(); it++){
         std::cout << "Struct  Fd  = " << it->fd << std::endl;
         std::cout << "Struct Event  = " << it->events << std::endl;
         std::cout << "Struct Revent  = " << it->revents << std::endl;
@@ -124,21 +122,18 @@ void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, 
 
 void    Server::init_serv(int  port, std::string pass, size_t &i){
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd == -1)
-    {
+    if (sockfd == -1){
         std::cerr <<"Error:  failed to create socket" << std::endl;
         exit(1);
     }
 
     int opt = 1;// setsockopt : function in network programming is used to configure options on a socket.
-    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1)
-    {
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1){
         std::cerr <<"Error: setsockopt() failed" << std::endl;
         close(sockfd);
         exit(1);
     }
-    if (fcntl(sockfd, F_SETFL, O_NONBLOCK) < 0)
-    {
+    if (fcntl(sockfd, F_SETFL, O_NONBLOCK) < 0){
         perror("fcntl");
         close(sockfd);
         exit(EXIT_FAILURE);
@@ -147,14 +142,12 @@ void    Server::init_serv(int  port, std::string pass, size_t &i){
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(port);
     serverAddr.sin_addr.s_addr = INADDR_ANY;
-    if (bind(sockfd, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) // bound [ip and port] to server socket
-    {
+    if (bind(sockfd, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1){ // bound [ip and port] to server socket{
         std::cerr <<"Error: bind failed" << std::endl;
         close(sockfd);
         exit(1);
     }
-    if (listen(sockfd, 10) == -1)
-    {
+    if (listen(sockfd, 10) == -1){
         std::cerr <<"Error: listen failed" << std::endl;
         close(sockfd);
         exit(1);
@@ -264,13 +257,10 @@ void    Server::SendToAll(Channels ch, std::string msg){
 
 void Server::rmvFromCh(int client_fd){
     std::map<std::string, Channels>::iterator it = channels.begin();
-
-    for (; it != channels.end(); it++)
-    {
+    for (; it != channels.end(); it++){
         std::map<std::pair<bool, int>, Client> &users_map = it->second.getMapUser();
         std::map<std::pair<bool, int>, Client>::iterator iter = users_map.begin();
-        for (;iter != users_map.end(); ++iter)
-        {
+        for (;iter != users_map.end(); ++iter){
             if(client_fd == iter->second.getCliFd())
             {
                 broadCastMsg(it->second, RPL_QUIT(iter->second.getNickNm(), _hostIp, "good bye"), client_fd);
@@ -296,4 +286,3 @@ void Server::isRegistred(Client &cli, std::string time){
     sendMsgToCli(cli.getCliFd(),RPL_CREATED(cli.getNickNm(), cli.getIpAddrCli(), time));
     sendMsgToCli(cli.getCliFd(),RPL_MYINFO(cli.getNickNm(), cli.getIpAddrCli()));
 };
-

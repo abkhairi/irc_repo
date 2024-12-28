@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:11:41 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 15:24:31 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:05:41 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 void printNmCh(Client cli){
     std::vector<std::string> chnm = cli.getChNm();
     std::vector<std::string>::iterator it = chnm.begin();
-    for (it = chnm.begin(); it != chnm.end(); it++)
-    {
+    for (it = chnm.begin(); it != chnm.end(); it++){
         std::cout << "Name Of Channel : " << cli.getNickNm() << " Join = "<< *it << std::endl;
     }
 };
@@ -42,7 +41,6 @@ void printInfoUser(Channels  &ch){
     }
 };
 
-
 bool Server::isMember(int fdcli, Channels ch){
     std::map<std::pair<bool,int>, Client > user_map = ch.getMapUser();
     for(std::map<std::pair<bool,int>, Client >::iterator it = user_map.begin(); it != user_map.end(); it++){
@@ -61,12 +59,3 @@ void    Server::broadCastMsg(Channels ch, std::string msg, int clifd){
             sendMsgToCli(iter->second.getCliFd(), msg);
     }
 };
-
-
-
-
-
-
-
-
-

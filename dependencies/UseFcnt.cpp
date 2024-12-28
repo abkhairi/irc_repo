@@ -3,34 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   UseFcnt.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:37 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 17:45:58 by abkhairi         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:10:59 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Server.hpp"
 
-int parsingPortPass(std::string port, std::string pass) {
+int parsingPortPass(std::string port, std::string pass){
     if (port.empty())
         return 1;
     // Use std::string::size_type for the loop index
     for (std::string::size_type i = 0; i < port.size(); i++) {
-        if (isdigit(port[i]) == 0) {
+        if (isdigit(port[i]) == 0)
             return 1;
-        }
     }
     int portNum = atoi(port.c_str());
-    if (portNum < 0 || portNum > 65535) {
+    if (portNum < 0 || portNum > 65535)
         return 1;
-    }
-    if (portNum < 1024) {
+    if (portNum < 1024)
         return 1;
-    }
-    if (pass.empty()) {
+    if (pass.empty())
         return 2;
-    }
     return portNum;
 };
 

@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 16:18:55 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 19:21:48 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:10:07 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ class Channels{
         bool            nickExist(std::string user);
         Client&	        getUserBynickname(std::string nickname);
         void            setPrvByNickname(std::string nickname, bool prv);
-        //
         bool	        isInvited(int sockfd);
         void            deleteCli(std::string nick);
 };

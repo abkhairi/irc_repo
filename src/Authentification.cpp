@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Authentification.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:10 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/27 15:33:34 by abkhairi         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:08:57 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,7 @@ void Server::handleAuthCmd(std::string cmdf, size_t &idxcli){
             cmdvec.clear();
             return ;
         }
-        else if (cmdvec[0] == "nick")
-        {
+        else if (cmdvec[0] == "nick"){
             // change nick the user
             // flag = 1;
             Client &x = getCliByIdx(cliIdx - 1);
@@ -167,9 +166,3 @@ void Server::handleAuthCmd(std::string cmdf, size_t &idxcli){
         mod.clear();
     }
 };
-
-
-
-
-
-

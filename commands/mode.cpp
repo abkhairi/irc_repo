@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 21:10:41 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 23:29:48 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:12:28 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,13 +140,13 @@ void Server::mode(std::vector<std::string > veccmd, size_t idxcli, Client cli){
                         sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_CHANOPRIVSNEEDED(_hostIp,channel_name));
                     else if(obj_chan.checkIfOperat(mod[i].second) == true)    
                         sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), RPL_ALLOP(mod[i].second));
-                    else 
+                    else
                     {
                         obj_chan.getUserBynickname(mod[i].second);
                         obj_chan.setPrvByNickname(mod[i].second, true);
                         SendToAll(obj_chan, RPL_MODE(obj_chan.getNmChDispaly(), cli.getNickNm(), "+o " + mod[i].second));
                     }
-                }    
+                }
                 catch(const char *){
                         sendMsgToCli(getCliByIdx(idxcli - 1).getCliFd(), ERR_WASNOSUCHNICK(_hostIp,channel));
                 }

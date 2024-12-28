@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 14:20:58 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 19:21:30 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:08:22 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 #include "../include/Channels.hpp"
 
 void Channels::setPrvByNickname(std::string nickname, bool prv) {
-    
     std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
     bool found = false;
-    for (; it != _users.end(); ++it) 
-    {
+    for (; it != _users.end(); ++it) {
         if (it->second.getNickNm() == nickname) 
         {
             Client tempObj = it->second;
@@ -40,8 +38,7 @@ void Channels::setPrvByNickname(std::string nickname, bool prv) {
     }
 }
 
-Client&		Channels::getUserBynickname(std::string nickname)
-{
+Client&		Channels::getUserBynickname(std::string nickname){
     std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
     for(; it != _users.end(); it++) {
         if(it->second.getNickNm() == nickname) {
@@ -66,8 +63,7 @@ bool    Channels::checkIfOperator(std::string nickname){
     throw "bool not found";
 }
 
-void Channels::updateNickname(std::string oldnick, bool prv, Client &obj) 
-{    
+void Channels::updateNickname(std::string oldnick, bool prv, Client &obj) {
     std::map<std::pair<bool, int>, Client>::iterator it = _users.begin();
     for (; it != _users.end(); ++it) {
         if (it->second.getNickNm() == oldnick) 
@@ -107,7 +103,7 @@ std::string     Channels::getTopic() {
     return _topic;
 }
 void     Channels::setTopic(std::string topic) {
-     _topic = topic;
+    _topic = topic;
 }
 bool	Channels::isInvited(int sockfd){
 	std::vector<int>::iterator it = std::find(_invited.begin(), _invited.end(), sockfd);

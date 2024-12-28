@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:01:29 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/28 13:58:12 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/28 14:05:23 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ std::string Client::getRecLn(){
     return _dataRec;
 };
 
- Client::Client(){
+Client::Client(){
     _pFlg = false;
 	_nFlg = false;
 	_uFlg = false;
     _auth = false;
     _operator = false;
- };
+};
 
 Client::Client(int sockefd){
     _cliSockFd = sockefd;
