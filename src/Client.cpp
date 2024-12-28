@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:01:29 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 17:03:17 by abkhairi         ###   ########.fr       */
+/*   Updated: 2024/12/28 13:58:12 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,4 +130,9 @@ void    Client::pushCh(std::string channel) {
 };
 std::vector<std::string > Client::getChNm(){
     return (_channels);
+};
+
+
+void    Client::setIpAddr(std::string _ip){
+    _ipAddrCli = _ip;
 };

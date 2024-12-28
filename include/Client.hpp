@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Client.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:29 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/26 17:02:21 by abkhairi         ###   ########.fr       */
+/*   Updated: 2024/12/28 13:45:33 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ class Client{
         void    setPass(std::string pass);
         void    setUser(std::string user);
         void    setRealNm(std::string rname);
+        void    setIpAddr(std::string _ip);
         void    setAuth();
         bool        getAuth();
         bool        getFlgPass();

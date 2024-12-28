@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Server.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abkhairi <abkhairi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 20:58:54 by r4v3n             #+#    #+#             */
-/*   Updated: 2024/12/27 15:10:26 by abkhairi         ###   ########.fr       */
+/*   Updated: 2024/12/28 13:54:07 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,15 +124,41 @@ void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, 
 
 void    Server::init_serv(int  port, std::string pass, size_t &i){
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd == -1)
+    {
+        std::cerr <<"Error:  failed to create socket" << std::endl;
+        exit(1);
+    }
+
     int opt = 1;// setsockopt : function in network programming is used to configure options on a socket.
-    setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
-    fcntl(sockfd, F_SETFL, O_NONBLOCK);
+    if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) == -1)
+    {
+        std::cerr <<"Error: setsockopt() failed" << std::endl;
+        close(sockfd);
+        exit(1);
+    }
+    if (fcntl(sockfd, F_SETFL, O_NONBLOCK) < 0)
+    {
+        perror("fcntl");
+        close(sockfd);
+        exit(EXIT_FAILURE);
+    }
     struct sockaddr_in serverAddr;
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(port);
     serverAddr.sin_addr.s_addr = INADDR_ANY;
-    bind(sockfd, (struct sockaddr*)&serverAddr, sizeof(serverAddr)); // bound [ip and port] to server socket
-    listen(sockfd, 10);
+    if (bind(sockfd, (struct sockaddr*)&serverAddr, sizeof(serverAddr)) == -1) // bound [ip and port] to server socket
+    {
+        std::cerr <<"Error: bind failed" << std::endl;
+        close(sockfd);
+        exit(1);
+    }
+    if (listen(sockfd, 10) == -1)
+    {
+        std::cerr <<"Error: listen failed" << std::endl;
+        close(sockfd);
+        exit(1);
+    }
     std::cout << "\033[32m+:::::::::[FT_IRC]:::::::::+\033[0m" << std::endl <<"\033[32m+\033[0m";
     std::cout << "\033[31m The Server listen in ==> " <<"\033[32m+" << std::endl;
     std::cout << "\033[32m+ Port :\033[0m              " << port << "\033[32m +\033[0m"<< std::endl;
@@ -155,21 +181,26 @@ void    Server::init_serv(int  port, std::string pass, size_t &i){
                     struct sockaddr_in cli_addr;
                     socklen_t len = sizeof(cli_addr);
                     int cli_fd = accept(getFdSockServ(), (struct sockaddr*)&cli_addr, &len);
-                    setNonBlocking(cli_fd);
+                    if (cli_fd == -1)
+                        perror("accept");
+                    // setNonBlocking(cli_fd);
                     struct pollfd poollfd;
                         poollfd.fd = cli_fd;
                         poollfd.events = POLLIN | POLLOUT;
                         poollfd.revents = 0;
                     pollFdVec.push_back(poollfd);
                     std::string ipAddrCli = inet_ntoa(cli_addr.sin_addr);
+                    std::cout << "display ip addres client = " << ipAddrCli << std::endl;
                     Client obj_client(cli_fd, ipAddrCli);
+                    obj_client.setIpAddr(ipAddrCli);
                     cliVec.push_back(obj_client);
                     std::cout << "New connection accepted: " << cli_fd << std::endl;
                 }
                 else
                 {
                     int sockcli = pollFdVec[i].fd;
-                    std::string cmd = recvCmd(sockcli, i);
+                    std::string cmd ;
+                    recvCmd(sockcli, i, cmd);
                     Client &cliref = getCliOrg(sockcli);
                     cliref.setDataRec(cmd);
                     authCli(cmd, sockcli, cliref, i);
@@ -179,40 +210,35 @@ void    Server::init_serv(int  port, std::string pass, size_t &i){
     }
 };
 
-void Server::setFdSockServ(int fd){
-    _fdSockServ = fd;
-};
-
-void Server::isRegistred(Client &cli, std::string time){
-    sendMsgToCli(cli.getCliFd(),RPL_WELCOME(cli.getNickNm(), cli.getIpAddrCli()));
-    sendMsgToCli(cli.getCliFd(),RPL_YOURHOST(cli.getNickNm(), cli.getIpAddrCli()));
-    sendMsgToCli(cli.getCliFd(),RPL_CREATED(cli.getNickNm(), cli.getIpAddrCli(), time));
-    sendMsgToCli(cli.getCliFd(),RPL_MYINFO(cli.getNickNm(), cli.getIpAddrCli()));
-};
-
-std::string Server::recvCmd(int fdcli, size_t &idxcli){
+void Server::recvCmd(int fdcli, size_t &idxcli,std::string &cmd){
     char buffer[1024];
     memset(buffer, 0, 1024);
-    ssize_t bytes_received = recv(fdcli, buffer, sizeof(buffer) - 1, 0);
-    if (bytes_received <= 0)
+    ssize_t bytes_received = recv(fdcli, buffer, sizeof(buffer), 0);
+    if(bytes_received == -1)
+        perror("recv");
+    else if (bytes_received == 0)
     {
-        if (bytes_received == 0)
-        {
-            std::cout << "Client disconnected: " << fdcli << std::endl;
-            pollFdVec.erase(pollFdVec.begin() + idxcli);
-            idxcli--;
-        }
-        else
-            perror("recv");
+        std::cout << "Client disconnected: " << fdcli << std::endl;
         close(fdcli); // close the socket if not present program infinite loop infoi click sur c
-        // removeClient(fd_client);
-        return "";
+        pollFdVec.erase(pollFdVec.begin() + idxcli);
+        rmvCli(idxcli - 1);
+        rmvFromCh(fdcli);
+        idxcli--;
+        std::map<std::string, Channels>::iterator it = channels.begin();
+        while (it != channels.end())
+        {
+            if (it->second.getSizeuser() == 0)
+                it = channels.erase(it);
+            else
+                ++it;
+        }
+        return ;
     }
-    buffer[bytes_received] = '\0'; // add null terminator if not present => display garbej value
-    std::string message(buffer);
-    if (message == "\n")
-        return "";
-    return message;
+    else
+    {
+        buffer[bytes_received] = '\0'; // add null terminator if not present => display garbej value
+        cmd = buffer;
+    }
 };
 
 std::string to_lower(std::string str){
@@ -259,3 +285,15 @@ void Server::rmvFromCh(int client_fd){
 void Server::eraseCh(std::string _name){
     channels.erase(_name);
 };
+
+void Server::setFdSockServ(int fd){
+    _fdSockServ = fd;
+};
+
+void Server::isRegistred(Client &cli, std::string time){
+    sendMsgToCli(cli.getCliFd(),RPL_WELCOME(cli.getNickNm(), cli.getIpAddrCli()));
+    sendMsgToCli(cli.getCliFd(),RPL_YOURHOST(cli.getNickNm(), cli.getIpAddrCli()));
+    sendMsgToCli(cli.getCliFd(),RPL_CREATED(cli.getNickNm(), cli.getIpAddrCli(), time));
+    sendMsgToCli(cli.getCliFd(),RPL_MYINFO(cli.getNickNm(), cli.getIpAddrCli()));
+};
+
