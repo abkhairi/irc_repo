@@ -6,7 +6,7 @@
 /*   By: shamsate <shamsate@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 21:02:37 by shamsate          #+#    #+#             */
-/*   Updated: 2024/12/28 14:10:59 by shamsate         ###   ########.fr       */
+/*   Updated: 2024/12/28 15:08:22 by shamsate         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,8 @@ void sendMsgToCli(int fdcli, std::string msg){
 };
 
 void setNonBlocking(int fd){
-    int flg = fcntl(fd, F_GETFL, 0);
-    if (flg == -1) {
-        perror("fcntl");
-        exit(EXIT_FAILURE);}
-    if (fcntl(fd, F_SETFL, flg | O_NONBLOCK) == -1) {
+    // Set the file descriptor to non-blocking without considering previous flags
+    if (fcntl(fd, F_SETFL, O_NONBLOCK) == -1) {
         perror("fcntl");
         exit(EXIT_FAILURE);
     }
