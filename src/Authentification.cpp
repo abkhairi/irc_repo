@@ -74,7 +74,7 @@ void Server::handleAuthCmd(std::string cmdf, size_t &idxcli){
             return ;
         }
         else if (cmdvec[0] == "nick" && cmdvec.size() > 2 && cli.getFlgNick() == false){
-            sendMsgToCli(cli.getCliFd(), ":IRC ==> 432 :Erroneous nickname\r\n");
+            sendMsgToCli(cli.getCliFd(), RPL_ERRONEUSNICKNAME(_hostIp,nick));
             cmdvec.clear();
             return ;
         }

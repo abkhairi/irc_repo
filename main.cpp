@@ -11,8 +11,18 @@
 /* ************************************************************************** */
 
 #include "include/Server.hpp"
+
+
+
+void handleSig(int sig) 
+{
+    std::cout << "Received SIGPIPE signal, ignoring it." << std::endl;
+    (void)sig;
+}
+
 //::::::::::::::::::::::::::::The IRC Main():::::::::::::::::::::::::::::
 int main(int ac, char** av){
+    signal(SIGPIPE, handleSig);
     if (ac != 3){
         std::cout << "Invalid args :( " << std::endl;
         return  1;

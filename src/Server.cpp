@@ -18,7 +18,7 @@ bool   Server::find_channel(std::string chan){
     for (it = channels.begin(); it !=  channels.end(); it++)
 	{
             if (to_lower(it->first) == to_lower(chan)){
-                std::cout << "true and name channel is = " << (it->first) << std::endl;
+                std::cout << "the name of channel is  " << (it->first) << std::endl;
                 return true;
             }
 	}
@@ -96,7 +96,8 @@ int  Server::getFdSockServ(){
     return (_fdSockServ);
 };
 
-void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, size_t &_index_client){
+void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, size_t &_index_client)
+{
     (void)socket_client;
     for (size_t i = 0; i < cmd.size(); i++)
         cmd[i] = std::tolower(cmd[i]);
@@ -110,10 +111,8 @@ void    Server::authCli(std::string cmd, int socket_client, Client &clienteref, 
     if (strstr(clienteref.getRecLn().c_str(), "\n")){
         size_t position = clienteref.getRecLn().find_first_of("\n");
         if (position > clienteref.getRecLn().size())
-            return;
-        // std::cout << "position = " << position << std::endl;
+            return ;
         std::string cmd_final = clienteref.getRecLn().substr(0 , position + 1);
-        // std::cout << "cmd_final = " << cmd_final << std::endl;
         handleAuthCmd(cmd_final, _index_client);
     }
     else
@@ -138,6 +137,7 @@ void    Server::init_serv(int  port, std::string pass, size_t &i){
         close(sockfd);
         exit(EXIT_FAILURE);
     }
+
     struct sockaddr_in serverAddr;
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(port);
@@ -176,14 +176,12 @@ void    Server::init_serv(int  port, std::string pass, size_t &i){
                     int cli_fd = accept(getFdSockServ(), (struct sockaddr*)&cli_addr, &len);
                     if (cli_fd == -1)
                         perror("accept");
-                    // setNonBlocking(cli_fd);
                     struct pollfd poollfd;
                         poollfd.fd = cli_fd;
                         poollfd.events = POLLIN | POLLOUT;
                         poollfd.revents = 0;
                     pollFdVec.push_back(poollfd);
                     std::string ipAddrCli = inet_ntoa(cli_addr.sin_addr);
-                    std::cout << "display ip addres client = " << ipAddrCli << std::endl;
                     Client obj_client(cli_fd, ipAddrCli);
                     obj_client.setIpAddr(ipAddrCli);
                     cliVec.push_back(obj_client);
@@ -194,6 +192,8 @@ void    Server::init_serv(int  port, std::string pass, size_t &i){
                     int sockcli = pollFdVec[i].fd;
                     std::string cmd ;
                     recvCmd(sockcli, i, cmd);
+                    if (cmd == "\n")
+                        continue ;
                     Client &cliref = getCliOrg(sockcli);
                     cliref.setDataRec(cmd);
                     authCli(cmd, sockcli, cliref, i);
